@@ -85,6 +85,7 @@ export class DialogAddMovementComponent implements OnInit {
   private add() {
     AppComponent.spinner.show();
     const movement = this.getMovement();
+    console.log(movement);
     this.serviceQueries.create(Messages.urlMovement, movement).subscribe(
       res => {
         AppComponent.spinner.hide();
