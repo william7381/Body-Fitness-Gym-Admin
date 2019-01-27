@@ -140,6 +140,7 @@ export class DialogAddTrainerComponent implements OnInit {
         this.dialogRef.close(program);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });

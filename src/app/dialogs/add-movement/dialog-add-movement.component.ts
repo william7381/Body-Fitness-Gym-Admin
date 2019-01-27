@@ -31,7 +31,7 @@ export class DialogAddMovementComponent implements OnInit {
     if (this.dataEdit) {
       this.selectedType = this.dataEdit.tipo;
       this.value = this.dataEdit.valor;
-      this.date = this.dataEdit.fechaMovimiento;
+      this.date = Utilities.getDateFromFormatString(this.dataEdit.fechaMovimiento);
       this.details = this.dataEdit.descripcionMovimiento;
       this.tittle = 'Editar Movimiento';
       this.buttonSuccessName = 'Editar';
@@ -92,6 +92,7 @@ export class DialogAddMovementComponent implements OnInit {
         this.dialogRef.close(movement);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });

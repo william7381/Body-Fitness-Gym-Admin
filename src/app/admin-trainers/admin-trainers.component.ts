@@ -109,6 +109,11 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
       width: '35%',
       height: '90%',
     });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
     this.showScreenDark(dialogRef);
   }
 

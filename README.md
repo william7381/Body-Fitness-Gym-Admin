@@ -1,3 +1,10 @@
+# Funcional:
+
+ver (todos)
+agregar, editar, eliminar de movimientos, programas y entrenadores
+agregar y eliminar de clase (sin horario)
+falta alumno y suscripcion
+
 # BodyFitnessGymAdmin
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.5.
