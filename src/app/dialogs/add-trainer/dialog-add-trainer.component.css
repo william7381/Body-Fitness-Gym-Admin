@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+}
+
+.th-options {
+  width: 20%;
+}
+
+mat-form-field {
+    width: 100%;
+  }
+  
+  .button-green {
+    background-color: #58B957;
+    color: white;
+  }
+  .example-viewport {
+    height: 100px;
+    width: 200px;
+    border: 1px solid black;
+  }
+  
+  .example-item {
+    height: 50px;
+  }
+  h6{
+    color:rgb(65, 34, 177);
+    position: relative;
+    left: 20%;
+
+  }

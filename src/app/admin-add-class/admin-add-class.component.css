@@ -1,0 +1,104 @@
+#div-main {
+  text-align: center;
+}
+
+#button-see-schedule {
+  margin-left: 3em;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 130%;
+}
+
+#buttons-schedule {
+  margin-left: 50%;
+}
+
+.th-options {
+  width: 20%;
+}
+
+#button-add-student {
+  margin-left: 3em;
+}
+
+.div-table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  min-height: 30vh;
+  margin-bottom: 10%;
+  text-align: left;
+}
+
+.image-avatar {
+  background-size: cover;
+  border-radius: 50%;
+  width: 1.5em;
+}
+
+table {
+  width: 100%;
+}
+
+.search-bar-and-buttons {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  margin-left: 20%;
+}
+
+.search-bar-and-buttons mat-form-field {
+  width: 50%;
+}
+
+#buttons-accept-cancel {
+  margin-bottom: 5%;
+  margin-top: 10%;
+}
+
+.icon-options {
+  margin-left: 1em;
+}
+
+.div-container-tables {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+@media (max-width: 900px) {
+  #div-main {
+    text-align: center;
+  }
+
+  .div-table {
+    height: auto;
+    margin: 10% auto;
+  }
+
+  .buttons-schedule, #button-add-student {
+    margin-top: 3%;
+    margin-left: 50%;
+    margin-bottom: 3%;
+  }
+
+  .icon-options {
+    margin-left: 0em;
+  }
+
+  .search-bar-and-buttons {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+  }
+
+  .search-bar-and-buttons mat-form-field {
+    width: 80%;
+  }
+}

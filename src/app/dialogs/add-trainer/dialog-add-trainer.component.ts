@@ -1,0 +1,159 @@
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
+import {AdminTrainersComponent} from '../../admin-trainers/admin-trainers.component';
+import {MAT_DIALOG_DATA, MatDialogRef, MatListOption} from '@angular/material';
+import {PreviewObject, ViewValue} from '../../interfaces';
+import {ServiceQueries} from '../../services/queries/service-queries.service';
+import {Messages} from '../../util/Messages';
+import {AppComponent} from '../../app.component';
+import {Confirms} from '../../util/Confirms';
+import {SelectionModel} from '@angular/cdk/collections';
+
+@Component({
+  selector: 'app-dialog-add-trainer',
+  templateUrl: './dialog-add-trainer.component.html',
+  styleUrls: ['./dialog-add-trainer.component.css']
+})
+export class DialogAddTrainerComponent implements OnInit {
+
+  typesContributions: ViewValue[] = [
+    {value: '0', viewValue: 'Ingreso'},
+    {value: '1', viewValue: 'Egreso'},
+    {value: '2', viewValue: 'Ambos'}
+  ];
+  selectedType = this.typesContributions[0].value;
+  value = null;
+  urlImage: string = null;
+  name = null;
+  document = null;
+  telephone = null;
+  email = null;
+  programs: string[] = [];
+  // items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
+  selectedImage = null;
+
+  title = 'Agregar Entrenador';
+  nameButtonSuccess = 'Agregar';
+  nameButtonCancel = 'Cancelar';
+  isLoadingPrograms: boolean;
+  isPreview = false;
+  displayedColumnsPrograms: string[] = ['name', 'select'];
+  tempPrograms = [];
+  selection = new SelectionModel(true, []);
+
+  constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+    this.updatePrograms();
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      const object = this.dataEdit.dataPreview;
+      this.urlImage = object.urlImagenEntrenador;
+      this.name = object.nombreEntrenador;
+      this.document = object.dniEntrenador;
+      this.telephone = object.telefonoEntrenador;
+      this.email = object.emailEntrenador;
+      this.tempPrograms = object.entrenadorServicio;
+      this.title = 'Editar Programa';
+      this.nameButtonSuccess = 'Editar';
+      if (this.dataEdit.isPreview) {
+        this.isPreview = true;
+        this.nameButtonCancel = 'Cerrar';
+      }
+    }
+  }
+
+  private updatePrograms() {
+    this.programs = [];
+    this.isLoadingPrograms = true;
+    const s = this.serviceQueries.read(Messages.urlAllServices);
+    s.subscribe(res => {
+        // @ts-ignore
+        this.programs = res;
+        this.isLoadingPrograms = false;
+        this.programs.forEach(row => {
+          for (const program of this.tempPrograms) {
+            // @ts-ignore
+            if (program.idServicio === row.idServicio) {
+              this.selection.selected.push(row);
+              this.selection.select(row);
+            }
+          }
+        });
+      },
+      error => {
+        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetPrograms);
+        this.isLoadingPrograms = false;
+      });
+  }
+
+  ngOnInit() {
+  }
+
+  private getTrainer() {
+    let id = -1;
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      id = this.dataEdit.dataPreview.idEntrenador;
+    }
+    return {'idEntrenador': id, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'dniEntrenador': this.document, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
+  }
+
+  inFileSelected(event, imageAvatar) {
+    this.selectedImage = '../../assets/' + event.target.files[0].name;
+    imageAvatar.src = this.selectedImage;
+  }
+
+  closeDialogAddTrainer() {
+    this.dialogRef.close();
+  }
+
+  registerTrainer(event: Event) {
+    if (this.name && this.document && this.telephone && this.selection.selected.length > 0) {
+      if (this.dataEdit) {
+        this.edit();
+      } else {
+        this.add();
+      }
+    } else {
+      Confirms.showErrorType(Messages.titleErrorRegisterDialog, Messages.messageErrorRegisterDialog);
+    }
+  }
+
+  private edit() {
+    AppComponent.spinner.show();
+    const program = this.getTrainer();
+    this.serviceQueries.update(Messages.urlTrainer, program).subscribe(
+      res => {
+        AppComponent.spinner.hide();
+        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
+        this.dialogRef.close(program);
+      },
+      error => {
+        AppComponent.spinner.hide();
+        Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
+      });
+  }
+
+  private add() {
+    AppComponent.spinner.show();
+    const program = this.getTrainer();
+    this.serviceQueries.create(Messages.urlTrainer, program).subscribe(
+      res => {
+        AppComponent.spinner.hide();
+        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
+        this.dialogRef.close(program);
+      },
+      error => {
+        AppComponent.spinner.hide();
+        Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
+      });
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.programs.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.programs.forEach(row => this.selection.select(row));
+  }
+}

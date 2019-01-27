@@ -1,0 +1,72 @@
+<div id="div-main">
+  <div class="search-bar-and-buttons">
+    <mat-form-field class="example-full-width">
+      <input id="input-search" matInput placeholder="Buscar" #inputFilterValue required>
+    </mat-form-field>
+    <mat-icon matTooltip="Buscar" class="icon-options">
+      <a (click)="search(inputFilterValue.value)">
+        search
+      </a>
+    </mat-icon>
+    <button id="button-add-move" mat-raised-button color="primary" (click)="addProgram()">Registrar Programa</button>
+  </div>
+
+  <div id="div-table" class="mat-elevation-z24">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="posicion">
+        <th mat-header-cell *matHeaderCellDef> #</th>
+        <td mat-cell *matCellDef="let element"> {{element.posicion}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre</th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreServicio}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio ($)</th>
+        <td mat-cell *matCellDef="let element"> {{element.precio}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion">
+        <th id="th-description" mat-header-cell *matHeaderCellDef> Descripción</th>
+        <td mat-cell *matCellDef="let element"> {{element.descripcionServicio}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="options">
+        <th id="th-options" mat-header-cell *matHeaderCellDef> Opciones</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon matTooltip="Previsualizar">
+            <a (click)="preview(element)">
+              remove_red_eye
+            </a>
+          </mat-icon>
+          <mat-icon matTooltip="Editar" class="icon-options">
+            <a (click)="edit(element)">
+              edit
+            </a>
+          </mat-icon>
+          <mat-icon matTooltip="Eliminar" class="icon-options">
+            <a (click)="remove(element)">
+              delete
+            </a>
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="isLoadingTable" style="border-bottom: solid #d0c4bb 1px;">
+      <mat-spinner style="margin: auto auto;"></mat-spinner>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" [pageSize]="20" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+<ngx-spinner bdColor = "rgba(85,70,70,0.8)" size = "large" color = "#2f31de" type = "square-loader" style="font-size: 150%">
+  Cargando...
+</ngx-spinner>

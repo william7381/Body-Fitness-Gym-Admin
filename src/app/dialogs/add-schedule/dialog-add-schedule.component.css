@@ -1,0 +1,13 @@
+mat-form-field {
+  width: 100%;
+}
+
+.button-green {
+  background-color: #58B957;
+  color: white;
+}
+
+.toggle-example {
+  display: flex;
+  margin-left: 3em;
+}

@@ -1,0 +1,35 @@
+<mat-toolbar id="mat-toolbar-home">
+  BDFGYM
+  <div id="div-menu-full">
+    <button id="button-accounting" routerLink="{{getRouterAccounting()}}" mat-flat-button (click)="printOfBlack($event.currentTarget)">Contabilidad</button>
+    <button mat-flat-button routerLink="{{getRouterPrograms()}}" (click)="printOfBlack($event.currentTarget)">Programas</button>
+    <button mat-flat-button routerLink="{{getRouterClasses()}}" (click)="printOfBlack($event.currentTarget)">Clases</button>
+    <button mat-flat-button routerLink="{{getRouterStudents()}}" (click)="printOfBlack($event.currentTarget)">Alumnos</button>
+    <button mat-flat-button routerLink="{{getRouterTrainers()}}" (click)="printOfBlack($event.currentTarget)">Entrenadores</button>
+  </div>
+
+  <button *ngIf="isScreenLow()" id="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="menu" style="background-color: black;">Menu</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="{{getRouterAccounting()}}">
+      <span>Contabilidad</span>
+    </button>
+    <button mat-menu-item routerLink="{{getRouterPrograms()}}">
+      <span>Programas</span>
+    </button>
+    <button mat-menu-item routerLink="{{getRouterClasses()}}">
+      <span>Clases</span>
+    </button>
+    <button mat-menu-item routerLink="{{getRouterStudents()}}">
+      <span>Alumnos</span>
+    </button>
+    <button mat-menu-item routerLink="{{getRouterTrainers()}}">
+      <span>Entrenadores</span>
+    </button>
+  </mat-menu>
+
+  <span class="example-spacer"></span>
+  <button mat-flat-button routerLink="{{getRouterLogin()}}" (click)="printOfBlack($event.currentTarget)">Salir</button>
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>

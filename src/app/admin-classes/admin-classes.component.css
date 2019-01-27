@@ -1,0 +1,98 @@
+#button-add-move {
+  margin-left: 20%;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 130%;
+}
+
+#div-table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  min-height: 30vh;
+  margin-bottom: 10%;
+}
+
+.image-avatar {
+  background-size: cover;
+  border-radius: 50%;
+  width: 1.5em;
+}
+
+.icon-options {
+  margin-left: 1em;
+}
+
+table {
+  width: 100%;
+}
+
+#th-description {
+  width: 30%;
+}
+
+#th-options {
+  width: 20%;
+}
+
+/*mat-form-field {*/
+/*width: 100%;*/
+/*}*/
+
+.search-bar-and-buttons {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  margin-left: 20%;
+}
+
+.search-bar-and-buttons mat-form-field {
+  width: 50%;
+}
+
+/*td {*/
+  /*font-size:12px;*/
+  /*font-family: Verdana,Sans-Serif;*/
+  /*display: table-cell;*/
+  /*height: 48px;*/
+  /*vertical-align: middle;*/
+  /*border-bottom: 1px solid rgba(0, 0, 0, 0.12);*/
+  /*border-top: 1px solid rgba(0, 0, 0, 0.12);*/
+  /*border-left: 2px solid rgba(0, 0, 0, 0.12);*/
+  /*border-right: 2px solid rgba(0, 0, 0, 0.12);*/
+/*}*/
+
+@media (max-width: 900px) {
+
+  #div-table {
+    height: auto;
+    margin: 10% auto;
+  }
+
+  #button-add-move {
+    margin-top: 3%;
+    margin-left: 50%;
+    margin-bottom: 3%;
+  }
+
+  .icon-options {
+    margin-left: 0em;
+  }
+
+  .search-bar-and-buttons {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+  }
+
+  .search-bar-and-buttons mat-form-field {
+    width: 80%;
+  }
+}

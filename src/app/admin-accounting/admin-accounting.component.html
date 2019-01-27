@@ -1,0 +1,101 @@
+<div id="div-main">
+  <button id="button-add-move" mat-raised-button color="primary" (click)="addMovement()">Agragar Movimiento</button>
+
+  <div id="div-root">
+      <div id="div-card" class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+        <form>
+        <div class="card-header">Filtro</div>
+        <div class="card-body" style="background-color: white; color: black;">
+          <p>Tipos</p>
+          <mat-form-field>
+            <mat-select [(value)]="selectedContribution" id="select" placeholder="Tipo Contribución" [required]="true">
+              <mat-option *ngFor="let type of typesContributions" [value]="type.value">
+                {{type.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <p>Fechas</p>
+          <mat-form-field aria-required="true">
+            <input [(ngModel)]="selectedDateFrom" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerFrom" placeholder="Fecha Desde" [required]="true">
+            <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker startAt="selectedDateFromEdit" #pickerFrom></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field aria-required="true">
+            <input [(ngModel)]="selectedDateUntil" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerUntil" placeholder="Fecha Hasta" [required]="true" #dateFrom>
+            <mat-datepicker-toggle matSuffix [for]="pickerUntil"></mat-datepicker-toggle>
+            <mat-datepicker #pickerUntil></mat-datepicker>
+          </mat-form-field>
+          <hr>
+          <button style="margin-right: 1em;" matTooltip="Imprime el reporte de los datos de la tabla" class="button-green" mat-raised-button (click)="printReport()">Imprimir Reporte</button>
+          <button mat-raised-button color="primary" (click)="filter($event)">Filtrar</button>
+        </div>
+        </form>
+      </div>
+
+    <div id="div-table" class="mat-elevation-z24">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="posicion">
+          <th mat-header-cell *matHeaderCellDef> #</th>
+          <td mat-cell *matCellDef="let element"> {{element.posicion}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef> Tipo</th>
+          <td mat-cell *matCellDef="let element"> {{element.tipo}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha</th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaMovimiento}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef> Valor ($)</th>
+          <td mat-cell *matCellDef="let element"> {{element.valor}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcion">
+          <th id="th-description" mat-header-cell *matHeaderCellDef> Detalles</th>
+          <td mat-cell *matCellDef="let element"> {{element.descripcionMovimiento}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="options">
+          <th id="th-options" mat-header-cell *matHeaderCellDef> Opciones</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon >
+              <a (click)="editMovement(element)">
+                edit
+              </a>
+            </mat-icon>
+            <mat-icon class="icon-options">
+              <a (click)="removeMovement(element)">
+                delete
+              </a>
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div *ngIf="isLoadingTable" style="border-bottom: solid #d0c4bb 1px;">
+        <mat-spinner style="margin: auto auto;"></mat-spinner>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" [pageSize]="40" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+
+  <!--<label for="inputFile">-->
+    <!--<img id="img-avatar" src="../../assets/avatar.jpg" mat-card-image alt="Student Photo" matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>-->
+  <!--</label>-->
+  <!--<input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>-->
+
+</div>
+
+<ngx-spinner bdColor = "rgba(85,70,70,0.8)" size = "large" color = "#2f31de" type = "ball-grid-beat" style="font-size: 150%">
+  Cargando...
+</ngx-spinner>

@@ -1,0 +1,26 @@
+mat-toolbar {
+  background-color: #353535;
+  color: white;
+  /*position: fixed;*/
+  /*z-index: 2;*/
+  width: 100%;
+  height: 2.5em;
+}
+
+#button-accounting {
+  margin-left: 3em;
+}
+
+button:hover {
+  border: 1px solid forestgreen;
+}
+
+mat-toolbar button {
+  margin-left: 1em;
+  background-color: #353535;
+  color: white;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}

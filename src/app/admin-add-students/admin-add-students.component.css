@@ -1,0 +1,144 @@
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  overflow: auto;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  overflow: auto;
+}
+
+#img-avatar {
+  cursor: pointer;
+  border-radius: 50%;
+
+}
+
+.example-container {
+  text-align: center;
+  position: absolute;
+  border: solid;
+  right: 50%;
+  top: 10%;
+  height: 200px;
+  width: 200px;
+  overflow: auto;
+  border-radius: 50%;
+}
+
+#div1 {
+  border: solid;
+  position: absolute;
+  right: 5%;
+  left: 5%;
+  top: 40%;
+  border: 2px solid rgb(84, 58, 202);
+  box-shadow: 10px 10px 10px grey;
+
+}
+
+#btn {
+  position: relative;
+  float: right;
+  margin-right: 10%;
+  margin-top: 10px;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+#button-add-move {
+  margin-left: 20%;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 130%;
+}
+
+#div-table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  min-height: 30vh;
+  margin-bottom: 10%;
+}
+
+.image-avatar {
+  background-size: cover;
+  border-radius: 50%;
+  width: 1.5em;
+}
+
+.icon-options {
+  margin-left: 1em;
+}
+
+table {
+  width: 100%;
+}
+
+#th-description {
+  width: 40%;
+}
+
+#th-options {
+  width: 20%;
+}
+
+/*mat-form-field {*/
+/*width: 100%;*/
+/*}*/
+
+.search-bar-and-buttons {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  margin-left: 20%;
+}
+
+.search-bar-and-buttons mat-form-field {
+  width: 50%;
+}
+
+@media (max-width: 900px) {
+
+  #div-table {
+    height: auto;
+    margin: 10% auto;
+  }
+
+  #button-add-move {
+    margin-top: 3%;
+    margin-left: 50%;
+    margin-bottom: 3%;
+  }
+
+  .icon-options {
+    margin-left: 0em;
+  }
+
+  .search-bar-and-buttons {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+  }
+
+  .search-bar-and-buttons mat-form-field {
+    width: 80%;
+  }
+}

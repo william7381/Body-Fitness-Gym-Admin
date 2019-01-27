@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~ng-snotify/styles/material.css";
+@import '~sweetalert2/dist/sweetalert2.css';
+
+body {
+  margin: 0;
+}
+
+.swal2-message {
+  background-color: #FEFAE3;
+  padding: 17px;
+  border: 1px solid #F0E1A1;
+  display: block;
+  margin: 22px;
+  text-align: center;
+  color: #d82f2f;
+}

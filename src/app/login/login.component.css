@@ -1,0 +1,33 @@
+#label-login {
+  font-size: 2.7em;
+}
+
+#div-login {
+  text-align: center;
+  padding-top: 10%;
+  height: 100vh;
+  background-color: beige;
+  border: 1px solid;
+  box-shadow: 5px 10px #888888;
+}
+
+#mat-form-name-user {
+  margin-top: 2em
+}
+
+#mat-form-password {
+  margin-bottom: 2em;
+}
+
+mat-form-field {
+  width: 15em;
+}
+
+button {
+  width: 17em;
+}
+
+#div-alert-incorrect {
+  width: 70%;
+  margin: auto auto;
+}

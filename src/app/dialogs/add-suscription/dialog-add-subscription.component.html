@@ -1,0 +1,52 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{tittle}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <!--<p>Tipo</p>-->
+
+      <mat-form-field>
+        <mat-select (selectionChange)="finishUpdateProgram()" [(value)]="selectedProgramName" placeholder="Programa"
+                    [required]="true">
+          <mat-option (onSelectionChange)="changeProgram(type)" *ngFor="let type of programs"
+                      [value]="type.nombreServicio">
+            {{type.nombreServicio}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <hr>
+      <!--<p>Valor</p>-->
+      <mat-form-field>
+        <input [(ngModel)]="price" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="number"
+               placeholder="Precio" min="1" required>
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="isDateSubscription" [ngModelOptions]="{standalone: true}">Suscripcion por Fecha
+      </mat-checkbox>
+
+      <!--<p>Fecha</p>-->
+      <mat-form-field>
+        <input [disabled]="!isDateSubscription" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput
+               placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+      </mat-form-field>
+      <mat-datepicker #picker></mat-datepicker>
+      <hr>
+      <!--<p>Descripcion</p>-->
+      <mat-form-field>
+        <input [disabled]="isDateSubscription" [(ngModel)]="sessions" [ngModelOptions]="{standalone: true}" matInput
+               type="number" placeholder="Numero de seciones" required>
+        <!--<textarea matInput placeholder="Textarea" required></textarea>-->
+      </mat-form-field>
+      <hr>
+      <div style="text-align: center">
+        <button style="margin-right: 1em;" class="button-green" mat-raised-button
+                (click)="registerSubscription($event)">{{buttonSuccessName}}
+        </button>
+        <button mat-raised-button color="warn" (click)="closeDialogAddSubscription()">{{buttonCancelName}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ngx-spinner bdColor = "rgba(85,70,70,0.8)" size = "large" color = "#2f31de" type = "square-loader" style="font-size: 150%">
+  Cargando...
+</ngx-spinner>

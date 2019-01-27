@@ -1,0 +1,44 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{tittle}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <!--<p>Tipo</p>-->
+
+      <mat-form-field>
+        <mat-select [(value)]="selectedType" placeholder="Tipo Contribución" [required]="true">
+          <mat-option *ngFor="let type of typesContributions" [value]="type.viewValue">
+            {{type.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <hr>
+      <!--<p>Valor</p>-->
+      <mat-form-field>
+        <!--<input [(ngModel)]="value" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Valor" formControlName="fontSize" min="1" required>-->
+
+        <input [(ngModel)]="value" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Valor" min="1" required>
+        <!--<input matInput type="number" placeholder="Valor" min="1" required>-->
+      </mat-form-field>
+      <hr>
+      <mat-checkbox [(ngModel)]="isDateNow" [ngModelOptions]="{standalone: true}">Escoger Fecha Actual</mat-checkbox>
+      <!--<p>Fecha</p>-->
+      <mat-form-field>
+        <input [(ngModel)]="date" [disabled]="isDateNow" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Fecha" [required]="true">
+        <!--<input matInput [matDatepicker]="picker" placeholder="Fecha" required>-->
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <hr>
+      <!--<p>Detalles</p>-->
+      <mat-form-field>
+        <textarea [(ngModel)]="details" [ngModelOptions]="{standalone: true}" matInput placeholder="Detalles"></textarea>
+        <!--<textarea matInput placeholder="Textarea" required></textarea>-->
+      </mat-form-field>
+      <hr>
+      <div style="text-align: center">
+        <button style="margin-right: 1em;" class="button-green" mat-raised-button (click)="registerMovement($event)">{{buttonSuccessName}}</button>
+        <button mat-raised-button color="warn" (click)="closeDialogAddMovement()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,112 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{title}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <!--<p>imagen</p>-->
+      <mat-card class="example-card" style="text-align: center;">
+        <label for="inputFile">
+          <img id="img-avatar" src="../../assets/avatar.jpg" mat-card-image alt="Student Photo"
+               matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
+        </label>
+        <input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>
+      </mat-card>
+      <br>
+      <!--<p>nombre</p>-->
+      <mat-form-field>
+        <input [disabled]="isPreview" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" required>
+      </mat-form-field>
+     
+      <!--<p>documento</p>-->
+      <mat-form-field>
+        <input [disabled]="isPreview" [(ngModel)]="document" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Número de Documento" required>
+      </mat-form-field>
+     
+      <!--<p>telefono</p>-->
+      <mat-form-field>
+        <input [disabled]="isPreview" [(ngModel)]="telephone" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Telefono" required>
+      </mat-form-field>
+      <!--<p>email</p>-->
+      <mat-form-field>
+          <input [disabled]="isPreview" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" placeholder="Email">
+      </mat-form-field>
+
+      <!--<p>programas</p>-->
+      <!--<mat-card>-->
+        <!--<ng-container>-->
+          <!--<div style="text-align: center;">-->
+            <!--<label style="color: blue;">Programas</label>-->
+          <!--</div>-->
+          <!--<mat-card-content [style.overflow]="'auto'" [style.height.px]="'200'">-->
+            <!--<mat-selection-list [(ngModel)]="selectedPrograms" [ngModelOptions]="{standalone: true}" #shoes>-->
+              <!--<mat-list-option *ngFor="let shoe of programs">-->
+                <!--{{shoe.nombreServicio}}-->
+              <!--</mat-list-option>-->
+            <!--</mat-selection-list>-->
+
+            <!--<p>-->
+              <!--Seleccionados: {{shoes.selectedOptions.selected.length}}-->
+            <!--</p>-->
+          <!--</mat-card-content>-->
+        <!--</ng-container>-->
+
+        <!--<p>Selected:</p>-->
+        <!--<ul>-->
+          <!--<li *ngFor="let i of shoes.selectedOptions.selected">-->
+            <!--{{ i.idServicio }}-->
+          <!--</li>-->
+        <!--</ul>-->
+
+        <!--<div *ngIf="isLoadingPrograms" style="border-bottom: solid #d0c4bb 1px;">-->
+          <!--<mat-spinner style="margin: auto auto;"></mat-spinner>-->
+        <!--</div>-->
+      <!--</mat-card>-->
+
+      <br>
+
+      <div class="mat-elevation-z24 div-table">
+        <table mat-table [dataSource]="programs">
+
+          <ng-container matColumnDef="name">
+            <th id="th-day" mat-header-cell *matHeaderCellDef> Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{element.nombreServicio}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox [disabled]="isPreview" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox [disabled]="isPreview" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsPrograms"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsPrograms;"></tr>
+        </table>
+
+        <div *ngIf="isLoadingPrograms" style="border-bottom: solid #d0c4bb 1px;">
+          <mat-spinner style="margin: auto auto;"></mat-spinner>
+        </div>
+      </div>
+
+      <br>
+      
+      <div style="text-align: center">
+        <button *ngIf="!isPreview" style="margin-right: 1em;" class="button-green" mat-raised-button (click)="registerTrainer($event)">
+          {{nameButtonSuccess}}
+        </button>
+        <button mat-raised-button color="warn" (click)="closeDialogAddTrainer()">{{nameButtonCancel}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ngx-spinner bdColor = "rgba(85,70,70,0.8)" size = "large" color = "#2f31de" type = "square-loader" style="font-size: 150%">
+  Cargando...
+</ngx-spinner>

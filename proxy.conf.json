@@ -1,0 +1,8 @@
+{
+  "//*": {
+    "target": "https://spring-body-fitness-gym.herokuapp.com",
+    "secure": false,
+    "changeOrigin": true,
+    "timeout": 5000
+  }
+}

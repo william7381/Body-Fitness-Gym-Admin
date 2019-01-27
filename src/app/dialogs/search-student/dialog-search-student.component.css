@@ -1,0 +1,56 @@
+mat-form-field {
+  width: 100%;
+}
+
+.button-green {
+  background-color: #58B957;
+  color: white;
+}
+
+.image-avatar {
+  background-size: cover;
+  border-radius: 50%;
+  width: 1.5em;
+}
+
+table {
+  width: 100%;
+}
+
+#th-options {
+  width: 15%;
+}
+
+#th-positions {
+  width: 10%;
+}
+
+#div-table {
+  max-height: 25em;
+  overflow-y: scroll;
+}
+
+.icon-options {
+  margin-left: 1em;
+}
+
+.icon-options-size {
+  font-size: 2em;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.button-search {
+  font-size: 3em;
+}
+
+#th-identificationNumber {
+  width: 30%;
+}
