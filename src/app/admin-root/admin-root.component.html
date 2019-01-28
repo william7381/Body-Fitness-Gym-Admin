@@ -6,6 +6,7 @@
     <button mat-flat-button routerLink="{{getRouterClasses()}}" (click)="printOfBlack($event.currentTarget)">Clases</button>
     <button mat-flat-button routerLink="{{getRouterStudents()}}" (click)="printOfBlack($event.currentTarget)">Alumnos</button>
     <button mat-flat-button routerLink="{{getRouterTrainers()}}" (click)="printOfBlack($event.currentTarget)">Entrenadores</button>
+    <button mat-flat-button routerLink="{{getRouterQuestions()}}" (click)="printOfBlack($event.currentTarget)">Preguntas</button>
   </div>
 
   <button *ngIf="isScreenLow()" id="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="menu" style="background-color: black;">Menu</button>
@@ -24,6 +25,9 @@
     </button>
     <button mat-menu-item routerLink="{{getRouterTrainers()}}">
       <span>Entrenadores</span>
+    </button>
+    <button mat-menu-item routerLink="{{getRouterQuestions()}}">
+      <span>Preguntas</span>
     </button>
   </mat-menu>
 

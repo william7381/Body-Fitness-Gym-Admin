@@ -1,0 +1,30 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{title}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <!--<p>Tipo</p>-->
+
+      <!--<mat-form-field>-->
+      <!--<mat-select [(value)]="selectedType" placeholder="Tipo de Programa" [required]="true">-->
+      <!--<mat-option *ngFor="let type of typesPrograms" [value]="type.viewValue">-->
+      <!--{{type.viewValue}}-->
+      <!--</mat-option>-->
+      <!--</mat-select>-->
+      <!--</mat-form-field>-->
+      <!--<hr>-->
+      <!--<p>Valor</p>-->
+      <mat-form-field>
+        <input [(ngModel)]="name" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" required>
+      </mat-form-field>
+      <hr>
+      <mat-form-field>
+        <textarea [(ngModel)]="description" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción"></textarea>
+      </mat-form-field>
+      <hr>
+      <div style="text-align: center">
+        <button style="margin-right: 1em;" class="button-green" mat-raised-button *ngIf="!isPreview" (click)="registerQuestion($event)">{{nameButtonSuccess}}</button>
+        <button mat-raised-button color="warn" (click)="closeDialogAddQuestion()">{{nameButtonCancel}}</button>
+      </div>
+    </div>
+  </div>
+</form>

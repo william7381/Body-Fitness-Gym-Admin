@@ -10,6 +10,7 @@ export class RoutersApp {
   static readonly students: string = 'students';
   static readonly addStudent: string = 'addStudent';
   static readonly trainers: string = 'trainers';
+  static readonly questions: string = 'questions';
   static readonly completeAccounting: string = RoutersApp.admin + '/' + RoutersApp.accounting;
   static readonly completeStudents = RoutersApp.admin + '/' + RoutersApp.students;
   static readonly completeAddStudent = RoutersApp.admin + '/' + RoutersApp.addStudent;

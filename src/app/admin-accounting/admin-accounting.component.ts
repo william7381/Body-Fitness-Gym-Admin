@@ -142,7 +142,6 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit {
         return;
       }
       AppComponent.spinner.show();
-      console.log(Messages.urlAllMovements + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateUntil) + '/' + Utilities.getFormatDate(this.selectedDateFrom));
       this.serviceQueries.read(Messages.urlAllMovements + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateFrom) + '/' + Utilities.getFormatDate(this.selectedDateUntil)).subscribe(
         res => {
           // @ts-ignore

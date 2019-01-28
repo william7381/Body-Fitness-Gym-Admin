@@ -35,6 +35,8 @@ import {ServiceQueries} from './services/queries/service-queries.service';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {SnotifyModule, SnotifyService, ToastDefaults} from 'ng-snotify';
 import { DialogAddStudentComponent } from './dialogs/add-student/dialog-add-student.component';
+import { AdminQuestionComponent } from './admin-question/admin-question.component';
+import { DialogAddQuestionComponent } from './dialogs/add-question/dialog-add-question.component';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
@@ -47,6 +49,7 @@ const routes: Route[] = [
         {path: RoutersApp.students, component: AdminStudentsComponent},
         // {path: RoutersApp.addStudent, component: AdminAddStudentsComponent},
         {path: RoutersApp.trainers, component: AdminTrainersComponent},
+        {path: RoutersApp.questions, component: AdminQuestionComponent},
     ]
   },
   // {path: RoutersApp.admin, component: AdminRootComponent, canActivate: [CanActiveVerifyLoginGuard],
@@ -75,6 +78,8 @@ const routes: Route[] = [
     AdminAddStudentsComponent,
     DialogAddSubscriptionComponent,
     DialogAddStudentComponent,
+    AdminQuestionComponent,
+    DialogAddQuestionComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +102,7 @@ const routes: Route[] = [
     AdminAddStudentsComponent,
     DialogAddSubscriptionComponent,
     DialogAddStudentComponent,
+    DialogAddQuestionComponent,
   ],
   providers: [
       ServiceLogin,

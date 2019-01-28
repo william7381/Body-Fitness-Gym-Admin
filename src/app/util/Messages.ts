@@ -35,8 +35,10 @@ export class Messages {
   static readonly urlSchedule = '/schedules';
   static readonly urlStudent = '/alumno';
   static readonly urlLoginAdmin = '/login/admin';
-  static readonly urlAllStudents = '/alumnos';
+  static readonly urlQuestion = '/pregunta';
+  static readonly urlAllQuestions = '/preguntas';
 
+  static readonly urlAllStudents = '/alumnos';
   static readonly urlTrainer = '/entrenador';
   static readonly urlAllTrainers = '/entrenadores';
   static readonly titleErrorStudentAlreadyExist = 'El estudiante ya fue agregado.';

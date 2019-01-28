@@ -50,6 +50,10 @@ export class AdminRootComponent implements OnInit {
     return RoutersApp.trainers;
   }
 
+  getRouterQuestions(): string {
+    return RoutersApp.questions;
+  }
+
   getRouterLogin(): string {
     this.closeSession();
     return RoutersApp.login;
