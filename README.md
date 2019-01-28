@@ -1,7 +1,7 @@
 # Funcional:
 
 ver (todos)
-agregar, editar, eliminar de movimientos, programas y entrenadores y alumnos
+agregar, editar, eliminar de movimientos, programas, entrenadores, alumnos y preguntas
 agregar y eliminar de clase (sin horario)
 falta suscripcion
 
