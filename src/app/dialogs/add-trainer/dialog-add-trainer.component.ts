@@ -24,7 +24,7 @@ export class DialogAddTrainerComponent implements OnInit {
   value = null;
   urlImage: string = null;
   name = null;
-  document = null;
+  dni = null;
   telephone = null;
   email = null;
   programs: string[] = [];
@@ -46,7 +46,7 @@ export class DialogAddTrainerComponent implements OnInit {
       const object = this.dataEdit.dataPreview;
       this.urlImage = object.urlImagenEntrenador;
       this.name = object.nombreEntrenador;
-      this.document = object.dniEntrenador;
+      this.dni = object.dniEntrenador;
       this.telephone = object.telefonoEntrenador;
       this.email = object.emailEntrenador;
       this.tempPrograms = object.entrenadorServicio;
@@ -91,7 +91,7 @@ export class DialogAddTrainerComponent implements OnInit {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       id = this.dataEdit.dataPreview.idEntrenador;
     }
-    return {'idEntrenador': id, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'dniEntrenador': this.document, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
+    return {'idEntrenador': id, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'dniEntrenador': this.dni, 'usuarioEntrenador': this.dni, 'contraseniaEntrenador': this.telephone, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
   }
 
   inFileSelected(event, imageAvatar) {
@@ -104,7 +104,7 @@ export class DialogAddTrainerComponent implements OnInit {
   }
 
   registerTrainer(event: Event) {
-    if (this.name && this.document && this.telephone && this.selection.selected.length > 0) {
+    if (this.name && this.dni && this.telephone && this.selection.selected.length > 0) {
       if (this.dataEdit) {
         this.edit();
       } else {

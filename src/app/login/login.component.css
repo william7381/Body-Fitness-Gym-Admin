@@ -31,3 +31,7 @@ button {
   width: 70%;
   margin: auto auto;
 }
+
+mat-icon {
+  cursor: pointer;
+}

@@ -15,11 +15,8 @@ export class ServiceLogin {
     this.userLogged = null;
   }
 
-  login(username: string, password: string) {
-    return this.httpClient.post('/apirest/admin', {
-      email: username,
-      password: password,
-    });
+  login(url: string, username: string, password: string) {
+    return this.httpClient.get(url + '/' + username + '/' + password);
   }
 
   setUserLoggedIn(user: User) {

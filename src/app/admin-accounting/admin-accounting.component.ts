@@ -1,20 +1,12 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
-import {Accounting, ViewValue} from '../interfaces';
+import {ViewValue} from '../interfaces';
 import {DialogAddMovementComponent} from '../dialogs/add-movement/dialog-add-movement.component';
-import {FormControl} from '@angular/forms';
 import {ServiceQueries} from '../services/queries/service-queries.service';
-import {forEach} from '@angular/router/src/utils/collection';
-import {asyncFallback} from '@angular/core/testing/src/async_fallback';
-import {Utilities} from '../util/Utilities';
-import {Observable} from 'rxjs';
-import {NgxSpinnerService} from 'ngx-spinner';
 import {Confirms} from '../util/Confirms';
-import {SnotifyService} from 'ng-snotify';
-import {Notifies} from '../util/Notifies';
 import {AppComponent} from '../app.component';
 import {Messages} from '../util/Messages';
-import {SelectionModel} from '@angular/cdk/collections';
+import {Utilities} from '../util/Utilities';
 
 export interface TypeContribution {
   value: string;
@@ -34,17 +26,21 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit {
   typesContributions: ViewValue[] = [
     {value: '0', viewValue: 'Ingreso'},
     {value: '1', viewValue: 'Egreso'},
-    {value: '2', viewValue: 'Ambos'}
+    {value: '2', viewValue: 'Todos'}
   ];
-  selectedContribution = this.typesContributions[0].value;
-  selectedDateFrom = new Date();
-  selectedDateUntil = new Date();
+  selectedContribution = this.typesContributions[0].viewValue;
+  dateToday = null;
+  selectedDateFrom = null;
+  selectedDateUntil = null;
   selectedImage = null;
   isLoadingTable = true;
   // date = new FormControl(new Date().setTime(1547614800000));
 
   constructor(public dialog: MatDialog, private serviceQueries: ServiceQueries) {
-    this.selectedDateUntil.setTime(1548046800000);
+    // this.selectedDateUntil.setTime(1548046800000);
+    this.dateToday = new Date();
+    this.selectedDateFrom = new Date(this.dateToday.getFullYear(), this.dateToday.getMonth(), this.dateToday.getDate());
+    this.selectedDateUntil = new Date(this.dateToday.getFullYear(), this.dateToday.getMonth(), this.dateToday.getDate());
   }
 
   updateTable() {
@@ -142,18 +138,32 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit {
     if (this.selectedContribution && this.selectedDateFrom && this.selectedDateUntil) {
       event.preventDefault();
       if (this.selectedDateUntil.getTime() < this.selectedDateFrom.getTime()) {
-        alert('La Fecha Desde debe ser menor o igual a la Fecha Hasta');
-      } else {
-        console.log(this.selectedDateFrom.getTime());
-        console.log(this.selectedDateFrom.getDate());
-        console.log(this.selectedDateFrom.getUTCMonth());
-        console.log(this.selectedDateFrom.getUTCFullYear());
-        console.log(this.selectedDateUntil.getDate());
-        console.log(this.selectedDateUntil);
-        this.selectedDateUntil.setTime(1547614800000);
-        console.log(this.selectedDateUntil.getDate());
-        alert('pasa');
+        Confirms.showErrorType(Messages.titleErrorDateFilter, Messages.messageErrorDateFilter);
+        return;
       }
+      AppComponent.spinner.show();
+      console.log(Messages.urlAllMovements + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateUntil) + '/' + Utilities.getFormatDate(this.selectedDateFrom));
+      this.serviceQueries.read(Messages.urlAllMovements + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateFrom) + '/' + Utilities.getFormatDate(this.selectedDateUntil)).subscribe(
+        res => {
+          // @ts-ignore
+          this.dataSource.data = res;
+          AppComponent.notifies.showSuccess(Messages.titleSuccessFilter, '');
+          AppComponent.spinner.hide();
+        },
+        error => {
+          AppComponent.spinner.hide();
+          Confirms.showErrorType(Messages.titleErrorFilter, Messages.messageErrorInternetConexion);
+        },
+      );
+        // console.log(this.selectedDateFrom.getTime());
+        // console.log(this.selectedDateFrom.getDate());
+        // console.log(this.selectedDateFrom.getUTCMonth());
+        // console.log(this.selectedDateFrom.getUTCFullYear());
+        // console.log(this.selectedDateUntil.getDate());
+        // console.log(this.selectedDateUntil);
+        // this.selectedDateUntil.setTime(1547614800000);
+        // console.log(this.selectedDateUntil.getDate());
+        // alert('pasa');
     }
   }
 

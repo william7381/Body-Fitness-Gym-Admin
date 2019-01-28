@@ -172,7 +172,7 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
 
   private add(movement) {
     const subscription = this.getSubscription(movement);
-    this.serviceQueries.create(Messages.urlSubscripcion, subscription).subscribe(
+    this.serviceQueries.create(Messages.urlSubscription, subscription).subscribe(
       res => {
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');

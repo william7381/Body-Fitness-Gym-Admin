@@ -1,9 +1,9 @@
 # Funcional:
 
 ver (todos)
-agregar, editar, eliminar de movimientos, programas y entrenadores
+agregar, editar, eliminar de movimientos, programas y entrenadores y alumnos
 agregar y eliminar de clase (sin horario)
-falta alumno y suscripcion
+falta suscripcion
 
 # BodyFitnessGymAdmin
 

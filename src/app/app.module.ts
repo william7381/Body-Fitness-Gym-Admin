@@ -34,17 +34,18 @@ import {DialogAddSubscriptionComponent} from './dialogs/add-suscription/dialog-a
 import {ServiceQueries} from './services/queries/service-queries.service';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {SnotifyModule, SnotifyService, ToastDefaults} from 'ng-snotify';
+import { DialogAddStudentComponent } from './dialogs/add-student/dialog-add-student.component';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
-  {path: RoutersApp.admin, component: AdminRootComponent, // canActivate: [CanActiveVerifyLoginGuard],
+  {path: RoutersApp.admin, component: AdminRootComponent, canActivate: [CanActiveVerifyLoginGuard],
     children: [
         {path: RoutersApp.accounting, component: AdminAccountingComponent},
         {path: RoutersApp.programs, component: AdminProgramsComponent},
         {path: RoutersApp.classes, component: AdminClassesComponent},
         {path: RoutersApp.addClass, component: AdminAddClassComponent},
         {path: RoutersApp.students, component: AdminStudentsComponent},
-        {path: RoutersApp.addStudent, component: AdminAddStudentsComponent},
+        // {path: RoutersApp.addStudent, component: AdminAddStudentsComponent},
         {path: RoutersApp.trainers, component: AdminTrainersComponent},
     ]
   },
@@ -73,6 +74,7 @@ const routes: Route[] = [
     DialogAddTrainerComponent,
     AdminAddStudentsComponent,
     DialogAddSubscriptionComponent,
+    DialogAddStudentComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,6 +96,7 @@ const routes: Route[] = [
     DialogAddTrainerComponent,
     AdminAddStudentsComponent,
     DialogAddSubscriptionComponent,
+    DialogAddStudentComponent,
   ],
   providers: [
       ServiceLogin,

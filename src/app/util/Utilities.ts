@@ -8,13 +8,13 @@ export class Utilities {
   }
 
   static getDateFromFormatString(format: string): Date {
-    const dateAndTime: string[] = format.split(' ');
+    const dateAndTime: string[] = format.split('-');
     if (!format || dateAndTime.length < 2) {
       return null;
     }
-    const date: string[] = dateAndTime[0].split('-');
-    const time: string[] = dateAndTime[1].split(':');
-    return new Date(+date[0], (+date[1]) - 1, +date[2], +time[0], +time[0], +time[0]);
+    // const date: string[] = dateAndTime[0].split('-');
+    const time: string[] = dateAndTime[3].split(':');
+    return new Date(+dateAndTime[0], (+dateAndTime[1]) - 1, +dateAndTime[2], +time[0], +time[0], +time[0]);
   }
 
   static getFormatDate(date: Date) {
@@ -28,7 +28,7 @@ export class Utilities {
     const fullMinute = minute < 10 ? '0' + minute : minute;
     const second = date.getSeconds();
     const fullSecond = second < 10 ? '0' + second : second;
-    return date.getFullYear() + '-' + fullMonth + '-' + fullDay + ' ' + fullHour + ':' + fullMinute + ':' + fullSecond;
+    return date.getFullYear() + '-' + fullMonth + '-' + fullDay + '-' + fullHour + ':' + fullMinute + ':' + fullSecond;
   }
 
   static compareDateMajor(date: Date, date1: Date) {

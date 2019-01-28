@@ -68,8 +68,8 @@
             </mat-form-field>
             <mat-datepicker #picker></mat-datepicker>
             <mat-form-field>
-              <input [disabled]="isPreview" matInput placeholder="Correo" [formControl]="email">
-              <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+              <input [disabled]="isPreview" [(ngModel)]="emailSelected" [disabled]="isPreview" matInput placeholder="Correo" [formControl]="emailFormControl">
+              <mat-error *ngIf="emailFormControl.invalid">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-select [(value)]="selectedGender" placeholder="Día" [required]="true">
@@ -86,80 +86,80 @@
           </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Suscripciones del Alumno
-            </mat-panel-title>
-            <mat-panel-description>
-              seleccione una accion
-              <mat-icon>queue</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        <!--<mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>-->
+          <!--<mat-expansion-panel-header>-->
+            <!--<mat-panel-title>-->
+              <!--Suscripciones del Alumno-->
+            <!--</mat-panel-title>-->
+            <!--<mat-panel-description>-->
+              <!--seleccione una accion-->
+              <!--<mat-icon>queue</mat-icon>-->
+            <!--</mat-panel-description>-->
+          <!--</mat-expansion-panel-header>-->
 
 
-          <div id="div-table" class="mat-elevation-z24">
-            <button id="btn" mat-raised-button color="primary" (click)="openDialogAddSubscription()">Registrar Suscripción
-            </button>
-            <table mat-table [dataSource]="subscriptions">
+          <!--<div id="div-table" class="mat-elevation-z24">-->
+            <!--<button id="btn" mat-raised-button color="primary" (click)="openDialogAddSubscription()">Registrar Suscripción-->
+            <!--</button>-->
+            <!--<table mat-table [dataSource]="subscriptions">-->
 
-              <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef> #</th>
-                <td mat-cell *matCellDef="let element"> {{element.posicion}}</td>
-              </ng-container>
+              <!--<ng-container matColumnDef="position">-->
+                <!--<th mat-header-cell *matHeaderCellDef> #</th>-->
+                <!--<td mat-cell *matCellDef="let element"> {{element.posicion}}</td>-->
+              <!--</ng-container>-->
 
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Programa</th>
-                <td mat-cell *matCellDef="let element"> {{element.servicio.nombreServicio}}</td>
-              </ng-container>
+              <!--<ng-container matColumnDef="name">-->
+                <!--<th mat-header-cell *matHeaderCellDef> Programa</th>-->
+                <!--<td mat-cell *matCellDef="let element"> {{element.servicio.nombreServicio}}</td>-->
+              <!--</ng-container>-->
 
-              <ng-container matColumnDef="date">
-                <th id="th-description" mat-header-cell *matHeaderCellDef> Fecha de vencimiento</th>
-                <td mat-cell *matCellDef="let element"> {{element.fechaFin}}</td>
-              </ng-container>
+              <!--<ng-container matColumnDef="date">-->
+                <!--<th id="th-description" mat-header-cell *matHeaderCellDef> Fecha de vencimiento</th>-->
+                <!--<td mat-cell *matCellDef="let element"> {{element.fechaFin}}</td>-->
+              <!--</ng-container>-->
 
-              <ng-container matColumnDef="sessions">
-                <th id="th-session" mat-header-cell *matHeaderCellDef> # de Sesiones</th>
-                <td mat-cell *matCellDef="let element"> {{element.sesiones}}</td>
-              </ng-container>
+              <!--<ng-container matColumnDef="sessions">-->
+                <!--<th id="th-session" mat-header-cell *matHeaderCellDef> # de Sesiones</th>-->
+                <!--<td mat-cell *matCellDef="let element"> {{element.sesiones}}</td>-->
+              <!--</ng-container>-->
 
-              <ng-container matColumnDef="price">
-                <th id="th-price" mat-header-cell *matHeaderCellDef> Precio</th>
-                <td mat-cell *matCellDef="let element"> {{element.precioSuscripcion}}</td>
-              </ng-container>
+              <!--<ng-container matColumnDef="price">-->
+                <!--<th id="th-price" mat-header-cell *matHeaderCellDef> Precio</th>-->
+                <!--<td mat-cell *matCellDef="let element"> {{element.precioSuscripcion}}</td>-->
+              <!--</ng-container>-->
 
-              <ng-container matColumnDef="options">
-                <th id="th-options" mat-header-cell *matHeaderCellDef> opciones</th>
-                <td mat-cell *matCellDef="let element">
-                  <mat-icon matTooltip="Previsualizar">
-                    <a (click)="previewSubscription(element)">
-                      remove_red_eye
-                    </a>
-                  </mat-icon>
-                  <mat-icon matTooltip="Editar" class="icon-options">
-                    <a (click)="editSubscription(element)">
-                      edit
-                    </a>
-                  </mat-icon>
-                  <mat-icon matTooltip="Eliminar" class="icon-options">
-                    <a (click)="removeSubscription(element)">
-                      delete
-                    </a>
-                  </mat-icon>
-                </td>
-              </ng-container>
+              <!--<ng-container matColumnDef="options">-->
+                <!--<th id="th-options" mat-header-cell *matHeaderCellDef> opciones</th>-->
+                <!--<td mat-cell *matCellDef="let element">-->
+                  <!--<mat-icon matTooltip="Previsualizar">-->
+                    <!--<a (click)="previewSubscription(element)">-->
+                      <!--remove_red_eye-->
+                    <!--</a>-->
+                  <!--</mat-icon>-->
+                  <!--<mat-icon matTooltip="Editar" class="icon-options">-->
+                    <!--<a (click)="editSubscription(element)">-->
+                      <!--edit-->
+                    <!--</a>-->
+                  <!--</mat-icon>-->
+                  <!--<mat-icon matTooltip="Eliminar" class="icon-options">-->
+                    <!--<a (click)="removeSubscription(element)">-->
+                      <!--delete-->
+                    <!--</a>-->
+                  <!--</mat-icon>-->
+                <!--</td>-->
+              <!--</ng-container>-->
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+              <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+              <!--<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+            <!--</table>-->
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-          </div>
-          <mat-action-row>
-            <button mat-button color="warn" (click)="prevStep()">Previous</button>
-            <button mat-button color="primary" (click)="nextStep()">End</button>
-          </mat-action-row>
-        </mat-expansion-panel>
+            <!--<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
+          <!--</div>-->
+          <!--<mat-action-row>-->
+            <!--<button mat-button color="warn" (click)="prevStep()">Previous</button>-->
+            <!--<button mat-button color="primary" (click)="nextStep()">End</button>-->
+          <!--</mat-action-row>-->
+        <!--</mat-expansion-panel>-->
       </mat-accordion>
 
       <div id="buttons-accept-cancel" style="text-align: center; margin-top: 3em;">

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {DialogAddMovementComponent} from '../dialogs/add-movement/dialog-add-movement.component';
-import {ViewValue} from '../interfaces';
+import {PreviewObject, ViewValue} from '../interfaces';
 import {Router} from '@angular/router';
 import {RoutersApp} from '../util/RoutersApp';
 import {Messages} from '../util/Messages';
@@ -9,6 +9,8 @@ import {Utilities} from '../util/Utilities';
 import {AppComponent} from '../app.component';
 import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
+import {DialogAddTrainerComponent} from '../dialogs/add-trainer/dialog-add-trainer.component';
+import {DialogAddStudentComponent} from '../dialogs/add-student/dialog-add-student.component';
 
 @Component({
   selector: 'app-admin-students',
@@ -67,24 +69,78 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  preview(element) {
+  // preview(element) {
+  //
+  // }
+  //
+  // edit(element) {
+  // }
+  //
+  // remove(element) {
+  //   Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
+  //     if (response.value) {
+  //       AppComponent.spinner.show();
+  //       this.serviceQueries.delete(Messages.urlClass, element.idAlumno).subscribe(
+  //         res => {
+  //           this.updateTable();
+  //           AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');
+  //           AppComponent.spinner.hide();
+  //         },
+  //         error => {
+  //           AppComponent.spinner.hide();
+  //           Confirms.showErrorType(Messages.titleErrorRemove, Messages.messageErrorInternetConexion);
+  //         },
+  //       );
+  //     }
+  //   });
+  // }
+  //
+  // openDialogAddStudent() {
+  //   this.router.navigateByUrl(RoutersApp.completeAddStudent);
+  // }
 
+  preview(element) {
+    const dataEdit: PreviewObject = {dataPreview: element, isPreview: true};
+    const dialogRef = this.dialog.open(DialogAddStudentComponent, {
+      width: '30%',
+      height: '90%',
+      data: dataEdit
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
+    this.showScreenDark(dialogRef);
   }
 
   edit(element) {
+    const dataEdit: PreviewObject = {dataPreview: element, isPreview: false};
+    const dialogRef = this.dialog.open(DialogAddStudentComponent, {
+      width: '30%',
+      height: '90%',
+      data: dataEdit
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
+    this.showScreenDark(dialogRef);
   }
 
   remove(element) {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlClass, element.idAlumno).subscribe(
+        this.serviceQueries.delete(Messages.urlStudent, element.idAlumno).subscribe(
           res => {
             this.updateTable();
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');
             AppComponent.spinner.hide();
           },
           error => {
+            // console.log(error);
             AppComponent.spinner.hide();
             Confirms.showErrorType(Messages.titleErrorRemove, Messages.messageErrorInternetConexion);
           },
@@ -94,6 +150,52 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
   }
 
   openDialogAddStudent() {
-    this.router.navigateByUrl(RoutersApp.completeAddStudent);
+    const dialogRef = this.dialog.open(DialogAddStudentComponent, {
+      width: '35%',
+      height: '90%',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
+    this.showScreenDark(dialogRef);
+  }
+
+  private showScreenDark(dialogRef) {
+    if (this.isScreenLow()) {
+      dialogRef.updateSize('70%', '90%');
+    }
+    this.setEventOpacityScreen(dialogRef);
+  }
+
+  private setEventOpacityScreen(dialogRef) {
+    const divMain = document.getElementById('div-main');
+    // events for opacity screen
+    this.setOpacityScreenLight(divMain);
+    // events for leave the screen regular
+    dialogRef.beforeClosed().subscribe(result => {
+      this.setOpacityScreenRegular(divMain);
+    });
+  }
+
+  private setOpacityScreenLight(divMain: HTMLElement) {
+    // @ts-ignore
+    divMain.style = 'filter: alpha(opacity=0.1); /* internet explorer */\n' +
+      '  -khtml-opacity: 0.1;      /* khtml, old safari */\n' +
+      '  -moz-opacity: 0.1;      /* mozilla, netscape */\n' +
+      '  opacity: 0.1;      /* fx, safari, opera */';
+  }
+
+  private setOpacityScreenRegular(divMain: HTMLElement) {
+    // @ts-ignore
+    divMain.style = 'filter: alpha(opacity=1); /* internet explorer */\n' +
+      '  -khtml-opacity: 1;      /* khtml, old safari */\n' +
+      '  -moz-opacity: 1;      /* mozilla, netscape */\n' +
+      '  opacity: 1;      /* fx, safari, opera */';
+  }
+
+  isScreenLow(): boolean {
+    return window.screen.width < 900;
   }
 }

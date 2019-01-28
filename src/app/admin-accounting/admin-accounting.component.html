@@ -9,7 +9,7 @@
           <p>Tipos</p>
           <mat-form-field>
             <mat-select [(value)]="selectedContribution" id="select" placeholder="Tipo Contribución" [required]="true">
-              <mat-option *ngFor="let type of typesContributions" [value]="type.value">
+              <mat-option *ngFor="let type of typesContributions" [value]="type.viewValue">
                 {{type.viewValue}}
               </mat-option>
             </mat-select>
@@ -17,12 +17,12 @@
           <hr>
           <p>Fechas</p>
           <mat-form-field aria-required="true">
-            <input [(ngModel)]="selectedDateFrom" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerFrom" placeholder="Fecha Desde" [required]="true">
+            <input [(ngModel)]="selectedDateFrom" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerFrom" placeholder="Fecha Desde" [required]="true" readonly>
             <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
             <mat-datepicker startAt="selectedDateFromEdit" #pickerFrom></mat-datepicker>
           </mat-form-field>
           <mat-form-field aria-required="true">
-            <input [(ngModel)]="selectedDateUntil" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerUntil" placeholder="Fecha Hasta" [required]="true" #dateFrom>
+            <input [(ngModel)]="selectedDateUntil" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="pickerUntil" placeholder="Fecha Hasta" [required]="true" #dateFrom readonly>
             <mat-datepicker-toggle matSuffix [for]="pickerUntil"></mat-datepicker-toggle>
             <mat-datepicker #pickerUntil></mat-datepicker>
           </mat-form-field>

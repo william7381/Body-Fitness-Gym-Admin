@@ -26,7 +26,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
   step = 0;
   hide = true;
   selectedImage = null;
-  email = new FormControl('', [Validators.required, Validators.email]);
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   displayedColumns: string[] = ['position', 'name', 'date', 'sessions', 'price', 'options'];
   nameUser = null;
   password = null;
@@ -36,6 +36,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
   date;
   isPreview = false;
   subscriptions = new MatTableDataSource();
+  emailSelected = null;
 
   constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries) { }
 
@@ -43,7 +44,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.step = 2;
+    // this.step = 2;
     this.subscriptions.paginator = this.paginator;
   }
 
@@ -63,7 +64,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlSubscripcion, element.idSuscripcion).subscribe(
+        this.serviceQueries.delete(Messages.urlSubscription, element.idSuscripcion).subscribe(
           res => {
             // @ts-ignore
             const index = this.schedules.findIndex(item => item.idSuscripcion === element.idSuscripcion);
@@ -95,7 +96,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
     //   id = this.dataEdit.movimientoDeCaja.idMovimiento;
     // }
     const dateInit = new Date();
-    return {'idAlumno': id, 'dniAlumno': this.dni, 'nombreAlumno': this.name, 'telefonoAlumno': this.telephone, 'emailAlumno': this.email, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
+    return {'idAlumno': id, 'dniAlumno': this.dni, 'nombreAlumno': this.name, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
   }
 
   inFileSelected(event, imageAvatar) {
@@ -104,8 +105,8 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
   }
 
   getErrorMessage() {
-    return this.email.hasError('required') ? 'Debes ingresar un valor' :
-        this.email.hasError('email') ? 'No es un email valido' :
+    return this.emailFormControl.hasError('required') ? 'Debes ingresar un valor' :
+        this.emailFormControl.hasError('email') ? 'No es un email valido' :
             '';
   }
 
@@ -159,6 +160,7 @@ export class AdminAddStudentsComponent implements OnInit, AfterViewInit {
     if (this.nameUser && this.password && this.name && this.telephone && this.date && this.dni) {
       AppComponent.spinner.show();
       const addStudent = this.getStudent();
+      console.log(addStudent);
       this.serviceQueries.create(Messages.urlStudent, addStudent).subscribe(
         res => {
           AppComponent.spinner.hide();

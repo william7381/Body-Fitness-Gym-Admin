@@ -51,6 +51,11 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
         this.trainers = res;
         this.selectedTrainerName = this.trainers[0].nombreEntrenador;
         this.selectedTrainer = this.trainers[0];
+        this.programs = this.selectedTrainer.entrenadorServicio;
+        if (this.programs && this.programs.length > 0) {
+          this.selectedProgram = this.programs[0];
+          this.selectedProgramName = this.selectedProgram.nombreServicio;
+        }
         this.updatePrograms(this.selectedTrainer);
         this.auxChangeTrainer = true;
       },
@@ -217,7 +222,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     // if (this.dataEdit) {
     //   id = this.dataEdit.idSchedule;
     // }
-    return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, /*'entrenador': this.selectedTrainerName, 'servicio': this.selectedProgramName,*/ 'asistencia': this.students.data, 'horarios': this.schedules};
+    return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'entrenador': this.selectedTrainer, /*'servicio': this.selectedProgramName, 'asistencia': this.students.data, 'horarios': this.schedules*/};
   }
 
   registerClass($event) {

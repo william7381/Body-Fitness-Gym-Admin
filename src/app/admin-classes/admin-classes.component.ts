@@ -17,7 +17,7 @@ import {Confirms} from '../util/Confirms';
 export class AdminClassesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['position', 'nombre', 'entrenador', 'numeroCupos', 'dia', 'horaInicio', 'horaFin', 'descripcion', 'options'];
+  displayedColumns: string[] = ['position', /*'tipo',*/ 'entrenador', 'numeroCupos', 'dia', 'horaInicio', 'horaFin', 'descripcion', 'options'];
   dataSource = new MatTableDataSource();
   isLoadingTable = true;
 

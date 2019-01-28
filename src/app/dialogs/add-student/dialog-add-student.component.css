@@ -14,7 +14,6 @@ mat-form-field {
   background-color: #58B957;
   color: white;
 }
-
 .example-viewport {
   height: 100px;
   width: 200px;
@@ -25,9 +24,13 @@ mat-form-field {
   height: 50px;
 }
 
-h6 {
-  color: rgb(65, 34, 177);
+h6{
+  color:rgb(65, 34, 177);
   position: relative;
   left: 20%;
 
+}
+
+mat-icon {
+  cursor: pointer;
 }

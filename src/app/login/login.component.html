@@ -3,20 +3,28 @@
     <mat-label id="label-login">Iniciar Sesión</mat-label>
     <br>
     <mat-form-field id="mat-form-name-user">
-      <input matInput placeholder="Nombre de Usuario" id="userName" required>
+      <input [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" matInput placeholder="Nombre de Usuario" id="userName" required #inputNameUser>
     </mat-form-field>
     <br>
-    <mat-form-field id="mat-form-password">
-      <input matInput placeholder="Constraseña" id="password" required>
+    <mat-form-field>
+      <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'" required #inputPassword>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
+    <!--<mat-form-field id="mat-form-password">-->
+      <!--<input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" matInput placeholder="Constraseña" id="password" required #inputPassword>-->
+    <!--</mat-form-field>-->
     <br>
-    <button id="button-login" mat-flat-button (click)="loginUser($event)" color="primary">Ingresar</button>
+    <button id="button-login" mat-flat-button (click)="loginUser($event, inputNameUser, inputPassword)" color="primary">Ingresar</button>
   </form>
   <br>
-  <div id="div-alert-incorrect" class="alert alert-danger" role="alert" *ngIf="alertIncorrect">
-    <strong>Usuario o contraseña incorrecta</strong> Ingrésalos nuevamente por favor.
-  </div>
-  <div id="div-alert-server" class="alert alert-danger" role="alert" *ngIf="alertServer">
-    <strong>No podemos conectarnos con el servidor en este momento</strong> por favor comprueba tu conexion a internet o intenta mas tarde.
-  </div>
+  <!--<div id="div-alert-incorrect" class="alert alert-danger" role="alert" *ngIf="alertIncorrect">-->
+    <!--<strong>Usuario o contraseña incorrecta</strong> Ingrésalos nuevamente por favor.-->
+  <!--</div>-->
+  <!--<div id="div-alert-server" class="alert alert-danger" role="alert" *ngIf="alertServer">-->
+    <!--<strong>No podemos conectarnos con el servidor en este momento</strong> por favor comprueba tu conexion a internet o intenta mas tarde.-->
+  <!--</div>-->
 </div>
+
+<ngx-spinner bdColor = "rgba(85,70,70,0.8)" size = "large" color = "#2f31de" type = "square-loader" style="font-size: 150%">
+  Cargando...
+</ngx-spinner>
