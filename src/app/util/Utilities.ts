@@ -54,4 +54,13 @@ export class Utilities {
     const day1 = date1.getDate();
     return day > day1 && month >= month1 && year >= year1;
   }
+
+  static getHourDisplayFromDate(dateHour: string) {
+    const dateAndTime: string[] = dateHour.split('-');
+    if (!dateHour || dateAndTime.length < 2) {
+      return null;
+    }
+    const time: string[] = dateAndTime[3].split(':');
+    return ((+time[0]) - 8) + ':' + time[1];
+  }
 }

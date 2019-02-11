@@ -4,24 +4,28 @@
     <div class="card-body" style="background-color: white; color: black;">
       <!--<p>Tipo</p>-->
 
+      <!--<mat-form-field>-->
+        <!--<mat-select [disabled]="isPreview" [(value)]="selectedDay" placeholder="Día" [required]="true">-->
+          <!--<mat-option *ngFor="let type of days" [value]="type.viewValue">-->
+            <!--{{type.viewValue}}-->
+          <!--</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
       <mat-form-field>
-        <mat-select [(value)]="selectedDay" placeholder="Día" [required]="true">
-          <mat-option *ngFor="let type of days" [value]="type.viewValue">
-            {{type.viewValue}}
-          </mat-option>
-        </mat-select>
+        <input [disabled]="isPreview" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput placeholder="dia" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
       </mat-form-field>
+      <mat-datepicker #picker></mat-datepicker>
       <hr>
       <p style="text-align: center">Hora</p>
       <p>Inicio</p>
       <div class="toggle-example">
-        <input [(ngModel)]="selectedHourFrom" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerFrom" [format]="24" placeholder="Seleccione una fecha" readonly required>
+        <input [disabled]="isPreview" [(ngModel)]="selectedHourFrom" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerFrom" [format]="24" placeholder="Seleccione una fecha" readonly required>
         <ngx-material-timepicker-toggle [for]="toggleTimepickerFrom"></ngx-material-timepicker-toggle>
         <ngx-material-timepicker #toggleTimepickerFrom></ngx-material-timepicker>
       </div>
       <p>Fin</p>
       <div class="toggle-example">
-        <input [(ngModel)]="selectedHourUntil" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerUntil" [format]="24" placeholder="Seleccione una fecha" readonly required>
+        <input [disabled]="isPreview" [(ngModel)]="selectedHourUntil" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerUntil" [format]="24" placeholder="Seleccione una fecha" readonly required>
         <ngx-material-timepicker-toggle [for]="toggleTimepickerUntil"></ngx-material-timepicker-toggle>
         <ngx-material-timepicker #toggleTimepickerUntil></ngx-material-timepicker>
       </div>
@@ -104,7 +108,7 @@
       <!--</div>-->
 
       <div style="text-align: center">
-        <button style="margin-right: 1em;" class="button-green" mat-raised-button (click)="registerSchedule($event, toggleTimepickerFrom, toggleTimepickerUntil)">Guardar</button>
+        <button *ngIf="!isPreview" style="margin-right: 1em;" class="button-green" mat-raised-button (click)="registerSchedule($event, toggleTimepickerFrom, toggleTimepickerUntil)">Guardar</button>
         <button mat-raised-button color="warn" (click)="closeDialogAddSchedule()">Cancelar</button>
       </div>
     </div>

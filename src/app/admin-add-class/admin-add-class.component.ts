@@ -46,7 +46,6 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
       if (this.serviceDataTemp.previewClass) {
         this.isPreview = true;
       }
-      console.log(this.selectedClass);
     }
   }
 
@@ -187,11 +186,9 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlSchedule, element.idSchedule).subscribe(
+        this.serviceQueries.delete(Messages.urlSchedule, element.idHorario).subscribe(
           res => {
             // @ts-ignore
-            const index = this.schedules.findIndex(item => item.idSchedule === element.idSchedule);
-            this.schedules.splice(index, 1);
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');
             AppComponent.spinner.hide();
           },
@@ -296,6 +293,10 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
         console.log(error);
       });
+  }
+
+  getHourDisplayFromDate(time) {
+    return Utilities.getHourDisplayFromDate(time);
   }
 
   closeAddClass() {

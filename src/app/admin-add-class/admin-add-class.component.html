@@ -47,24 +47,24 @@
 
         <ng-container matColumnDef="from">
           <th mat-header-cell *matHeaderCellDef> Desde</th>
-          <td mat-cell *matCellDef="let element"> {{element.horaInicio}}</td>
+          <td mat-cell *matCellDef="let element"> {{this.getHourDisplayFromDate(element.horaInicio)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="until">
           <th mat-header-cell *matHeaderCellDef> Hasta</th>
-          <td mat-cell *matCellDef="let element"> {{element.horaFin}}</td>
+          <td mat-cell *matCellDef="let element"> {{this.getHourDisplayFromDate(element.horaFin)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="options">
           <th class="th-options" mat-header-cell *matHeaderCellDef> Opciones</th>
           <td mat-cell *matCellDef="let element">
             <mat-icon matTooltip="Editar" class="icon-options">
-              <a *ngIf="isPreview" (click)="editSchedule(element)">
+              <a *ngIf="!isPreview" (click)="editSchedule(element)">
                 edit
               </a>
             </mat-icon>
             <mat-icon matTooltip="Eliminar" class="icon-options">
-              <a *ngIf="isPreview" (click)="removeSchedule(element)">
+              <a *ngIf="!isPreview" (click)="removeSchedule(element)">
                 delete
               </a>
             </mat-icon>

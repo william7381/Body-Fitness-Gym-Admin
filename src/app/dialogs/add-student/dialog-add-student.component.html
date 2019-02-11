@@ -31,7 +31,7 @@
         <input [(ngModel)]="telephone" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Telefono" required>
       </mat-form-field>
       <mat-form-field>
-        <input [(ngModel)]="date" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+        <input [(ngModel)]="date" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="fecha de nacimiento" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
       </mat-form-field>
       <mat-datepicker #picker></mat-datepicker>
 
