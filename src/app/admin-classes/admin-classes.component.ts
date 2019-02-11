@@ -8,6 +8,7 @@ import {Utilities} from '../util/Utilities';
 import {AppComponent} from '../app.component';
 import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
+import {ServiceDataTemp} from '../services/temp/service-temp.service';
 
 @Component({
   selector: 'app-admin-classes',
@@ -21,7 +22,7 @@ export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource();
   isLoadingTable = true;
 
-  constructor(private router: Router, private serviceQueries: ServiceQueries) {
+  constructor(private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceDataTemp) {
     this.updateTable();
   }
 
@@ -54,13 +55,20 @@ export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openComponentAddClass() {
+    this.serviceSubscription.selectedClass = null;
+    this.serviceSubscription.previewClass = false;
     this.router.navigateByUrl(RoutersApp.completeAddClass);
   }
 
   preview(element) {
+    this.serviceSubscription.selectedClass = element;
+    this.serviceSubscription.previewClass = true;
+    this.router.navigateByUrl(RoutersApp.completeAddClass);
   }
 
   edit(element) {
+    this.serviceSubscription.selectedClass = element;
+    this.serviceSubscription.previewClass = false;
     this.router.navigateByUrl(RoutersApp.completeAddClass);
   }
 

@@ -39,7 +39,7 @@ import { AdminQuestionComponent } from './admin-question/admin-question.componen
 import { DialogAddQuestionComponent } from './dialogs/add-question/dialog-add-question.component';
 import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { DialogAddNewsComponent } from './dialogs/add-news/dialog-add-news.component';
-import {ServiceSubscription} from './services/subscription/service-subscription.service';
+import {ServiceDataTemp} from './services/temp/service-temp.service';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
@@ -114,7 +114,7 @@ const routes: Route[] = [
   providers: [
     ServiceLogin,
     ServiceQueries,
-    ServiceSubscription,
+    ServiceDataTemp,
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
     {provide: 'SnotifyToastConfig', useValue: ToastDefaults},
     SnotifyService,

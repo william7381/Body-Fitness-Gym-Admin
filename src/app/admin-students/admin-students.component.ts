@@ -11,7 +11,7 @@ import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
 import {DialogAddTrainerComponent} from '../dialogs/add-trainer/dialog-add-trainer.component';
 import {DialogAddStudentComponent} from '../dialogs/add-student/dialog-add-student.component';
-import {ServiceSubscription} from '../services/subscription/service-subscription.service';
+import {ServiceDataTemp} from '../services/temp/service-temp.service';
 
 @Component({
   selector: 'app-admin-students',
@@ -38,7 +38,7 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
   isLoadingTable = true;
   //-----------------------------------------------
 
-  constructor(public dialog: MatDialog, private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceSubscription) {}
+  constructor(public dialog: MatDialog, private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceDataTemp) {}
 
   ngOnInit() {
   }

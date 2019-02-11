@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ServiceSubscription } from './service-subscription.service';
+import { ServiceDataTemp } from './service-temp.service';
 
-describe('ServiceSubscription', () => {
+describe('ServiceDataTemp', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ServiceSubscription = TestBed.get(ServiceSubscription);
+    const service: ServiceDataTemp = TestBed.get(ServiceDataTemp);
     expect(service).toBeTruthy();
   });
 });

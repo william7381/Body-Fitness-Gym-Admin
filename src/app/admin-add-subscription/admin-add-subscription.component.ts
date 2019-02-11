@@ -10,7 +10,7 @@ import {Utilities} from '../util/Utilities';
 import {RoutersApp} from '../util/RoutersApp';
 import {Router} from '@angular/router';
 import {PreviewObject, PreviewObjectSubscription, ViewValue} from '../interfaces';
-import {ServiceSubscription} from '../services/subscription/service-subscription.service';
+import {ServiceDataTemp} from '../services/temp/service-temp.service';
 
 @Component({
   selector: 'app-admin-add-students',
@@ -42,10 +42,10 @@ export class AdminAddSubscriptionComponent implements OnInit, AfterViewInit {
   // isPreview = false;
   // emailSelected = null;
 
-  constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceSubscription) {
+  constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceDataTemp: ServiceDataTemp) {
     // console.log('---');
-    // console.log(this.serviceSubscription.selectedStudent);
-    this.selectedStudent = this.serviceSubscription.selectedStudent;
+    // console.log(this.serviceDataTemp.selectedStudent);
+    this.selectedStudent = this.serviceDataTemp.selectedStudent;
     this.messageStudent = 'Alumno: ' + this.selectedStudent.nombreAlumno + ' Dni: ' + this.selectedStudent.dniAlumno;
     this.subscriptions.data = this.selectedStudent.historialSuscripcion;
     // console.log('---');

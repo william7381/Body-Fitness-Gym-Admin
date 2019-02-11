@@ -19,7 +19,7 @@ export class AdminRootComponent implements OnInit {
     } else {
       document.getElementById('div-menu-full').hidden = true;
     }
-    this.router.navigateByUrl(RoutersApp.completeStudents);
+    this.router.navigateByUrl(RoutersApp.completeClasses);
   }
 
   printOfBlack(element: HTMLButtonElement) {

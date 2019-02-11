@@ -11,6 +11,7 @@ import {Utilities} from '../util/Utilities';
 import {AppComponent} from '../app.component';
 import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
+import {ServiceDataTemp} from '../services/temp/service-temp.service';
 
 @Component({
   selector: 'app-admin-add-class',
@@ -33,8 +34,20 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   students = new MatTableDataSource();
   isLoadingTableStudents = false;
   private auxChangeTrainer = true;
+  private selectedClass = null;
+  isPreview = false;
 
-  constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries) {
+  constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceDataTemp: ServiceDataTemp) {
+    if (this.serviceDataTemp.selectedClass) {
+      this.selectedClass = this.serviceDataTemp.selectedClass;
+      this.numberQuotas = this.selectedClass.numeroCupos;
+      this.description = this.selectedClass.descripcion;
+      this.schedules = this.selectedClass.horarioClase;
+      if (this.serviceDataTemp.previewClass) {
+        this.isPreview = true;
+      }
+      console.log(this.selectedClass);
+    }
   }
 
   ngOnInit() {
@@ -58,6 +71,16 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
         }
         this.updatePrograms(this.selectedTrainer);
         this.auxChangeTrainer = true;
+        // cargar programa para edit y preview
+        if (this.selectedClass) {
+          const trainer = this.selectedClass.entrendor;
+          this.selectedTrainer = trainer;
+          this.selectedTrainerName = trainer.nombreEntrenador;
+          this.programs = trainer.entrenadorServicio;
+          const service = this.selectedClass.servicio;
+          this.selectedProgram = service.servicio;
+          this.selectedProgramName = service.nombreServicio;
+        }
       },
       error => {
         AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetTrainers);
@@ -70,7 +93,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
 
   updatePrograms(trainer) {
     if (this.auxChangeTrainer) {
-      if (trainer.idEntrenador !== this.selectedTrainer.idEntrenador) {
+      if (trainer.dniEntrenador !== this.selectedTrainer.dniEntrenador) {
         this.selectedTrainer = trainer;
         if (this.trainers) {
           this.programs = trainer.entrenadorServicio;
@@ -152,11 +175,11 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
       height: 'max-content',
       data: dataEdit
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.schedules = res;
-      }
-    });
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res) {
+    //     this.schedules = res;
+    //   }
+    // });
     this.showScreenDark(dialogRef, '70%');
   }
 
@@ -208,21 +231,23 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
       height: 'max-content',
       data: this.students.data
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.students.data.push(res);
-        this.students._updateChangeSubscription();
-      }
-    });
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res) {
+    //     this.students.data.push(res);
+    //     this.students._updateChangeSubscription();
+    //   }
+    // });
     this.showScreenDark(dialogRef, '95%');
   }
 
   getClass() {
     let id = -1;
-    // if (this.dataEdit) {
-    //   id = this.dataEdit.idSchedule;
-    // }
-    return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'entrenador': this.selectedTrainer, /*'servicio': this.selectedProgramName, 'asistencia': this.students.data, 'horarios': this.schedules*/};
+    if (this.selectedClass) {
+      id = this.selectedClass.idClase;
+      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'horarios': this.schedules, 'entrendor': this.selectedTrainer, 'servicio': this.selectedProgram};
+    } else {
+      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'horarios': this.schedules /*'entrenador': this.selectedTrainer, 'servicio': this.selectedProgramName, 'asistencia': this.students.data,*/};
+    }
   }
 
   registerClass($event) {
@@ -231,22 +256,46 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
       return;
     }
     if (this.numberQuotas) {
-      AppComponent.spinner.show();
-      const addClass = this.getClass();
-      this.serviceQueries.create(Messages.urlClass + Messages.urlService + '/' + this.selectedProgram.idServicio + Messages.urlTrainer + '/' + this.selectedTrainer.idEntrenador, addClass).subscribe(
-        res => {
-          AppComponent.spinner.hide();
-          AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
-          this.closeAddClass();
-        },
-        error => {
-          AppComponent.spinner.hide();
-          Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
-          console.log(error);
-        });
+      if (!this.selectedClass) {
+        this.addClass();
+      } else {
+        this.editClass();
+      }
     } else {
       Confirms.showErrorType(Messages.titleErrorNeedQuotas, Messages.messageErrorNeedQuotas);
     }
+  }
+
+  private editClass() {
+    AppComponent.spinner.show();
+    const addClass = this.getClass();
+    this.serviceQueries.update(Messages.urlClass, addClass).subscribe(
+      res => {
+        AppComponent.spinner.hide();
+        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
+        this.closeAddClass();
+      },
+      error => {
+        AppComponent.spinner.hide();
+        Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
+        console.log(error);
+      });
+  }
+
+  private addClass() {
+    AppComponent.spinner.show();
+    const addClass = this.getClass();
+    this.serviceQueries.create(Messages.urlClass + Messages.urlService + '/' + this.selectedProgram.idServicio + Messages.urlTrainer + '/' + this.selectedTrainer.dniEntrenador, addClass).subscribe(
+      res => {
+        AppComponent.spinner.hide();
+        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
+        this.closeAddClass();
+      },
+      error => {
+        AppComponent.spinner.hide();
+        Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
+        console.log(error);
+      });
   }
 
   closeAddClass() {
