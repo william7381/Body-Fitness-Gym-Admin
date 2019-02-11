@@ -1,3 +1,5 @@
+import {Constants} from './Constants';
+
 export class Messages {
   static readonly titleErrorAdd = 'No se pudo Agregar el elemento.';
   static readonly titleErrorEdit = 'No se pudo Editar el elemento.';
@@ -26,6 +28,7 @@ export class Messages {
   static readonly titleSuccessAdd = 'Elemento Agregado.';
   static readonly titleSuccessEdit = 'Elemento Editado.';
   static readonly urlSubscription = '/suscripcion';
+  static readonly urlAllSubscriptions = '/suscripciones';
   static readonly urlMovement = '/movimiento';
   static readonly urlAllMovements = '/movimientos';
   static readonly urlService = '/servicio';
@@ -36,8 +39,10 @@ export class Messages {
   static readonly urlStudent = '/alumno';
   static readonly urlLoginAdmin = '/login/admin';
   static readonly urlQuestion = '/pregunta';
-  static readonly urlAllQuestions = '/preguntas';
+  static readonly urlNews = '/noticia';
 
+  static readonly urlAllNews = '/noticias';
+  static readonly urlAllQuestions = '/preguntas';
   static readonly urlAllStudents = '/alumnos';
   static readonly urlTrainer = '/entrenador';
   static readonly urlAllTrainers = '/entrenadores';
@@ -54,4 +59,6 @@ export class Messages {
   static readonly messageErrorDateMinor = 'La fecha debe ser mayor a hoy.';
   static readonly titleErrorData = 'Fallo al comprobar los Datos.';
   static readonly messageErrorLogin = 'Usuario o Contraseña incorrectos.';
+  static readonly titleErrorMinimumYearsStudent = 'Edad no valida.';
+  static readonly messageErrorMinimumYearsStudent = 'La edad minima del alumno debe ser ' + Constants.MINIMUM_YEARS_OF_STUDENT + ' años.';
 }

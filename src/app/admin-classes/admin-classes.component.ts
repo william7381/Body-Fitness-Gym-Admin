@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {DialogAddMovementComponent} from '../dialogs/add-movement/dialog-add-movement.component';
 import {RoutersApp} from '../util/RoutersApp';
@@ -14,7 +14,7 @@ import {Confirms} from '../util/Confirms';
   templateUrl: './admin-classes.component.html',
   styleUrls: ['./admin-classes.component.css']
 })
-export class AdminClassesComponent implements OnInit, AfterViewInit {
+export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['position', /*'tipo',*/ 'entrenador', 'numeroCupos', 'dia', 'horaInicio', 'horaFin', 'descripcion', 'options'];
@@ -48,7 +48,7 @@ export class AdminClassesComponent implements OnInit, AfterViewInit {
         this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
         this.isLoadingTable = false;
       });
   }
@@ -81,5 +81,9 @@ export class AdminClassesComponent implements OnInit, AfterViewInit {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    AppComponent.notifies.clear();
   }
 }

@@ -15,7 +15,17 @@ export class Notifies {
     this.snotifyService.error(body, title, this.configError);
   }
 
+  showErrorWithMethod(title, body, classOfMethod, method) {
+    this.snotifyService.error(body, title, {timeout: 0, titleMaxLength: 50, position: SnotifyPosition.rightTop, buttons: [
+        {text: 'Reintentar', action: () => method.call(classOfMethod), bold: true}
+      ]});
+  }
+
   showWarning(title, body) {
     this.snotifyService.warning(body, title, this.configWarning);
+  }
+
+  clear() {
+    this.snotifyService.clear();
   }
 }

@@ -7,6 +7,20 @@ export class Utilities {
     return observable.pipe(map(data => JSON.parse(JSON.stringify(data))));
   }
 
+  static getYearsOfDifference(dateBigger: Date, dateLower: Date) {
+    const year = dateBigger.getFullYear() + 1;
+    const year1 = dateLower.getFullYear() + 1;
+    const month = dateBigger.getMonth() + 1;
+    const month1 = dateLower.getMonth() + 1;
+    const day = dateBigger.getDate();
+    const day1 = dateLower.getDate();
+    console.log(month, month1);
+    if (month > month1 || (month === month1 && day >= day1)) {
+      return year - year1;
+    }
+    return (year - year1) - 1;
+  }
+
   static getDateFromFormatString(format: string): Date {
     const dateAndTime: string[] = format.split('-');
     if (!format || dateAndTime.length < 2) {

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {DialogAddProgramComponent} from '../dialogs/add-program/dialog-add-program.component';
 import {Confirms} from '../util/Confirms';
@@ -13,7 +13,7 @@ import {PreviewObject} from '../interfaces';
   templateUrl: './admin-programs.component.html',
   styleUrls: ['./admin-programs.component.css']
 })
-export class AdminProgramsComponent implements OnInit, AfterViewInit {
+export class AdminProgramsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['posicion', 'nombre', 'precio', 'descripcion', 'options'];
@@ -47,7 +47,7 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit {
         this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
         this.isLoadingTable = false;
       });
   }
@@ -149,5 +149,9 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit {
 
   isScreenLow(): boolean {
     return window.screen.width < 900;
+  }
+
+  ngOnDestroy(): void {
+    AppComponent.notifies.clear();
   }
 }

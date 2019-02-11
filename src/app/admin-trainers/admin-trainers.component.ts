@@ -43,7 +43,7 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
         this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
         this.isLoadingTable = false;
       });
   }
@@ -88,7 +88,7 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlTrainer, element.idEntrenador).subscribe(
+        this.serviceQueries.delete(Messages.urlTrainer, element.dniEntrenador).subscribe(
           res => {
             this.updateTable();
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');

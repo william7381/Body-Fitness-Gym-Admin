@@ -8,6 +8,7 @@ import {Confirms} from '../../util/Confirms';
 import {Messages} from '../../util/Messages';
 import {AppComponent} from '../../app.component';
 import {Utilities} from '../../util/Utilities';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-dialogs',
@@ -32,7 +33,6 @@ export class DialogAddStudentComponent implements OnInit {
   isPreview = false;
   emailSelected = null;
   title = 'Agregar Alumno';
-  nameButtonSuccess = 'Agregar';
   nameButtonCancel = 'Cancelar';
   hide = true;
 
@@ -49,7 +49,6 @@ export class DialogAddStudentComponent implements OnInit {
       this.date = Utilities.getDateFromFormatString(object.fechaNacimiento);
       this.selectedGender = object.genero;
       this.title = 'Editar Programa';
-      this.nameButtonSuccess = 'Editar';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';
@@ -63,11 +62,11 @@ export class DialogAddStudentComponent implements OnInit {
   }
 
   private getStudent() {
-    let id = -1;
-    if (this.dataEdit && this.dataEdit.dataPreview) {
-      id = this.dataEdit.dataPreview.idAlumno;
-    }
-    return {'idAlumno': id, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'dniAlumno': this.dni, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
+    // let id = -1;
+    // if (this.dataEdit && this.dataEdit.dataPreview) {
+    //   id = this.dataEdit.dataPreview.idAlumno;
+    // }
+    return {'dniAlumno': this.dni, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
   }
 
   inFileSelected(event, imageAvatar) {
@@ -87,6 +86,10 @@ export class DialogAddStudentComponent implements OnInit {
 
   registerStudent(event: Event) {
     if (this.name && this.dni && this.telephone && this.nameUser && this.password && this.date) {
+      if (Utilities.getYearsOfDifference(new Date(), this.date) < Constants.MINIMUM_YEARS_OF_STUDENT) {
+        Confirms.showErrorType(Messages.titleErrorMinimumYearsStudent, Messages.messageErrorMinimumYearsStudent);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

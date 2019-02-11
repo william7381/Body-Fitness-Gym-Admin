@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
-import { ViewValue } from '../../interfaces';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import { AdminAddStudentsComponent } from '../../admin-add-students/admin-add-students.component';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {AdminAddSubscriptionComponent} from '../../admin-add-subscription/admin-add-subscription.component';
 import {Messages} from '../../util/Messages';
 import {AppComponent} from '../../app.component';
 import {ServiceQueries} from '../../services/queries/service-queries.service';
 import {Confirms} from '../../util/Confirms';
 import {Utilities} from '../../util/Utilities';
+
 @Component({
   selector: 'app-dialog-add-suscription',
   templateUrl: './dialog-add-subscription.component.html',
@@ -21,18 +21,19 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   date;
   isDateSubscription = true;
   isPreview;
-  tittle = 'Agragar Susbscripcion';
-  buttonSuccessName = 'Agregar';
+  tittle = 'Agragar Subscripcion';
   buttonCancelName = 'Cancelar';
   private auxChangeTrainer = true;
+  private student = null;
 
-  constructor(public dialogRef: MatDialogRef<AdminAddStudentsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
-    if (this.dataEdit) {
-      this.price = this.dataEdit.precioSuscripcion;
-      this.date = this.dataEdit.fechaFin;
-      this.sessions = this.dataEdit.sesiones;
+  constructor(public dialogRef: MatDialogRef<AdminAddSubscriptionComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
+    this.student = this.dataEdit.student;
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      const object = this.dataEdit.dataPreview;
+      this.price = object.precioSuscripcion;
+      this.date = object.fechaFin;
+      this.sessions = object.sesiones;
       this.tittle = 'Editar Movimiento';
-      this.buttonSuccessName = 'Editar';
       if (this.price) {
         this.isDateSubscription = false;
       }
@@ -56,8 +57,9 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
         this.selectedProgramName = this.programs[0].nombreServicio;
         this.selectedProgram = this.programs[0];
         this.auxChangeTrainer = true;
-        if (this.dataEdit) {
-          this.selectedProgram = this.dataEdit.servicio;
+        if (this.dataEdit && this.dataEdit.dataPreview) {
+          const object = this.dataEdit.dataPreview;
+          this.selectedProgram = object.servicio;
         }
       },
       error => {
@@ -94,29 +96,33 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
       }
     }
     if (this.price) {
-      if (this.dataEdit) {
-        this.editMovement();
+      if (this.dataEdit && this.dataEdit.dataPreview) {
+        this.edit();
+        // this.editSubscription();
       } else {
-        this.addMovement();
+        this.add();
+        // this.addSubscription();
       }
     }
   }
 
   private getMovement() {
     let id = -1;
-    if (this.dataEdit) {
-      id = this.dataEdit.movimientoDeCaja.idMovimiento;
-    }
     const dateInit = new Date();
-    return {'idMovimiento': id, 'tipo': 'Ingreso', 'valor': this.price, 'fechaMovimiento': Utilities.getFormatDate(dateInit), 'descripcionMovimiento': 'Subscripcion'};
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      id = this.dataEdit.dataPreview.movimientoDeCaja.idMovimiento;
+      return {'idMovimiento': id, 'tipo': 'Ingreso', 'valor': this.price, 'fechaMovimiento': Utilities.getFormatDate(dateInit), 'descripcionMovimiento': 'Subscripcion'};
+    } else {
+      return {'tipo': 'Ingreso', 'valor': this.price, 'fechaMovimiento': Utilities.getFormatDate(dateInit), 'descripcionMovimiento': 'Subscripcion'};
+    }
   }
 
-  private editMovement() {
+  private editSubscription() {
     AppComponent.spinner.show();
     const movement = this.getMovement();
     this.serviceQueries.update(Messages.urlMovement, movement).subscribe(
       res => {
-        this.edit(res);
+        this.edit();
       },
       error => {
         AppComponent.spinner.hide();
@@ -124,13 +130,13 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private addMovement() {
+  private addSubscription() {
     AppComponent.spinner.show();
     const movement = this.getMovement();
     this.serviceQueries.create(Messages.urlMovement, movement).subscribe(
       res => {
         // @ts-ignore
-        this.add(res);
+        this.add();
       },
       error => {
         AppComponent.spinner.hide();
@@ -138,27 +144,36 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private getSubscription(movement) {
+  private getSubscription() {
     let id = -1;
     const dateInit = Utilities.getFormatDate(new Date());
-    if (this.isDateSubscription && this.date) {
-
-    } else if (this.sessions) {
-
+    // if (this.isDateSubscription && this.date) {
+    //
+    // } else if (this.sessions) {
+    //
+    // }
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      id = this.dataEdit.dataPreview.idSuscripcion;
     }
-    if (this.dataEdit) {
-      id = this.dataEdit.idSuscripcion;
-    }
+    const movement = this.getMovement();
     if (this.isDateSubscription) {
-      return {'idSuscripcion': id, 'fechaInicio': dateInit, 'fechaFin': this.date, 'precioSuscripcion': this.price, 'movimientoDeCaja': movement, 'servicio': this.selectedProgram};
+      if (this.dataEdit && this.dataEdit.dataPreview) {
+        return {'idSuscripcion': id, 'fechaInicio': dateInit, 'fechaFin': Utilities.getFormatDate(this.date), 'precioSuscripcion': this.price, 'movimientoDeCaja': movement, 'servicio': this.selectedProgram};
+      }
+      return {'idSuscripcion': id, 'fechaInicio': dateInit, 'fechaFin': Utilities.getFormatDate(this.date), 'precioSuscripcion': this.price, 'movimientoDeCaja': movement/*, 'servicio': this.selectedProgram*/};
     } else {
-      return {'idSuscripcion': id, 'fechaInicio': dateInit, 'sesiones': this.sessions, 'precioSuscripcion': this.price, 'movimientoDeCaja': movement, 'servicio': this.selectedProgram};
+      if (this.dataEdit && this.dataEdit.dataPreview) {
+        return {'idSuscripcion': id, 'fechaInicio': dateInit, 'sesiones': this.sessions, 'precioSuscripcion': this.price, 'movimientoDeCaja': movement, 'servicio': this.selectedProgram};
+      }
+      return {'idSuscripcion': id, 'fechaInicio': dateInit, 'sesiones': this.sessions, 'precioSuscripcion': this.price, 'movimientoDeCaja': movement/*, 'servicio': this.selectedProgram*/};
     }
   }
 
-  private edit(movement) {
-    const subscription = this.getSubscription(movement);
-    this.serviceQueries.update(Messages.urlMovement, subscription).subscribe(
+  private edit() {
+    AppComponent.spinner.show();
+    const subscription = this.getSubscription();
+    console.log(JSON.stringify(subscription));
+    this.serviceQueries.update(Messages.urlSubscription, subscription).subscribe(
       res => {
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
@@ -170,15 +185,17 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private add(movement) {
-    const subscription = this.getSubscription(movement);
-    this.serviceQueries.create(Messages.urlSubscription, subscription).subscribe(
+  private add() {
+    AppComponent.spinner.show();
+    const subscription = this.getSubscription();
+    this.serviceQueries.create(Messages.urlSubscription + Messages.urlStudent + '/' + this.student.dniAlumno + Messages.urlService + '/' + this.selectedProgram.idServicio, subscription).subscribe(
       res => {
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
         this.dialogRef.close(subscription);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });

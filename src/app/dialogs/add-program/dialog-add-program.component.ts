@@ -24,7 +24,6 @@ export class DialogAddProgramComponent implements OnInit {
   price = null;
   description = null;
   title = 'Agregar Programa';
-  nameButtonSuccess = 'Agregar';
   nameButtonCancel = 'Cancelar';
   isPreview = false;
 
@@ -35,7 +34,6 @@ export class DialogAddProgramComponent implements OnInit {
       this.price = object.precio;
       this.description = object.descripcionServicio;
       this.title = 'Editar Programa';
-      this.nameButtonSuccess = 'Editar';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';

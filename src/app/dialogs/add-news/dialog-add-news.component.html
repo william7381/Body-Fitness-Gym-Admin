@@ -1,0 +1,38 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{titleDialog}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <!--<p>Tipo</p>-->
+
+      <!--<mat-form-field>-->
+      <!--<mat-select [(value)]="selectedType" placeholder="Tipo de Programa" [required]="true">-->
+      <!--<mat-option *ngFor="let type of typesPrograms" [value]="type.viewValue">-->
+      <!--{{type.viewValue}}-->
+      <!--</mat-option>-->
+      <!--</mat-select>-->
+      <!--</mat-form-field>-->
+      <!--<hr>-->
+      <!--<p>Valor</p>-->
+      <mat-card class="example-card" style="text-align: center;">
+        <label for="inputFile">
+          <img id="img-avatar" src="../../../assets/avatar.jpg" mat-card-image alt="Student Photo"
+               matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
+        </label>
+        <input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>
+      </mat-card>
+      <br>
+      <mat-form-field>
+        <input [(ngModel)]="title" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Título" min="1" required>
+      </mat-form-field>
+      <hr>
+      <mat-form-field>
+        <textarea [(ngModel)]="description" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción"></textarea>
+      </mat-form-field>
+      <hr>
+      <div style="text-align: center">
+        <button style="margin-right: 1em;" class="button-green" mat-raised-button *ngIf="!isPreview" (click)="registerNews($event)">Guardar</button>
+        <button mat-raised-button color="warn" (click)="closeDialogAddNews()">{{nameButtonCancel}}</button>
+      </div>
+    </div>
+  </div>
+</form>

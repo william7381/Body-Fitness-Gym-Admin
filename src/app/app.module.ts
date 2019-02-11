@@ -29,7 +29,7 @@ import { DialogAddScheduleComponent } from './dialogs/add-schedule/dialog-add-sc
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { DialogSearchStudentComponent } from './dialogs/search-student/dialog-search-student.component';
 import {DialogAddTrainerComponent} from './dialogs/add-trainer/dialog-add-trainer.component';
-import {AdminAddStudentsComponent} from './admin-add-students/admin-add-students.component';
+import {AdminAddSubscriptionComponent} from './admin-add-subscription/admin-add-subscription.component';
 import {DialogAddSubscriptionComponent} from './dialogs/add-suscription/dialog-add-subscription.component';
 import {ServiceQueries} from './services/queries/service-queries.service';
 import {NgxSpinnerModule} from 'ngx-spinner';
@@ -37,18 +37,22 @@ import {SnotifyModule, SnotifyService, ToastDefaults} from 'ng-snotify';
 import { DialogAddStudentComponent } from './dialogs/add-student/dialog-add-student.component';
 import { AdminQuestionComponent } from './admin-question/admin-question.component';
 import { DialogAddQuestionComponent } from './dialogs/add-question/dialog-add-question.component';
+import { AdminNewsComponent } from './admin-news/admin-news.component';
+import { DialogAddNewsComponent } from './dialogs/add-news/dialog-add-news.component';
+import {ServiceSubscription} from './services/subscription/service-subscription.service';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
-  {path: RoutersApp.admin, component: AdminRootComponent, canActivate: [CanActiveVerifyLoginGuard],
+  {path: RoutersApp.admin, component: AdminRootComponent, // canActivate: [CanActiveVerifyLoginGuard],
     children: [
         {path: RoutersApp.accounting, component: AdminAccountingComponent},
         {path: RoutersApp.programs, component: AdminProgramsComponent},
         {path: RoutersApp.classes, component: AdminClassesComponent},
         {path: RoutersApp.addClass, component: AdminAddClassComponent},
         {path: RoutersApp.students, component: AdminStudentsComponent},
-        // {path: RoutersApp.addStudent, component: AdminAddStudentsComponent},
+        {path: RoutersApp.addStudent, component: AdminAddSubscriptionComponent},
         {path: RoutersApp.trainers, component: AdminTrainersComponent},
+        {path: RoutersApp.news, component: AdminNewsComponent},
         {path: RoutersApp.questions, component: AdminQuestionComponent},
     ]
   },
@@ -75,11 +79,13 @@ const routes: Route[] = [
     DialogAddScheduleComponent,
     DialogSearchStudentComponent,
     DialogAddTrainerComponent,
-    AdminAddStudentsComponent,
+    AdminAddSubscriptionComponent,
     DialogAddSubscriptionComponent,
     DialogAddStudentComponent,
     AdminQuestionComponent,
     DialogAddQuestionComponent,
+    AdminNewsComponent,
+    DialogAddNewsComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,18 +105,20 @@ const routes: Route[] = [
     DialogAddScheduleComponent,
     DialogSearchStudentComponent,
     DialogAddTrainerComponent,
-    AdminAddStudentsComponent,
+    AdminAddSubscriptionComponent,
     DialogAddSubscriptionComponent,
     DialogAddStudentComponent,
     DialogAddQuestionComponent,
+    DialogAddNewsComponent,
   ],
   providers: [
-      ServiceLogin,
-      ServiceQueries,
-      {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
-      { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
-      SnotifyService,
-    ],
+    ServiceLogin,
+    ServiceQueries,
+    ServiceSubscription,
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

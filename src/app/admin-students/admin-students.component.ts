@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Output, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {DialogAddMovementComponent} from '../dialogs/add-movement/dialog-add-movement.component';
 import {PreviewObject, ViewValue} from '../interfaces';
@@ -11,6 +11,7 @@ import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
 import {DialogAddTrainerComponent} from '../dialogs/add-trainer/dialog-add-trainer.component';
 import {DialogAddStudentComponent} from '../dialogs/add-student/dialog-add-student.component';
+import {ServiceSubscription} from '../services/subscription/service-subscription.service';
 
 @Component({
   selector: 'app-admin-students',
@@ -37,8 +38,7 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
   isLoadingTable = true;
   //-----------------------------------------------
 
-  constructor(public dialog: MatDialog, private router: Router, private serviceQueries: ServiceQueries) {
-  }
+  constructor(public dialog: MatDialog, private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceSubscription) {}
 
   ngOnInit() {
   }
@@ -58,7 +58,7 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
         this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
         this.isLoadingTable = false;
       });
   }
@@ -133,7 +133,7 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlStudent, element.idAlumno).subscribe(
+        this.serviceQueries.delete(Messages.urlStudent, element.dniAlumno).subscribe(
           res => {
             this.updateTable();
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');
@@ -147,6 +147,11 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
         );
       }
     });
+  }
+
+  subscription(element) {
+    this.serviceSubscription.selectedStudent = element;
+    this.router.navigateByUrl(RoutersApp.completeAddStudent);
   }
 
   openDialogAddStudent() {

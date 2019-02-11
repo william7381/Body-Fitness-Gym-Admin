@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {ViewValue} from '../interfaces';
 import {DialogAddMovementComponent} from '../dialogs/add-movement/dialog-add-movement.component';
@@ -18,7 +18,7 @@ export interface TypeContribution {
   templateUrl: './admin-accounting.component.html',
   styleUrls: ['./admin-accounting.component.css'],
 })
-export class AdminAccountingComponent implements OnInit, AfterViewInit {
+export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['posicion', 'tipo', 'fecha', 'valor', 'descripcion', 'options'];
@@ -60,7 +60,8 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit {
         this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        // AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
         this.isLoadingTable = false;
     });
   }
@@ -206,5 +207,9 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.updateTable();
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(): void {
+    AppComponent.notifies.clear();
   }
 }

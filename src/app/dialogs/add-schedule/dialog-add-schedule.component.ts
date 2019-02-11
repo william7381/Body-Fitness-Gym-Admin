@@ -29,7 +29,6 @@ export class DialogAddScheduleComponent implements OnInit {
   selectedHourUntil = '00:00';
   alertErrorHour = false;
   tittle = 'Agregar Horario';
-  buttonSuccessName = 'Agregar';
 
   constructor(public dialogRef: MatDialogRef<AdminAddClassComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
     if (this.dataEdit) {
@@ -37,7 +36,6 @@ export class DialogAddScheduleComponent implements OnInit {
       this.selectedHourFrom = this.dataEdit.horaInicio;
       this.selectedHourUntil = this.dataEdit.horaFin;
       this.tittle = 'Editar Horario';
-      this.buttonSuccessName = 'Editar';
     }
   }
 

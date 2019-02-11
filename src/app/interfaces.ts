@@ -13,6 +13,12 @@ export interface PreviewObject {
   isPreview: boolean;
 }
 
+export interface PreviewObjectSubscription {
+  dataPreview;
+  student;
+  isPreview: boolean;
+}
+
 export interface Accounting {
   idMovimiento: number;
   descripcionMovimiento: string;

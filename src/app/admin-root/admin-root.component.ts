@@ -19,7 +19,7 @@ export class AdminRootComponent implements OnInit {
     } else {
       document.getElementById('div-menu-full').hidden = true;
     }
-    this.router.navigateByUrl(RoutersApp.completeAccounting);
+    this.router.navigateByUrl(RoutersApp.completeStudents);
   }
 
   printOfBlack(element: HTMLButtonElement) {
@@ -52,6 +52,10 @@ export class AdminRootComponent implements OnInit {
 
   getRouterQuestions(): string {
     return RoutersApp.questions;
+  }
+
+  getRouterNews(): string {
+    return RoutersApp.news;
   }
 
   getRouterLogin(): string {

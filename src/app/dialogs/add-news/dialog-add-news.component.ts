@@ -8,23 +8,26 @@ import {Messages} from '../../util/Messages';
 import {Confirms} from '../../util/Confirms';
 
 @Component({
-  selector: 'app-add-question',
-  templateUrl: './dialog-add-question.component.html',
-  styleUrls: ['./dialog-add-question.component.css']
+  selector: 'app-add-news',
+  templateUrl: './dialog-add-news.component.html',
+  styleUrls: ['./dialog-add-news.component.css']
 })
-export class DialogAddQuestionComponent implements OnInit {
-  name = null;
+export class DialogAddNewsComponent implements OnInit {
+  title = null;
+  urlImage = null;
   description = null;
-  title = 'Agregar Pregunta';
+  titleDialog = 'Agregar Noticia';
   nameButtonCancel = 'Cancelar';
   isPreview = false;
+  selectedImage = null;
 
   constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
-      this.name = object.nombrePregunta;
-      this.description = object.descripcionPregunta;
-      this.title = 'Editar Pregunta';
+      this.title = object.titular;
+      this.urlImage = object.imagenNoticia;
+      this.description = object.contenido;
+      this.titleDialog = 'Editar Noticia';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';
@@ -35,8 +38,13 @@ export class DialogAddQuestionComponent implements OnInit {
   ngOnInit() {
   }
 
-  registerQuestion(event) {
-    if (this.name) {
+  inFileSelected(event, imageAvatar) {
+    this.selectedImage = '../../assets/' + event.target.files[0].name;
+    imageAvatar.src = this.selectedImage;
+  }
+
+  registerNews(event) {
+    if (this.title) {
       if (this.dataEdit) {
         this.edit();
       } else {
@@ -45,22 +53,22 @@ export class DialogAddQuestionComponent implements OnInit {
     }
   }
 
-  private getQuestion() {
+  private getNews() {
     let id = -1;
     if (this.dataEdit && this.dataEdit.dataPreview) {
-      id = this.dataEdit.dataPreview.idPregunta;
+      id = this.dataEdit.dataPreview.idNoticia;
     }
-    return {'idPregunta': id, 'nombrePregunta': this.name, 'descripcionPregunta': this.description};
+    return {'idNoticia': id, 'titular': this.title, 'imagenNoticia': this.urlImage, 'contenido': this.description};
   }
 
   private edit() {
     AppComponent.spinner.show();
-    const question = this.getQuestion();
-    this.serviceQueries.update(Messages.urlQuestion, question).subscribe(
+    const news = this.getNews();
+    this.serviceQueries.update(Messages.urlNews, news).subscribe(
       res => {
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
-        this.dialogRef.close(question);
+        this.dialogRef.close(news);
       },
       error => {
         AppComponent.spinner.hide();
@@ -70,12 +78,12 @@ export class DialogAddQuestionComponent implements OnInit {
 
   private add() {
     AppComponent.spinner.show();
-    const question = this.getQuestion();
-    this.serviceQueries.create(Messages.urlQuestion, question).subscribe(
+    const news = this.getNews();
+    this.serviceQueries.create(Messages.urlNews, news).subscribe(
       res => {
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
-        this.dialogRef.close(question);
+        this.dialogRef.close(news);
       },
       error => {
         AppComponent.spinner.hide();
@@ -83,7 +91,7 @@ export class DialogAddQuestionComponent implements OnInit {
       });
   }
 
-  closeDialogAddQuestion() {
+  closeDialogAddNews() {
     this.dialogRef.close();
   }
 }

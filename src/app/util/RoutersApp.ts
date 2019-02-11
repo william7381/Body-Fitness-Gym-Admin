@@ -11,6 +11,7 @@ export class RoutersApp {
   static readonly addStudent: string = 'addStudent';
   static readonly trainers: string = 'trainers';
   static readonly questions: string = 'questions';
+  static readonly news: string = 'news';
   static readonly completeAccounting: string = RoutersApp.admin + '/' + RoutersApp.accounting;
   static readonly completeStudents = RoutersApp.admin + '/' + RoutersApp.students;
   static readonly completeAddStudent = RoutersApp.admin + '/' + RoutersApp.addStudent;
@@ -18,6 +19,8 @@ export class RoutersApp {
   static readonly completeAddClass = RoutersApp.admin + '/' + RoutersApp.addClass;
   static readonly completePrograms = RoutersApp.admin + '/' + RoutersApp.programs;
   static readonly completeTrainers = RoutersApp.admin + '/' + RoutersApp.trainers;
+  static readonly completeQuestions = RoutersApp.admin + '/' + RoutersApp.questions;
+  static readonly completeNews = RoutersApp.admin + '/' + RoutersApp.news;
 
   constructor() { }
 }

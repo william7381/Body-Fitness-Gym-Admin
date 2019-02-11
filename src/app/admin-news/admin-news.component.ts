@@ -6,21 +6,22 @@ import {AppComponent} from '../app.component';
 import {PreviewObject} from '../interfaces';
 import {DialogAddProgramComponent} from '../dialogs/add-program/dialog-add-program.component';
 import {Confirms} from '../util/Confirms';
-import {DialogAddQuestionComponent} from '../dialogs/add-question/dialog-add-question.component';
+import {DialogAddNewsComponent} from '../dialogs/add-news/dialog-add-news.component';
 
 @Component({
-  selector: 'app-admin-question',
-  templateUrl: './admin-question.component.html',
-  styleUrls: ['./admin-question.component.css']
+  selector: 'app-admin-news',
+  templateUrl: './admin-news.component.html',
+  styleUrls: ['./admin-news.component.css']
 })
-export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AdminNewsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['posicion', 'nombre', 'descripcion', 'options'];
+  displayedColumns: string[] = ['posicion', 'titulo', 'descripcion', 'options'];
   dataSource = new MatTableDataSource();
   isLoadingTable = true;
 
-  constructor(public dialog: MatDialog, private serviceQueries: ServiceQueries) { }
+  constructor(public dialog: MatDialog, private serviceQueries: ServiceQueries) {
+  }
 
   ngOnInit() {
   }
@@ -39,7 +40,7 @@ export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy 
   updateTable() {
     this.dataSource.data = [];
     this.isLoadingTable = true;
-    const s = this.serviceQueries.read(Messages.urlAllQuestions);
+    const s = this.serviceQueries.read(Messages.urlAllNews);
     s.subscribe(res => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -60,7 +61,7 @@ export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy 
 
   preview(element) {
     const dataEdit: PreviewObject = {dataPreview: element, isPreview: true};
-    const dialogRef = this.dialog.open(DialogAddQuestionComponent, {
+    const dialogRef = this.dialog.open(DialogAddNewsComponent, {
       width: '30%',
       height: 'max-content',
       data: dataEdit
@@ -73,10 +74,10 @@ export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy 
     this.showScreenDark(dialogRef);
   }
 
-  addQuestion() {
-    const dialogRef = this.dialog.open(DialogAddQuestionComponent, {
+  addNews() {
+    const dialogRef = this.dialog.open(DialogAddNewsComponent, {
       width: '30%',
-      height: 'max-content'
+      height: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -88,9 +89,9 @@ export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy 
 
   edit(element) {
     const dataEdit: PreviewObject = {dataPreview: element, isPreview: false};
-    const dialogRef = this.dialog.open(DialogAddQuestionComponent, {
+    const dialogRef = this.dialog.open(DialogAddNewsComponent, {
       width: '30%',
-      height: 'max-content',
+      height: '90%',
       data: dataEdit
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -105,7 +106,7 @@ export class AdminQuestionComponent implements OnInit, AfterViewInit, OnDestroy 
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
       if (response.value) {
         AppComponent.spinner.show();
-        this.serviceQueries.delete(Messages.urlQuestion, element.idPregunta).subscribe(
+        this.serviceQueries.delete(Messages.urlNews, element.idNoticia).subscribe(
           res => {
             this.updateTable();
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');

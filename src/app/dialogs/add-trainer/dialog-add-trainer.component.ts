@@ -32,7 +32,6 @@ export class DialogAddTrainerComponent implements OnInit {
   selectedImage = null;
 
   title = 'Agregar Entrenador';
-  nameButtonSuccess = 'Agregar';
   nameButtonCancel = 'Cancelar';
   isLoadingPrograms: boolean;
   isPreview = false;
@@ -51,7 +50,6 @@ export class DialogAddTrainerComponent implements OnInit {
       this.email = object.emailEntrenador;
       this.tempPrograms = object.entrenadorServicio;
       this.title = 'Editar Programa';
-      this.nameButtonSuccess = 'Editar';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';
@@ -87,11 +85,11 @@ export class DialogAddTrainerComponent implements OnInit {
   }
 
   private getTrainer() {
-    let id = -1;
-    if (this.dataEdit && this.dataEdit.dataPreview) {
-      id = this.dataEdit.dataPreview.idEntrenador;
-    }
-    return {'idEntrenador': id, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'dniEntrenador': this.dni, 'usuarioEntrenador': this.dni, 'contraseniaEntrenador': this.telephone, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
+    // let id = -1;
+    // if (this.dataEdit && this.dataEdit.dataPreview) {
+    //   id = this.dataEdit.dataPreview.idEntrenador;
+    // }
+    return {'dniEntrenador': this.dni, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'usuarioEntrenador': this.dni, 'contraseniaEntrenador': this.telephone, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
   }
 
   inFileSelected(event, imageAvatar) {

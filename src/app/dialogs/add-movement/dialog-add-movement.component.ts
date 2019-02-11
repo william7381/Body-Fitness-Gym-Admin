@@ -24,7 +24,6 @@ export class DialogAddMovementComponent implements OnInit {
   date = null;
   details = null;
   tittle = 'Agregar Movimiento';
-  buttonSuccessName = 'Agregar';
   isDateNow = true;
 
   constructor(public dialogRef: MatDialogRef<AdminAccountingComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
@@ -34,7 +33,6 @@ export class DialogAddMovementComponent implements OnInit {
       this.date = Utilities.getDateFromFormatString(this.dataEdit.fechaMovimiento);
       this.details = this.dataEdit.descripcionMovimiento;
       this.tittle = 'Editar Movimiento';
-      this.buttonSuccessName = 'Editar';
       this.isDateNow = false;
     }
   }

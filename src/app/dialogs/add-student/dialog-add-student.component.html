@@ -40,7 +40,7 @@
         <mat-error *ngIf="emailFormControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <mat-select [disabled]="isPreview" [(value)]="selectedGender" placeholder="Día" [required]="true">
+        <mat-select [disabled]="isPreview" [(value)]="selectedGender" placeholder="Género" [required]="true">
           <mat-option *ngFor="let type of genders" [value]="type.viewValue">
             {{type.viewValue}}
           </mat-option>
@@ -50,7 +50,7 @@
       <hr>
 
       <div style="text-align: center">
-        <button style="margin-right: 1em;" class="button-green" mat-raised-button *ngIf="!isPreview" (click)="registerStudent($event)">{{nameButtonSuccess}}</button>
+        <button style="margin-right: 1em;" class="button-green" mat-raised-button *ngIf="!isPreview" (click)="registerStudent($event)">Guardar</button>
         <button mat-raised-button color="warn" (click)="closeDialogAddStudent()">{{nameButtonCancel}}</button>
       </div>
     </div>
