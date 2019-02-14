@@ -92,10 +92,10 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
 
   chooseStudent(event, student) {
     event.stopPropagation();
-    const indexOf = this.studentsChosen.indexOf(student);
+    const indexOf = this.studentsChosenId.findIndex(value => value.dniAlumno === student.dniAlumno);
     if (indexOf >= 0) {
-      this.studentsChosen.slice(indexOf, 1);
-      this.studentsChosenId.slice(indexOf, 1);
+      this.studentsChosen.splice(indexOf, 1);
+      this.studentsChosenId.splice(indexOf, 1);
     } else {
       this.studentsChosen.push(student);
       this.studentsChosenId.push({dniAlumno: student.dniAlumno});
@@ -111,7 +111,6 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
     AppComponent.spinner.show();
     // this.dataEdit.asistencia = this.studentsChosen;
     // console.log(JSON.stringify(this.dataEdit));
-    console.log(JSON.stringify(this.studentsChosenId));
     this.serviceQueries.update(Messages.urlSchedule + Messages.urlSubscriptionStudent + '/' + this.schedule.idHorario, this.studentsChosenId).subscribe(
       res => {
         AppComponent.spinner.hide();
