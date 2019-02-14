@@ -12,9 +12,11 @@
         <!--</mat-select>-->
       <!--</mat-form-field>-->
       <mat-form-field>
-        <input [disabled]="isPreview" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput placeholder="dia" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+        <input [disabled]="isPreview" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput placeholder="dia" (click)="picker.open()" [matDatepicker]="picker" readonly required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="year"></mat-datepicker>
       </mat-form-field>
-      <mat-datepicker #picker></mat-datepicker>
+      <!--<mat-datepicker #picker></mat-datepicker>-->
       <hr>
       <p style="text-align: center">Hora</p>
       <p>Inicio</p>

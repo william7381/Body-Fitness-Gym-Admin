@@ -34,7 +34,7 @@ a {
   margin-right: auto;
   height: auto;
   min-height: 30vh;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   text-align: left;
 }
 
@@ -60,7 +60,7 @@ table {
 
 #buttons-accept-cancel {
   margin-bottom: 5%;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .icon-options {
@@ -70,6 +70,7 @@ table {
 .div-container-tables {
   padding-top: 1%;
   padding-bottom: 1%;
+  border-top: gainsboro solid 3px;
 }
 
 @media (max-width: 900px) {

@@ -1,0 +1,35 @@
+<form>
+  <div class="card text-white bg-primary">
+    <div class="card-header">{{title}}</div>
+    <div class="card-body" style="background-color: white; color: black;">
+      <mat-form-field>
+        <mat-select [disabled]="isPreview" (selectionChange)="finishUpdateProgramsTrainer()" [(value)]="selectedTrainerName" placeholder="Entrenador" [required]="true">
+          <mat-option (onSelectionChange)="updatePrograms(type)" *ngFor="let type of trainers" [value]="type.nombreEntrenador">
+            {{type.nombreEntrenador}}, dni: {{type.dniEntrenador}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-select [disabled]="isPreview" (selectionChange)="finishUpdateProgram()" [(value)]="selectedProgramName" placeholder="Programa" [required]="true">
+          <mat-option (onSelectionChange)="changeProgram(type)" *ngFor="let type of programs" [value]="type.nombreServicio">
+            {{type.nombreServicio}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input [disabled]="isPreview" [(ngModel)]="numberQuotas" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Numero de Cupos" min="1" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <textarea [disabled]="isPreview" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción"></textarea>
+      </mat-form-field>
+      <hr>
+      <div style="text-align: center">
+        <!--<button style="margin-right: 1em;" class="button-green" mat-raised-button *ngIf="!isPreview" (click)="registerClass($event)">Guardar</button>-->
+        <button mat-raised-button color="warn" (click)="closeAddClass()">{{nameButtonCancel}}</button>
+      </div>
+    </div>
+  </div>
+</form>

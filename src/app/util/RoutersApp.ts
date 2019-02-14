@@ -16,7 +16,7 @@ export class RoutersApp {
   static readonly completeStudents = RoutersApp.admin + '/' + RoutersApp.students;
   static readonly completeAddStudent = RoutersApp.admin + '/' + RoutersApp.addStudent;
   static readonly completeClasses = RoutersApp.admin + '/' + RoutersApp.classes;
-  static readonly completeAddClass = RoutersApp.admin + '/' + RoutersApp.addClass;
+  static readonly completeAddScheduleClass = RoutersApp.admin + '/' + RoutersApp.addClass;
   static readonly completePrograms = RoutersApp.admin + '/' + RoutersApp.programs;
   static readonly completeTrainers = RoutersApp.admin + '/' + RoutersApp.trainers;
   static readonly completeQuestions = RoutersApp.admin + '/' + RoutersApp.questions;

@@ -38,16 +38,26 @@
           <ng-container matColumnDef="options">
             <th id="th-options" mat-header-cell *matHeaderCellDef> Opciones</th>
             <td mat-cell *matCellDef="let element">
+              <mat-checkbox *ngIf="!isPreview" style="margin-top: 0;" (click)="chooseStudent($event, element, selection)"
+                            (change)="$event ? selection.toggle(element) : null"
+                            [checked]="selection.isSelected(element)">
+              </mat-checkbox>
               <mat-icon matTooltip="Previsualizar" class="icon-options-size">
                 <a (click)="preview(element)">
                   remove_red_eye
                 </a>
               </mat-icon>
-              <mat-icon matTooltip="Escoger" class="icon-options icon-options-size">
-                <a (click)="chooseStudent($event, element)">
-                  check
-                </a>
-              </mat-icon>
+              <!--<th mat-header-cell *matHeaderCellDef>-->
+              <!--<mat-checkbox [disabled]="isPreview" (change)="$event ? masterToggle() : null"-->
+                            <!--[checked]="selection.hasValue() && isAllSelected()"-->
+                            <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+              <!--</mat-checkbox>-->
+              <!--</th>-->
+              <!--<mat-icon matTooltip="Escoger" class="icon-options icon-options-size">-->
+                <!--<a (click)="chooseStudent($event, element)">-->
+                  <!--check-->
+                <!--</a>-->
+              <!--</mat-icon>-->
             </td>
           </ng-container>
 
@@ -64,8 +74,8 @@
 
       <hr>
       <div style="text-align: center">
-        <!--<button style="margin-right: 1em;" class="button-green" mat-raised-button>Escoger</button>-->
-        <button mat-raised-button color="warn" (click)="closeDialogAddStudent()">Cerrar</button>
+        <button *ngIf="!isPreview" mat-raised-button class="button-green" (click)="addStudentsToSchedule()">Aceptar</button>
+        <button *ngIf="isPreview" mat-raised-button color="warn" (click)="closeDialog()">Cerrar</button>
       </div>
     </div>
   </div>

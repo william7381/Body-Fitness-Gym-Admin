@@ -72,7 +72,7 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   changeProgram(program) {
-    this.selectedProgram = program;
+    // this.selectedProgram = program;
     if (this.auxChangeTrainer) {
       if (program.idServicio !== this.selectedProgram.idServicio) {
         this.selectedProgram = program;

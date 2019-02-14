@@ -143,7 +143,7 @@ export class DialogAddScheduleComponent implements OnInit {
 
   private getSchedule() {
     let id = -1;
-    if (this.dataEdit) {
+    if (this.dataEdit && this.dataEdit.dataPreview) {
       id = this.dataEdit.dataPreview.idHorario;
     }
     // return {'idSchedule': id, 'dia': this.selectedDay, 'horaInicio': this.selectedHourFrom, 'horaFin': this.selectedHourUntil};
@@ -155,7 +155,12 @@ export class DialogAddScheduleComponent implements OnInit {
     const s2 = this.selectedHourUntil.split(':');
     // @ts-ignore
     horaFin.setHours(s2[0], s2[1]);
-    return {'idSchedule': id, 'dia': Utilities.getFormatDate(this.date), 'horaInicio': Utilities.getFormatDate(horaInicio), 'horaFin': Utilities.getFormatDate(horaFin)/*, 'asistencia': this.students.data*/};
+    // 'dia': Utilities.getFormatDate(this.date)
+    if (id >= 0) {
+      return {'idHorario': id, 'horaInicio': Utilities.getFormatDate(horaInicio), 'horaFin': Utilities.getFormatDate(horaFin)/*, 'asistencia': this.students.data*/};
+    } else {
+      return {'horaInicio': Utilities.getFormatDate(horaInicio), 'horaFin': Utilities.getFormatDate(horaFin)/*, 'asistencia': this.students.data*/};
+    }
   }
 
   searchStudents(filterValue: string) {
@@ -182,7 +187,6 @@ export class DialogAddScheduleComponent implements OnInit {
   private add() {
     AppComponent.spinner.show();
     const schedule = this.getSchedule();
-    console.log(JSON.stringify(schedule));
     this.serviceQueries.create(Messages.urlSchedule + Messages.urlClass + '/' + this.serviceDataTemp.selectedClass.idClase, schedule).subscribe(
       res => {
         AppComponent.spinner.hide();

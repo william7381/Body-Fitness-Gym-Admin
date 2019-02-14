@@ -64,7 +64,6 @@ export class DialogAddTrainerComponent implements OnInit {
     s.subscribe(res => {
         // @ts-ignore
         this.programs = res;
-        this.isLoadingPrograms = false;
         this.programs.forEach(row => {
           for (const program of this.tempPrograms) {
             // @ts-ignore
@@ -74,6 +73,7 @@ export class DialogAddTrainerComponent implements OnInit {
             }
           }
         });
+        this.isLoadingPrograms = false;
       },
       error => {
         AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetPrograms);

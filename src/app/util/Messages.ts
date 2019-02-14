@@ -36,7 +36,9 @@ export class Messages {
   static readonly urlClass = '/clase';
   static readonly urlAllClasses = '/clases';
   static readonly urlSchedule = '/horario';
+  static readonly urlGetSchedule = '/getHorarios';
   static readonly urlStudent = '/alumno';
+  static readonly urlSubscriptionStudent = '/suscribirAlumnos';
   static readonly urlLoginAdmin = '/login/admin';
   static readonly urlQuestion = '/pregunta';
   static readonly urlNews = '/noticia';

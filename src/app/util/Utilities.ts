@@ -61,6 +61,11 @@ export class Utilities {
       return null;
     }
     const time: string[] = dateAndTime[3].split(':');
-    return ((+time[0]) - 8) + ':' + time[1];
+    return ((+time[0]) - 5) + ':' + time[1];
+  }
+
+  static getDateWithHourFromTypeDate(dateWithHour: string) {
+    const dateAndTime: string[] = dateWithHour.split('-');
+    return dateAndTime[0] + '-' + dateAndTime[1] + '-' + dateAndTime[2];
   }
 }

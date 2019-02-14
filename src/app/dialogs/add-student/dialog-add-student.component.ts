@@ -126,6 +126,7 @@ export class DialogAddStudentComponent implements OnInit {
       },
       error => {
         console.log(error);
+        console.log(JSON.stringify(student));
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });

@@ -9,6 +9,9 @@ import {AppComponent} from '../app.component';
 import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
 import {ServiceDataTemp} from '../services/temp/service-temp.service';
+import {PreviewObject} from '../interfaces';
+import {DialogAddProgramComponent} from '../dialogs/add-program/dialog-add-program.component';
+import {DialogAddClassComponent} from '../dialogs/add-class/dialog-add-class.component';
 
 @Component({
   selector: 'app-admin-classes',
@@ -22,7 +25,7 @@ export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource();
   isLoadingTable = true;
 
-  constructor(private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceDataTemp) {
+  constructor(public dialog: MatDialog, private router: Router, private serviceQueries: ServiceQueries, private serviceSubscription: ServiceDataTemp) {
     this.updateTable();
   }
 
@@ -54,23 +57,23 @@ export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  openComponentAddClass() {
-    this.serviceSubscription.selectedClass = null;
-    this.serviceSubscription.previewClass = false;
-    this.router.navigateByUrl(RoutersApp.completeAddClass);
-  }
+  // add() {
+  //   this.serviceSubscription.selectedClass = null;
+  //   this.serviceSubscription.previewClass = false;
+  //   this.router.navigateByUrl(RoutersApp.completeAddScheduleClass);
+  // }
 
-  preview(element) {
-    this.serviceSubscription.selectedClass = element;
-    this.serviceSubscription.previewClass = true;
-    this.router.navigateByUrl(RoutersApp.completeAddClass);
-  }
-
-  edit(element) {
-    this.serviceSubscription.selectedClass = element;
-    this.serviceSubscription.previewClass = false;
-    this.router.navigateByUrl(RoutersApp.completeAddClass);
-  }
+  // preview(element) {
+  //   this.serviceSubscription.selectedClass = element;
+  //   this.serviceSubscription.previewClass = true;
+  //   this.router.navigateByUrl(RoutersApp.completeAddScheduleClass);
+  // }
+  //
+  // edit(element) {
+  //   this.serviceSubscription.selectedClass = element;
+  //   this.serviceSubscription.previewClass = false;
+  //   this.router.navigateByUrl(RoutersApp.completeAddScheduleClass);
+  // }
 
   remove(element) {
     Confirms.showChooserOption(Messages.titleChooseRemove, Messages.warning).then((response) => {
@@ -91,7 +94,92 @@ export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  preview(element) {
+    const dataEdit: PreviewObject = {dataPreview: element, isPreview: true};
+    const dialogRef = this.dialog.open(DialogAddClassComponent, {
+      width: '30%',
+      height: 'max-content',
+      data: dataEdit
+    });
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res) {
+    //     this.updateTable();
+    //   }
+    // });
+    this.showScreenDark(dialogRef);
+  }
+
+  private showScreenDark(dialogRef) {
+    if (this.isScreenLow()) {
+      dialogRef.updateSize('70%', 'max-content');
+    }
+    this.setEventOpacityScreen(dialogRef);
+  }
+
+  private setEventOpacityScreen(dialogRef) {
+    const divMain = document.getElementById('div-main');
+    // events for opacity screen
+    this.setOpacityScreenLight(divMain);
+    // events for leave the screen regular
+    dialogRef.beforeClosed().subscribe(result => {
+      this.setOpacityScreenRegular(divMain);
+    });
+  }
+
+  private setOpacityScreenLight(divMain: HTMLElement) {
+    // @ts-ignore
+    divMain.style = 'filter: alpha(opacity=0.1); /* internet explorer */\n' +
+      '  -khtml-opacity: 0.1;      /* khtml, old safari */\n' +
+      '  -moz-opacity: 0.1;      /* mozilla, netscape */\n' +
+      '  opacity: 0.1;      /* fx, safari, opera */';
+  }
+
+  private setOpacityScreenRegular(divMain: HTMLElement) {
+    // @ts-ignore
+    divMain.style = 'filter: alpha(opacity=1); /* internet explorer */\n' +
+      '  -khtml-opacity: 1;      /* khtml, old safari */\n' +
+      '  -moz-opacity: 1;      /* mozilla, netscape */\n' +
+      '  opacity: 1;      /* fx, safari, opera */';
+  }
+
+  isScreenLow(): boolean {
+    return window.screen.width < 900;
+  }
+
+  add() {
+    const dialogRef = this.dialog.open(DialogAddClassComponent, {
+      width: '30%',
+      height: 'max-content'
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
+    this.showScreenDark(dialogRef);
+  }
+
+  edit(element) {
+    const dataEdit: PreviewObject = {dataPreview: element, isPreview: false};
+    const dialogRef = this.dialog.open(DialogAddClassComponent, {
+      width: '30%',
+      height: 'max-content',
+      data: dataEdit
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
+    this.showScreenDark(dialogRef);
+  }
+
   ngOnDestroy(): void {
     AppComponent.notifies.clear();
+  }
+
+  openComponentSchedule(element) {
+    this.serviceSubscription.selectedClass = element;
+    this.router.navigateByUrl(RoutersApp.completeAddScheduleClass);
   }
 }

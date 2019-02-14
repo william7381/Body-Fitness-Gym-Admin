@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class ServiceDataTemp {
   selectedStudent = null;
   selectedClass = null;
-  previewClass = false;
   selectedSchedule = null;
 
   constructor() {

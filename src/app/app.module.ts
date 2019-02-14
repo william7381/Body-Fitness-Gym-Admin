@@ -40,6 +40,7 @@ import { DialogAddQuestionComponent } from './dialogs/add-question/dialog-add-qu
 import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { DialogAddNewsComponent } from './dialogs/add-news/dialog-add-news.component';
 import {ServiceDataTemp} from './services/temp/service-temp.service';
+import { DialogAddClassComponent } from './dialogs/add-class/dialog-add-class.component';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
@@ -86,6 +87,7 @@ const routes: Route[] = [
     DialogAddQuestionComponent,
     AdminNewsComponent,
     DialogAddNewsComponent,
+    DialogAddClassComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +112,7 @@ const routes: Route[] = [
     DialogAddStudentComponent,
     DialogAddQuestionComponent,
     DialogAddNewsComponent,
+    DialogAddClassComponent,
   ],
   providers: [
     ServiceLogin,

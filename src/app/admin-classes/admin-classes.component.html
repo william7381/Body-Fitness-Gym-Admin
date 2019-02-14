@@ -8,7 +8,7 @@
         search
       </a>
     </mat-icon>
-    <button id="button-add-move" mat-raised-button color="primary" (click)="openComponentAddClass()">Registrar Clase</button>
+    <button id="button-add-move" mat-raised-button color="primary" (click)="add()">Registrar Clase</button>
   </div>
 
   <div id="div-table" class="mat-elevation-z24">
@@ -70,6 +70,11 @@
           <mat-icon matTooltip="Eliminar" class="icon-options">
             <a (click)="remove(element)">
               delete
+            </a>
+          </mat-icon>
+          <mat-icon matTooltip="Horario" class="icon-options">
+            <a (click)="openComponentSchedule(element)">
+              schedule
             </a>
           </mat-icon>
         </td>

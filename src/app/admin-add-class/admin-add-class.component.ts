@@ -20,14 +20,6 @@ import {ServiceDataTemp} from '../services/temp/service-temp.service';
 })
 export class AdminAddClassComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  programs;
-  selectedProgramName;
-  selectedProgram;
-  trainers = null;
-  selectedTrainerName;
-  selectedTrainer;
-  numberQuotas = null;
-  description = null;
   displayedColumnsSchedule: string[] = ['day', 'from', 'until', 'options'];
   schedules = [];
   displayedColumnsStudents: string[] = ['position', 'name', 'identificationNumber', 'telephone', 'options'];
@@ -35,17 +27,14 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   isLoadingTableStudents = false;
   private auxChangeTrainer = true;
   private selectedClass = null;
-  isPreview = false;
+  messageSchedule = null;
+  isLoadingTable = false;
 
   constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceDataTemp: ServiceDataTemp) {
     if (this.serviceDataTemp.selectedClass) {
       this.selectedClass = this.serviceDataTemp.selectedClass;
-      this.numberQuotas = this.selectedClass.numeroCupos;
-      this.description = this.selectedClass.descripcion;
       this.schedules = this.selectedClass.horarioClase;
-      if (this.serviceDataTemp.previewClass) {
-        this.isPreview = true;
-      }
+      this.messageSchedule = 'Clase: ' + this.selectedClass.servicio.nombreServicio + ' - Entrenador: ' + this.selectedClass.entrendor.nombreEntrenador;
     }
   }
 
@@ -53,75 +42,35 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.updateTrainers();
     this.students.paginator = this.paginator;
   }
 
-  updateTrainers() {
-    const s = this.serviceQueries.read(Messages.urlAllTrainers);
+  updateTable() {
+    this.schedules = [];
+    this.isLoadingTable = true;
+    // const s = this.serviceQueries.read(Messages.urlClass + '/' + this.selectedClass.idClase);
+    const s = this.serviceQueries.read(Messages.urlClass + '/' + this.selectedClass.idClase + Messages.urlGetSchedule);
     s.subscribe(res => {
-        this.trainers = res;
-        this.selectedTrainerName = this.trainers[0].nombreEntrenador;
-        this.selectedTrainer = this.trainers[0];
-        this.programs = this.selectedTrainer.entrenadorServicio;
-        if (this.programs && this.programs.length > 0) {
-          this.selectedProgram = this.programs[0];
-          this.selectedProgramName = this.selectedProgram.nombreServicio;
-        }
-        this.updatePrograms(this.selectedTrainer);
-        this.auxChangeTrainer = true;
-        // cargar programa para edit y preview
-        if (this.selectedClass) {
-          const trainer = this.selectedClass.entrendor;
-          this.selectedTrainer = trainer;
-          this.selectedTrainerName = trainer.nombreEntrenador;
-          this.programs = trainer.entrenadorServicio;
-          const service = this.selectedClass.servicio;
-          this.selectedProgram = service.servicio;
-          this.selectedProgramName = service.nombreServicio;
-        }
+        // @ts-ignore
+        this.schedules = res;
+        this.isLoadingTable = false;
       },
       error => {
-        AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetTrainers);
+        AppComponent.notifies.showErrorWithMethod(Messages.titleErrorConnection, Messages.titleErrorGetDataSource, this, this.updateTable);
+        this.isLoadingTable = false;
       });
-  }
-
-  finishUpdatePrograms() {
-    this.auxChangeTrainer = true;
-  }
-
-  updatePrograms(trainer) {
-    if (this.auxChangeTrainer) {
-      if (trainer.dniEntrenador !== this.selectedTrainer.dniEntrenador) {
-        this.selectedTrainer = trainer;
-        if (this.trainers) {
-          this.programs = trainer.entrenadorServicio;
-          if (this.programs && this.programs.length > 0) {
-            this.selectedProgramName = this.programs[0].nombreServicio;
-            this.selectedProgram = this.programs[0];
-          }
-        }
-      } else {
-        this.auxChangeTrainer = true;
-        return;
-      }
-    }
-    this.auxChangeTrainer = false;
-    // if (this.auxChangeTrainer === 2) {
-    //   this.auxChangeTrainer = 0;
-    // }
   }
 
   openDialogAddSchedule() {
     const dialogRef = this.dialog.open(DialogAddScheduleComponent, {
-      width: '30%',
+      width: '25%',
       height: 'max-content'
     });
-    // dialogRef.afterClosed().subscribe(res => {
-    //   if (res) {
-    //     this.students.data = res;
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
     this.showScreenDark(dialogRef, '70%');
   }
 
@@ -170,15 +119,15 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   editSchedule(element) {
     const dataEdit: PreviewObject = {dataPreview: element, isPreview: false};
     const dialogRef = this.dialog.open(DialogAddScheduleComponent, {
-      width: '30%',
+      width: '25%',
       height: 'max-content',
       data: dataEdit
     });
-    // dialogRef.afterClosed().subscribe(res => {
-    //   if (res) {
-    //     this.schedules = res;
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.updateTable();
+      }
+    });
     this.showScreenDark(dialogRef, '70%');
   }
 
@@ -191,6 +140,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
             // @ts-ignore
             AppComponent.notifies.showSuccess(Messages.titleSuccessRemove, '');
             AppComponent.spinner.hide();
+            this.updateTable();
           },
           error => {
             AppComponent.spinner.hide();
@@ -222,11 +172,12 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openDialogAddStudent() {
+  openDialogAddStudents(schedule) {
+    const dataEdit: PreviewObject = {dataPreview: schedule, isPreview: false};
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',
-      data: this.students.data
+      data: dataEdit
     });
     // dialogRef.afterClosed().subscribe(res => {
     //   if (res) {
@@ -237,69 +188,31 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     this.showScreenDark(dialogRef, '95%');
   }
 
-  getClass() {
-    let id = -1;
-    if (this.selectedClass) {
-      id = this.selectedClass.idClase;
-      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'horarios': this.schedules, 'entrendor': this.selectedTrainer, 'servicio': this.selectedProgram};
-    } else {
-      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'horarios': this.schedules /*'entrenador': this.selectedTrainer, 'servicio': this.selectedProgramName, 'asistencia': this.students.data,*/};
-    }
-  }
-
-  registerClass($event) {
-    if (this.trainers && this.trainers.length === 0) {
-      Confirms.showErrorType(Messages.titleErrorClassNeedTrainer, Messages.messageErrorClassNeed);
-      return;
-    }
-    if (this.numberQuotas) {
-      if (!this.selectedClass) {
-        this.addClass();
-      } else {
-        this.editClass();
-      }
-    } else {
-      Confirms.showErrorType(Messages.titleErrorNeedQuotas, Messages.messageErrorNeedQuotas);
-    }
-  }
-
-  private editClass() {
-    AppComponent.spinner.show();
-    const addClass = this.getClass();
-    this.serviceQueries.update(Messages.urlClass, addClass).subscribe(
-      res => {
-        AppComponent.spinner.hide();
-        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
-        this.closeAddClass();
-      },
-      error => {
-        AppComponent.spinner.hide();
-        Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
-        console.log(error);
-      });
-  }
-
-  private addClass() {
-    AppComponent.spinner.show();
-    const addClass = this.getClass();
-    this.serviceQueries.create(Messages.urlClass + Messages.urlService + '/' + this.selectedProgram.idServicio + Messages.urlTrainer + '/' + this.selectedTrainer.dniEntrenador, addClass).subscribe(
-      res => {
-        AppComponent.spinner.hide();
-        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
-        this.closeAddClass();
-      },
-      error => {
-        AppComponent.spinner.hide();
-        Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
-        console.log(error);
-      });
-  }
-
-  getHourDisplayFromDate(time) {
-    return Utilities.getHourDisplayFromDate(time);
+  openDialogSeeStudents(schedule) {
+    const dataEdit: PreviewObject = {dataPreview: schedule, isPreview: true};
+    const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
+      width: '70%',
+      height: 'max-content',
+      data: dataEdit
+    });
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res) {
+    //     this.students.data.push(res);
+    //     this.students._updateChangeSubscription();
+    //   }
+    // });
+    this.showScreenDark(dialogRef, '95%');
   }
 
   closeAddClass() {
     this.router.navigateByUrl(RoutersApp.completeClasses);
+  }
+
+  getHourDisplayFromDate(dateHour: string) {
+    return Utilities.getHourDisplayFromDate(dateHour);
+  }
+
+  getDateWithHourFromTypeDate(dateWithHour: string) {
+    return Utilities.getDateWithHourFromTypeDate(dateWithHour);
   }
 }

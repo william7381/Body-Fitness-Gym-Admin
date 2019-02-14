@@ -6,6 +6,8 @@ import {AppComponent} from '../../app.component';
 import {ServiceQueries} from '../../services/queries/service-queries.service';
 import {PreviewObject} from '../../interfaces';
 import {Confirms} from '../../util/Confirms';
+import {SelectionModel} from '@angular/cdk/collections';
+import {DialogAddStudentComponent} from '../add-student/dialog-add-student.component';
 
 @Component({
   selector: 'app-search-student',
@@ -18,10 +20,20 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   students = new MatTableDataSource();
   isLoadingTableStudents = true;
   studentsChosen = [];
+  studentsChosenId = [];
+  selection = new SelectionModel(true, []);
+  isPreview = false;
+  schedule = null;
 
-  constructor(public dialogRef: MatDialogRef<AdminAddClassComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
-    if (this.dataEdit && this.dataEdit) {
-      this.studentsChosen = this.dataEdit;
+  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AdminAddClassComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+    if (this.dataEdit && this.dataEdit.dataPreview) {
+      this.schedule = this.dataEdit.dataPreview;
+      this.studentsChosen = this.schedule.asistencia;
+      if (this.dataEdit.isPreview) {
+        this.isPreview = true;
+        this.students.data = this.studentsChosen;
+        this.isLoadingTableStudents = false;
+      }
     }
   }
 
@@ -29,7 +41,9 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.updateTableStudents();
+    if (!this.isPreview) {
+      this.updateTableStudents();
+    }
     this.students.paginator = this.paginator;
   }
 
@@ -44,6 +58,16 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
         if (this.students.data.length === 0) {
           AppComponent.notifies.showWarning(Messages.titleWarningWithoutStudents, Messages.bodyWarningRegisterStudents);
         }
+        this.students.data.forEach(row => {
+          for (const student of this.studentsChosen) {
+            // @ts-ignore
+            if (student.dniAlumno === row.dniAlumno) {
+              this.selection.selected.push(row);
+              this.selection.select(row);
+              this.studentsChosenId.push({dniAlumno: student.dniAlumno});
+            }
+          }
+        });
       },
       error => {
         AppComponent.notifies.showError(Messages.titleErrorConnection, Messages.titleErrorGetDataSource);
@@ -58,19 +82,50 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   }
 
   preview(student) {
+    const dataEdit: PreviewObject = {dataPreview: student, isPreview: true};
+    this.dialog.open(DialogAddStudentComponent, {
+      width: '30%',
+      height: '90%',
+      data: dataEdit
+    });
   }
 
   chooseStudent(event, student) {
-    // Hay que revisar si el estudiante ya esta adicionado
-    if (this.studentsChosen.find(item => item.idAlumno = student.idAlumno)) {
-      Confirms.showErrorType(Messages.titleErrorStudentAlreadyExist, Messages.messageErrorSelectedOther);
-      return;
+    event.stopPropagation();
+    const indexOf = this.studentsChosen.indexOf(student);
+    if (indexOf >= 0) {
+      this.studentsChosen.slice(indexOf, 1);
+      this.studentsChosenId.slice(indexOf, 1);
+    } else {
+      this.studentsChosen.push(student);
+      this.studentsChosenId.push({dniAlumno: student.dniAlumno});
     }
-    this.studentsChosen.push(student);
-    AppComponent.notifies.showSuccess(Messages.titleSuccessAddStudent,  'Nombre : ' + student.nombreAlumno + ', dni : ' + student.dniAlumno);
+    // AppComponent.notifies.showSuccess(Messages.titleSuccessAddStudent,  'Nombre : ' + student.nombreAlumno + ', dni : ' + student.dniAlumno);
+    // if (this.studentsChosen.indexOf(item => item.idAlumno === student.idAlumno)) {
+    //   Confirms.showErrorType(Messages.titleErrorStudentAlreadyExist, Messages.messageErrorSelectedOther);
+    //   return;
+    // }
   }
 
-  closeDialogAddStudent() {
-    this.dialogRef.close(this.studentsChosen);
+  addStudentsToSchedule() {
+    AppComponent.spinner.show();
+    // this.dataEdit.asistencia = this.studentsChosen;
+    // console.log(JSON.stringify(this.dataEdit));
+    console.log(JSON.stringify(this.studentsChosenId));
+    this.serviceQueries.update(Messages.urlSchedule + Messages.urlSubscriptionStudent + '/' + this.schedule.idHorario, this.studentsChosenId).subscribe(
+      res => {
+        AppComponent.spinner.hide();
+        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
+        this.dialogRef.close(res);
+      },
+      error => {
+        console.log(error);
+        AppComponent.spinner.hide();
+        Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
+      });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }
