@@ -7,6 +7,7 @@ import {Utilities} from '../../util/Utilities';
 import {AppComponent} from '../../app.component';
 import {Messages} from '../../util/Messages';
 import {Confirms} from '../../util/Confirms';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-add-program',
@@ -45,6 +46,10 @@ export class DialogAddProgramComponent implements OnInit {
   }
 
   registerProgram(event) {
+    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+      return;
+    }
     if (this.name && this.price) {
       if (this.dataEdit) {
         this.edit();

@@ -6,6 +6,7 @@ import {PreviewObject} from '../../interfaces';
 import {AppComponent} from '../../app.component';
 import {Messages} from '../../util/Messages';
 import {Confirms} from '../../util/Confirms';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-add-question',
@@ -36,6 +37,10 @@ export class DialogAddQuestionComponent implements OnInit {
   }
 
   registerQuestion(event) {
+    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+      return;
+    }
     if (this.name) {
       if (this.dataEdit) {
         this.edit();

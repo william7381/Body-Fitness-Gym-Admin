@@ -137,10 +137,22 @@ export class DialogAddClassComponent implements OnInit, AfterViewInit {
   }
 
   registerClass($event) {
-    if (this.trainers && this.trainers.length === 0) {
+    if (!this.selectedTrainer) {
       Confirms.showErrorType(Messages.titleErrorClassNeedTrainer, Messages.messageErrorClassNeed);
       return;
     }
+    if (!this.selectedProgram) {
+      Confirms.showErrorType(Messages.titleErrorClassNeedProgram, Messages.messageErrorClassNeed);
+      return;
+    }
+    // if (this.trainers && this.trainers.length === 0) {
+    //   Confirms.showErrorType(Messages.titleErrorClassNeedTrainer, Messages.messageErrorClassNeed);
+    //   return;
+    // }
+    // if (this.programs && this.programs.length === 0) {
+    //   Confirms.showErrorType(Messages.titleErrorClassNeedProgram, Messages.messageErrorClassNeed);
+    //   return;
+    // }
     if (this.numberQuotas) {
       if (!this.selectedClass) {
         this.addClass();
@@ -171,7 +183,6 @@ export class DialogAddClassComponent implements OnInit, AfterViewInit {
   private addClass() {
     AppComponent.spinner.show();
     const addClass = this.getClass();
-    console.log(this.selectedProgram.idServicio, " ---");
     this.serviceQueries.create(Messages.urlClass + Messages.urlService + '/' + this.selectedProgram.idServicio + Messages.urlTrainer + '/' + this.selectedTrainer.dniEntrenador, addClass).subscribe(
       res => {
         AppComponent.spinner.hide();

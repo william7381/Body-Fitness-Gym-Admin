@@ -21,7 +21,6 @@ export class AdminRootComponent implements OnInit {
     } else {
       document.getElementById('div-menu-full').hidden = true;
     }
-    console.log('ba pol'.match(Constants.regexOnlyLetter));
     this.router.navigateByUrl(RoutersApp.completeClasses);
   }
 

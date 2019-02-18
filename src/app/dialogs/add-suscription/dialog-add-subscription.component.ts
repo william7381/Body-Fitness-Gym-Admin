@@ -85,10 +85,14 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   registerSubscription(event) {
-    if (this.programs && this.programs.length === 0) {
+    if (!this.selectedProgram) {
       Confirms.showErrorType(Messages.titleErrorClassNeedProgram, Messages.messageErrorClassNeed);
       return;
     }
+    // if (this.programs && this.programs.length === 0) {
+    //   Confirms.showErrorType(Messages.titleErrorClassNeedProgram, Messages.messageErrorClassNeed);
+    //   return;
+    // }
     if (this.isDateSubscription) {
       if (this.date && !Utilities.compareDateMajor(this.date, new Date())) {
         Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateMinor);

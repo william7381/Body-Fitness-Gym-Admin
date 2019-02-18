@@ -63,4 +63,6 @@ export class Messages {
   static readonly messageErrorLogin = 'Usuario o Contraseña incorrectos.';
   static readonly titleErrorMinimumYearsStudent = 'Edad no valida.';
   static readonly messageErrorMinimumAndMaximumYearsStudent = 'La edad del alumno debe estar entre ' + Constants.MINIMUM_YEARS_OF_STUDENT + ' y ' + Constants.MAXIMUM_YEARS_OF_STUDENT + ' años.';
+  static readonly titleErrorPatternOnlyLettersAndSpace = 'Error de Caracteres';
+  static readonly messageErrorPatternOnlyLettersAndSpace = 'El campo nombre solo puede contener letras, y espacios';
 }

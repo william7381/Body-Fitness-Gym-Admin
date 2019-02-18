@@ -7,6 +7,7 @@ import {Messages} from '../../util/Messages';
 import {AppComponent} from '../../app.component';
 import {Confirms} from '../../util/Confirms';
 import {SelectionModel} from '@angular/cdk/collections';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-dialog-add-trainer',
@@ -102,6 +103,10 @@ export class DialogAddTrainerComponent implements OnInit {
   }
 
   registerTrainer(event: Event) {
+    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+      return;
+    }
     if (this.name && this.dni && this.telephone && this.selection.selected.length > 0) {
       if (this.dataEdit) {
         this.edit();
