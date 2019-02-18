@@ -153,7 +153,7 @@ export class DialogAddClassComponent implements OnInit, AfterViewInit {
     //   Confirms.showErrorType(Messages.titleErrorClassNeedProgram, Messages.messageErrorClassNeed);
     //   return;
     // }
-    if (this.numberQuotas) {
+    if (this.numberQuotas && this.numberQuotas > 0) {
       if (!this.selectedClass) {
         this.addClass();
       } else {

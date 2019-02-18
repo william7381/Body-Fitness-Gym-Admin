@@ -13,6 +13,12 @@ export interface PreviewObject {
   isPreview: boolean;
 }
 
+export interface PreviewObjectSchedule {
+  dataPreview;
+  isPreview: boolean;
+  numberQuotas: number;
+}
+
 export interface PreviewObjectSubscription {
   dataPreview;
   student;

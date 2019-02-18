@@ -4,7 +4,7 @@ import {AdminAddClassComponent} from '../../admin-add-class/admin-add-class.comp
 import {Messages} from '../../util/Messages';
 import {AppComponent} from '../../app.component';
 import {ServiceQueries} from '../../services/queries/service-queries.service';
-import {PreviewObject} from '../../interfaces';
+import {PreviewObject, PreviewObjectSchedule} from '../../interfaces';
 import {Confirms} from '../../util/Confirms';
 import {SelectionModel} from '@angular/cdk/collections';
 import {DialogAddStudentComponent} from '../add-student/dialog-add-student.component';
@@ -24,11 +24,13 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel(true, []);
   isPreview = false;
   schedule = null;
+  private numberQuotas = 0;
 
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AdminAddClassComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AdminAddClassComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObjectSchedule) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       this.schedule = this.dataEdit.dataPreview;
       this.studentsChosen = this.schedule.asistencia;
+      this.numberQuotas = dataEdit.numberQuotas;
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.students.data = this.studentsChosen;
@@ -93,6 +95,15 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   chooseStudent(event, student) {
     event.stopPropagation();
     const indexOf = this.studentsChosenId.findIndex(value => value.dniAlumno === student.dniAlumno);
+    let numberQuotesCurrent = this.studentsChosenId.length;
+    if (indexOf < 0) {
+      numberQuotesCurrent += 1;
+    }
+    if (numberQuotesCurrent > this.numberQuotas) {
+      Confirms.showErrorType(Messages.titleErrorQuotasSchedule, Messages.messageErrorQuotasSchedule + this.numberQuotas);
+      event.preventDefault();
+      return;
+    }
     if (indexOf >= 0) {
       this.studentsChosen.splice(indexOf, 1);
       this.studentsChosenId.splice(indexOf, 1);
