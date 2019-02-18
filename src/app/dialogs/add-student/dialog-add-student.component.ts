@@ -86,8 +86,10 @@ export class DialogAddStudentComponent implements OnInit {
 
   registerStudent(event: Event) {
     if (this.name && this.dni && this.telephone && this.nameUser && this.password && this.date) {
-      if (Utilities.getYearsOfDifference(new Date(), this.date) < Constants.MINIMUM_YEARS_OF_STUDENT) {
-        Confirms.showErrorType(Messages.titleErrorMinimumYearsStudent, Messages.messageErrorMinimumYearsStudent);
+      const yearsOfDifference = Utilities.getYearsOfDifference(new Date(), this.date);
+      if (yearsOfDifference < Constants.MINIMUM_YEARS_OF_STUDENT
+      || yearsOfDifference > Constants.MAXIMUM_YEARS_OF_STUDENT) {
+        Confirms.showErrorType(Messages.titleErrorMinimumYearsStudent, Messages.messageErrorMinimumAndMaximumYearsStudent);
         return;
       }
       if (this.dataEdit) {

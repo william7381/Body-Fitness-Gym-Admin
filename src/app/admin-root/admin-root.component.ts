@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {RoutersApp} from '../util/RoutersApp';
 import {ServiceLogin} from '../services/login/service-login.service';
 import {Router} from '@angular/router';
+import {Utilities} from '../util/Utilities';
+import {Constants} from '../util/Constants';
 
 @Component({
   selector: 'app-admin-root',
@@ -19,6 +21,7 @@ export class AdminRootComponent implements OnInit {
     } else {
       document.getElementById('div-menu-full').hidden = true;
     }
+    console.log('ba pol'.match(Constants.regexOnlyLetter));
     this.router.navigateByUrl(RoutersApp.completeClasses);
   }
 

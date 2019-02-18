@@ -1,5 +1,8 @@
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {Confirms} from './Confirms';
+import {Messages} from './Messages';
+import {Constants} from './Constants';
 
 export class Utilities {
 
@@ -61,11 +64,34 @@ export class Utilities {
       return null;
     }
     const time: string[] = dateAndTime[3].split(':');
-    return ((+time[0]) - 5) + ':' + time[1];
+    return ((+time[0])) + ':' + time[1];
+
   }
 
-  static getDateWithHourFromTypeDate(dateWithHour: string) {
+  static getDateWithOutHourFromFormatDate(dateWithHour: string) {
     const dateAndTime: string[] = dateWithHour.split('-');
-    return dateAndTime[0] + '-' + dateAndTime[1] + '-' + dateAndTime[2];
+    return dateAndTime[0] + '/' + dateAndTime[1] + '/' + dateAndTime[2];
+  }
+
+  static serverError(res: Object) {
+    console.log(res, " ---");
+    if (res) {
+      // @ts-ignore
+      if (res[0].idError) {
+        // @ts-ignore
+        Confirms.showErrorType(Messages.titleErrorAdd, res[0].descripcionError);
+        return true;
+      }
+      return false;
+    }
+  }
+
+  static isOnlyLettersAndSpaces(phrase: string) {
+    for (const letter of phrase) {
+      if (letter === 'ñ') {
+
+      }
+    }
+    return phrase.match(Constants.regexOnlyLetter);
   }
 }

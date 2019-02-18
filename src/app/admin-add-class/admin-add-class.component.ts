@@ -212,7 +212,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     return Utilities.getHourDisplayFromDate(dateHour);
   }
 
-  getDateWithHourFromTypeDate(dateWithHour: string) {
-    return Utilities.getDateWithHourFromTypeDate(dateWithHour);
+  getDateWithOutHourFromFormatDate(dateWithHour: string) {
+    return Utilities.getDateWithOutHourFromFormatDate(dateWithHour);
   }
 }

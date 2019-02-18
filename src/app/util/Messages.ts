@@ -62,5 +62,5 @@ export class Messages {
   static readonly titleErrorData = 'Fallo al comprobar los Datos.';
   static readonly messageErrorLogin = 'Usuario o Contraseña incorrectos.';
   static readonly titleErrorMinimumYearsStudent = 'Edad no valida.';
-  static readonly messageErrorMinimumYearsStudent = 'La edad minima del alumno debe ser ' + Constants.MINIMUM_YEARS_OF_STUDENT + ' años.';
+  static readonly messageErrorMinimumAndMaximumYearsStudent = 'La edad del alumno debe estar entre ' + Constants.MINIMUM_YEARS_OF_STUDENT + ' y ' + Constants.MAXIMUM_YEARS_OF_STUDENT + ' años.';
 }

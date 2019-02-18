@@ -6,6 +6,7 @@ import {PreviewObject} from '../../interfaces';
 import {AppComponent} from '../../app.component';
 import {Messages} from '../../util/Messages';
 import {Confirms} from '../../util/Confirms';
+import {Utilities} from '../../util/Utilities';
 
 @Component({
   selector: 'app-add-news',
@@ -67,10 +68,14 @@ export class DialogAddNewsComponent implements OnInit {
     this.serviceQueries.update(Messages.urlNews, news).subscribe(
       res => {
         AppComponent.spinner.hide();
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
         this.dialogRef.close(news);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
       });
@@ -82,10 +87,14 @@ export class DialogAddNewsComponent implements OnInit {
     this.serviceQueries.create(Messages.urlNews, news).subscribe(
       res => {
         AppComponent.spinner.hide();
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
         this.dialogRef.close(news);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });
