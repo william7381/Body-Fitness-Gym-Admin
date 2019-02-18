@@ -93,15 +93,17 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   }
 
   chooseStudent(event, student) {
-    console.log(this.studentsChosenId.length + 1, this.numberQuotas);
-    const numberQuotesCurrent = this.studentsChosenId.length + 1;
+    event.stopPropagation();
+    const indexOf = this.studentsChosenId.findIndex(value => value.dniAlumno === student.dniAlumno);
+    let numberQuotesCurrent = this.studentsChosenId.length;
+    if (indexOf < 0) {
+      numberQuotesCurrent += 1;
+    }
     if (numberQuotesCurrent > this.numberQuotas) {
       Confirms.showErrorType(Messages.titleErrorQuotasSchedule, Messages.messageErrorQuotasSchedule + this.numberQuotas);
       event.preventDefault();
       return;
     }
-    event.stopPropagation();
-    const indexOf = this.studentsChosenId.findIndex(value => value.dniAlumno === student.dniAlumno);
     if (indexOf >= 0) {
       this.studentsChosen.splice(indexOf, 1);
       this.studentsChosenId.splice(indexOf, 1);
