@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {PreviewObject, ViewValue} from '../interfaces';
+import {PreviewObject, PreviewObjectSchedule, ViewValue} from '../interfaces';
 import {Router} from '@angular/router';
 import {RoutersApp} from '../util/RoutersApp';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
@@ -29,12 +29,15 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   private selectedClass = null;
   messageSchedule = null;
   isLoadingTable = false;
+  private numberQuotas = 0;
 
   constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceDataTemp: ServiceDataTemp) {
     if (this.serviceDataTemp.selectedClass) {
       this.selectedClass = this.serviceDataTemp.selectedClass;
       this.schedules = this.selectedClass.horarioClase;
-      this.messageSchedule = 'Clase: ' + this.selectedClass.servicio.nombreServicio + ' - Entrenador: ' + this.selectedClass.entrendor.nombreEntrenador;
+      this.numberQuotas = +this.selectedClass.numeroCupos;
+      this.messageSchedule = 'Clase: ' + this.selectedClass.servicio.nombreServicio + ' - Entrenador: ' + this.selectedClass.entrendor.nombreEntrenador
+        + ' - Cupos: ' + this.numberQuotas;
     }
   }
 
@@ -173,7 +176,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   }
 
   openDialogAddStudents(schedule) {
-    const dataEdit: PreviewObject = {dataPreview: schedule, isPreview: false};
+    const dataEdit: PreviewObjectSchedule = {dataPreview: schedule, isPreview: false, numberQuotas: this.numberQuotas};
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',
@@ -189,7 +192,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   }
 
   openDialogSeeStudents(schedule) {
-    const dataEdit: PreviewObject = {dataPreview: schedule, isPreview: true};
+    const dataEdit: PreviewObjectSchedule = {dataPreview: schedule, isPreview: true, numberQuotas: this.numberQuotas};
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',

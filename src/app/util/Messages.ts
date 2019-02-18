@@ -53,8 +53,8 @@ export class Messages {
   static readonly titleWarningWithoutStudents = 'No hay Alumnos';
   static readonly bodyWarningRegisterStudents = 'Primero debes registrar Alumnos';
   static readonly titleSuccessAddStudent = 'Estudiante Agregado';
-  static readonly titleErrorNeedQuotas = 'No ha diligenciado la cantidad de cupos.';
-  static readonly messageErrorNeedQuotas = 'Por favor, ingrese un valor.';
+  static readonly titleErrorNeedQuotas = 'No ha diligenciado la cantidad de cupos o es incorrecta.';
+  static readonly messageErrorNeedQuotas = 'Por favor, ingrese un valor mayor a cero (0).';
   static readonly titleErrorDate = 'Error de fecha';
   static readonly titleErrorDateFilter = 'Error con las fechas seleccionadas.';
   static readonly messageErrorDateFilter = 'La Fecha Hasta debe ser mayor o igual a la Fecha Desde.';
@@ -65,4 +65,6 @@ export class Messages {
   static readonly messageErrorMinimumAndMaximumYearsStudent = 'La edad del alumno debe estar entre ' + Constants.MINIMUM_YEARS_OF_STUDENT + ' y ' + Constants.MAXIMUM_YEARS_OF_STUDENT + ' años.';
   static readonly titleErrorPatternOnlyLettersAndSpace = 'Error de Caracteres';
   static readonly messageErrorPatternOnlyLettersAndSpace = 'El campo nombre solo puede contener letras, y espacios';
+  static readonly titleErrorQuotasSchedule = 'No puede seleccionar más alumnos.';
+  static readonly messageErrorQuotasSchedule = 'excede la cantidad maxima de cupos de la clase que es: ';
 }
