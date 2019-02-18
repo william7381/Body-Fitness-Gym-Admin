@@ -85,6 +85,10 @@ export class DialogAddStudentComponent implements OnInit {
   }
 
   registerStudent(event: Event) {
+    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+      return;
+    }
     if (this.name && this.dni && this.telephone && this.nameUser && this.password && this.date) {
       const yearsOfDifference = Utilities.getYearsOfDifference(new Date(), this.date);
       if (yearsOfDifference < Constants.MINIMUM_YEARS_OF_STUDENT
@@ -107,6 +111,9 @@ export class DialogAddStudentComponent implements OnInit {
     const student = this.getStudent();
     this.serviceQueries.update(Messages.urlStudent, student).subscribe(
       res => {
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
         this.dialogRef.close(student);
@@ -122,6 +129,9 @@ export class DialogAddStudentComponent implements OnInit {
     const student = this.getStudent();
     this.serviceQueries.create(Messages.urlStudent, student).subscribe(
       res => {
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
         this.dialogRef.close(student);

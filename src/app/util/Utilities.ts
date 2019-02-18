@@ -65,7 +65,6 @@ export class Utilities {
     }
     const time: string[] = dateAndTime[3].split(':');
     return ((+time[0])) + ':' + time[1];
-
   }
 
   static getDateWithOutHourFromFormatDate(dateWithHour: string) {
@@ -74,8 +73,8 @@ export class Utilities {
   }
 
   static serverError(res: Object) {
-    console.log(res, " ---");
-    if (res) {
+    // @ts-ignore
+    if (res && res.length > 0) {
       // @ts-ignore
       if (res[0].idError) {
         // @ts-ignore
@@ -92,6 +91,6 @@ export class Utilities {
 
       }
     }
-    return phrase.match(Constants.regexOnlyLetter);
+    return phrase.match(Constants.regexOnlyLetterAndSpace);
   }
 }

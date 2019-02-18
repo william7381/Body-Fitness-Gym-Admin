@@ -174,6 +174,9 @@ export class DialogAddScheduleComponent implements OnInit {
     const schedule = this.getSchedule();
     this.serviceQueries.update(Messages.urlSchedule, schedule).subscribe(
       res => {
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
         this.dialogRef.close(res);
@@ -189,6 +192,9 @@ export class DialogAddScheduleComponent implements OnInit {
     const schedule = this.getSchedule();
     this.serviceQueries.create(Messages.urlSchedule + Messages.urlClass + '/' + this.serviceDataTemp.selectedClass.idClase, schedule).subscribe(
       res => {
+        if (Utilities.serverError(res)) {
+          return;
+        }
         AppComponent.spinner.hide();
         AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
         this.dialogRef.close(res);
