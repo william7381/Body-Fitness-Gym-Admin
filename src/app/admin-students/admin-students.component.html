@@ -29,7 +29,7 @@
 
       <ng-container matColumnDef="fechaNacimiento">
         <th mat-header-cell *matHeaderCellDef> Fecha de Nacimiento</th>
-        <td mat-cell *matCellDef="let element"> {{element.fechaNacimiento}}</td>
+        <td mat-cell *matCellDef="let element"> {{this.getDateWithOutHourFromFormatDate(element.fechaNacimiento)}}</td>
       </ng-container>
 
       <ng-container matColumnDef="dni">

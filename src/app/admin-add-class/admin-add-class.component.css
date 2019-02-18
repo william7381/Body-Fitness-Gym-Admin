@@ -36,6 +36,8 @@ a {
   min-height: 30vh;
   margin-bottom: 5%;
   text-align: left;
+  max-height: 15em;
+  overflow: auto;
 }
 
 .image-avatar {

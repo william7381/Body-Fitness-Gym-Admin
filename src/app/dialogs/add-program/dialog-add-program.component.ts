@@ -68,10 +68,16 @@ export class DialogAddProgramComponent implements OnInit {
     this.serviceQueries.update(Messages.urlService, program).subscribe(
       res => {
         AppComponent.spinner.hide();
-        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
-        this.dialogRef.close(program);
+        if (res) {
+          if (Utilities.serverError(res)) {
+            return;
+          }
+          AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
+          this.dialogRef.close(program);
+        }
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
       });
@@ -83,10 +89,16 @@ export class DialogAddProgramComponent implements OnInit {
     this.serviceQueries.create(Messages.urlService, program).subscribe(
       res => {
         AppComponent.spinner.hide();
-        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
-        this.dialogRef.close(program);
+        if (res) {
+          if (Utilities.serverError(res)) {
+            return;
+          }
+          AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
+          this.dialogRef.close(program);
+        }
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });

@@ -203,4 +203,8 @@ export class AdminStudentsComponent implements OnInit, AfterViewInit {
   isScreenLow(): boolean {
     return window.screen.width < 900;
   }
+
+  getDateWithOutHourFromFormatDate(dateWithHour: string) {
+    return Utilities.getDateWithOutHourFromFormatDate(dateWithHour);
+  }
 }

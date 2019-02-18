@@ -106,7 +106,7 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
 
   openDialogAddTrainer() {
     const dialogRef = this.dialog.open(DialogAddTrainerComponent, {
-      width: '35%',
+      width: '30%',
       height: '90%',
     });
     dialogRef.afterClosed().subscribe(res => {

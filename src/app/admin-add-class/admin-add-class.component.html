@@ -16,7 +16,7 @@
 
         <ng-container matColumnDef="day">
           <th id="th-day" mat-header-cell *matHeaderCellDef> Dia</th>
-          <td mat-cell *matCellDef="let element"> {{this.getDateWithHourFromTypeDate(element.horaInicio)}}</td>
+          <td mat-cell *matCellDef="let element"> {{this.getDateWithOutHourFromFormatDate(element.horaInicio)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="from">
