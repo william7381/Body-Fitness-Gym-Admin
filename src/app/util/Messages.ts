@@ -55,6 +55,7 @@ export class Messages {
   static readonly titleSuccessAddStudent = 'Estudiante Agregado';
   static readonly titleErrorNeedQuotas = 'No ha diligenciado la cantidad de cupos o es incorrecta.';
   static readonly messageErrorNeedQuotas = 'Por favor, ingrese un valor mayor a cero (0).';
+  static readonly messageErrorDateNeed = 'Por favor, ingrese una fecha.';
   static readonly titleErrorDate = 'Error de fecha';
   static readonly titleErrorDateFilter = 'Error con las fechas seleccionadas.';
   static readonly messageErrorDateFilter = 'La Fecha Hasta debe ser mayor o igual a la Fecha Desde.';

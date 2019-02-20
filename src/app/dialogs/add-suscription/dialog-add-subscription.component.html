@@ -5,7 +5,7 @@
       <!--<p>Tipo</p>-->
 
       <mat-form-field>
-        <mat-select (selectionChange)="finishUpdateProgram()" [(value)]="selectedProgramName" placeholder="Programa"
+        <mat-select [disabled]="isPreview" (selectionChange)="finishUpdateProgram()" [(value)]="selectedProgramName" placeholder="Programa"
                     [required]="true">
           <mat-option (onSelectionChange)="changeProgram(type)" *ngFor="let type of programs"
                       [value]="type.nombreServicio">
@@ -20,25 +20,25 @@
                placeholder="Precio" min="1" required>
       </mat-form-field>
 
-      <mat-checkbox [(ngModel)]="isDateSubscription" [ngModelOptions]="{standalone: true}">Suscripcion por Fecha
+      <mat-checkbox [(ngModel)]="isDateSubscription" [disabled]="isPreview" [ngModelOptions]="{standalone: true}">Suscripcion por Fecha
       </mat-checkbox>
 
       <!--<p>Fecha</p>-->
       <mat-form-field>
-        <input [disabled]="!isDateSubscription" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput
+        <input [disabled]="!isDateSubscription || isPreview" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput
                placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
       </mat-form-field>
       <mat-datepicker #picker></mat-datepicker>
       <hr>
       <!--<p>Descripcion</p>-->
       <mat-form-field>
-        <input [disabled]="isDateSubscription" [(ngModel)]="sessions" [ngModelOptions]="{standalone: true}" matInput
+        <input [disabled]="isDateSubscription || isPreview" [(ngModel)]="sessions" [ngModelOptions]="{standalone: true}" matInput
                type="number" placeholder="Numero de seciones" required>
         <!--<textarea matInput placeholder="Textarea" required></textarea>-->
       </mat-form-field>
       <hr>
       <div style="text-align: center">
-        <button style="margin-right: 1em;" class="button-green" mat-raised-button
+        <button *ngIf="!isPreview" style="margin-right: 1em;" class="button-green" mat-raised-button
                 (click)="registerSubscription($event)">Guardar
         </button>
         <button mat-raised-button color="warn" (click)="closeDialogAddSubscription()">{{buttonCancelName}}</button>

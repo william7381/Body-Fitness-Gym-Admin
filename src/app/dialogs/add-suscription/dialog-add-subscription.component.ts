@@ -20,7 +20,7 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   sessions;
   date;
   isDateSubscription = true;
-  isPreview;
+  isPreview = false;
   tittle = 'Agragar Subscripcion';
   buttonCancelName = 'Cancelar';
   private auxChangeTrainer = true;
@@ -31,14 +31,17 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.price = object.precioSuscripcion;
-      this.date = object.fechaFin;
+      if (object.fechaFin) {
+        this.date = Utilities.getDateFromFormatString(object.fechaFin);
+      }
       this.sessions = object.sesiones;
       this.tittle = 'Editar Movimiento';
-      if (this.price) {
+      if (!this.date) {
         this.isDateSubscription = false;
       }
       if (dataEdit.isPreview) {
         this.buttonCancelName = 'Cerrar';
+        this.isPreview = true;
       }
     }
   }
@@ -60,6 +63,7 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
         if (this.dataEdit && this.dataEdit.dataPreview) {
           const object = this.dataEdit.dataPreview;
           this.selectedProgram = object.servicio;
+          this.selectedProgramName = object.servicio.nombreServicio;
         }
       },
       error => {
@@ -94,6 +98,10 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
     //   return;
     // }
     if (this.isDateSubscription) {
+      if (!this.date) {
+        Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateNeed);
+        return;
+      }
       if (this.date && !Utilities.compareDateMajor(this.date, new Date())) {
         Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateMinor);
         return;
@@ -176,7 +184,6 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   private edit() {
     AppComponent.spinner.show();
     const subscription = this.getSubscription();
-    console.log(JSON.stringify(subscription));
     this.serviceQueries.update(Messages.urlSubscription, subscription).subscribe(
       res => {
         AppComponent.spinner.hide();
