@@ -8,6 +8,9 @@ import {AppComponent} from '../../app.component';
 import {Confirms} from '../../util/Confirms';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Constants} from '../../util/Constants';
+import { FileUpload } from '../../util/upload';
+import * as firebase from 'firebase';
+import {UploadService} from '../../services/upload-service/upload.service';
 
 @Component({
   selector: 'app-dialog-add-trainer',
@@ -23,7 +26,7 @@ export class DialogAddTrainerComponent implements OnInit {
   ];
   selectedType = this.typesContributions[0].value;
   value = null;
-  urlImage: string = null;
+  urlImage = '../../assets/avatar.jpg';
   name = null;
   dni = null;
   telephone = null;
@@ -39,8 +42,9 @@ export class DialogAddTrainerComponent implements OnInit {
   displayedColumnsPrograms: string[] = ['name', 'select'];
   tempPrograms = [];
   selection = new SelectionModel(true, []);
+  progressLoadImage;
 
-  constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+  constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject, public uploadService: UploadService) {
     this.updatePrograms();
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
@@ -85,17 +89,17 @@ export class DialogAddTrainerComponent implements OnInit {
   ngOnInit() {
   }
 
+  inFileSelected(event, imageAvatar) {
+    this.selectedImage = window.URL.createObjectURL(event.target.files[0]);
+    imageAvatar.src = this.selectedImage;
+  }
+
   private getTrainer() {
     // let id = -1;
     // if (this.dataEdit && this.dataEdit.dataPreview) {
     //   id = this.dataEdit.dataPreview.idEntrenador;
     // }
     return {'dniEntrenador': this.dni, 'urlImagenEntrenador': this.urlImage, 'nombreEntrenador': this.name, 'usuarioEntrenador': this.dni, 'contraseniaEntrenador': this.telephone, 'telefonoEntrenador': this.telephone, 'emailEntrenador': this.email, 'entrenadorServicio': this.selection.selected};
-  }
-
-  inFileSelected(event, imageAvatar) {
-    this.selectedImage = '../../assets/' + event.target.files[0].name;
-    imageAvatar.src = this.selectedImage;
   }
 
   closeDialogAddTrainer() {
@@ -159,5 +163,42 @@ export class DialogAddTrainerComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.programs.forEach(row => this.selection.select(row));
+  }
+
+  onFileSelectedListener(event) {
+    // muestra la imagen en el componente img
+    const selectedFiles = event.target.files;
+    const file = selectedFiles.item(0);
+    const fileExtension = '.' + file.name.split('.').pop();
+    const name =
+      Math.random()
+        .toString(36)
+        .substring(7) +
+      new Date().getTime() +
+      fileExtension;
+
+    const currentFileUpload = new FileUpload(file, name);
+    const uploadTask = this.uploadService.pushFileToStorage(
+      currentFileUpload
+    );
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      snapshot => {
+        // in progress
+        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+        this.progressLoadImage = Math.round(
+          (snap.bytesTransferred / snap.totalBytes) * 100
+        );
+      },
+      error => {
+        // fail
+        console.log(error);
+      },
+      () => {
+        // success
+        currentFileUpload.url = uploadTask.snapshot.downloadURL;
+        this.urlImage = currentFileUpload.url;
+      }
+    );
   }
 }

@@ -5,9 +5,9 @@
       <!--<p>imagen</p>-->
       <mat-card class="example-card" style="text-align: center;">
         <label for="inputFile">
-          <img id="img-avatar" src="../../../assets/avatar.jpg" mat-card-image alt="Student Photo"
-               matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
-        </label>
+        <img id="img-avatar" src="../../../assets/avatar.jpg" mat-card-image alt="Student Photo"
+             matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
+      </label>
         <input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>
       </mat-card>
       <br>
@@ -31,7 +31,9 @@
         <input [(ngModel)]="telephone" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Telefono" required>
       </mat-form-field>
       <mat-form-field>
-        <input [(ngModel)]="date" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="fecha de nacimiento" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+        <input [(ngModel)]="date" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Fecha de nacimiento" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-datepicker #picker></mat-datepicker>
 

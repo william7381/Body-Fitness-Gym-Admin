@@ -7,6 +7,9 @@ import {AppComponent} from '../../app.component';
 import {Messages} from '../../util/Messages';
 import {Confirms} from '../../util/Confirms';
 import {Utilities} from '../../util/Utilities';
+import {FileUpload} from '../../util/upload';
+import {UploadService} from '../../services/upload-service/upload.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-add-news',
@@ -15,14 +18,16 @@ import {Utilities} from '../../util/Utilities';
 })
 export class DialogAddNewsComponent implements OnInit {
   title = null;
-  urlImage = null;
+  urlImage = '../../assets/avatar.jpg';
   description = null;
   titleDialog = 'Agregar Noticia';
   nameButtonCancel = 'Cancelar';
   isPreview = false;
   selectedImage = null;
+  progressLoadImage;
 
-  constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+  constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject,
+              public uploadService: UploadService) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.title = object.titular;
@@ -40,7 +45,7 @@ export class DialogAddNewsComponent implements OnInit {
   }
 
   inFileSelected(event, imageAvatar) {
-    this.selectedImage = '../../assets/' + event.target.files[0].name;
+    this.selectedImage = window.URL.createObjectURL(event.target.files[0]);
     imageAvatar.src = this.selectedImage;
   }
 
@@ -102,5 +107,42 @@ export class DialogAddNewsComponent implements OnInit {
 
   closeDialogAddNews() {
     this.dialogRef.close();
+  }
+
+  onFileSelectedListener(event) {
+    // muestra la imagen en el componente img
+    const selectedFiles = event.target.files;
+    const file = selectedFiles.item(0);
+    const fileExtension = '.' + file.name.split('.').pop();
+    const name =
+      Math.random()
+        .toString(36)
+        .substring(7) +
+      new Date().getTime() +
+      fileExtension;
+
+    const currentFileUpload = new FileUpload(file, name);
+    const uploadTask = this.uploadService.pushFileToStorage(
+      currentFileUpload
+    );
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      snapshot => {
+        // in progress
+        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+        this.progressLoadImage = Math.round(
+          (snap.bytesTransferred / snap.totalBytes) * 100
+        );
+      },
+      error => {
+        // fail
+        console.log(error);
+      },
+      () => {
+        // success
+        currentFileUpload.url = uploadTask.snapshot.downloadURL;
+        this.urlImage = currentFileUpload.url;
+      }
+    );
   }
 }

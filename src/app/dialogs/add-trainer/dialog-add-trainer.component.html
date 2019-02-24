@@ -5,10 +5,11 @@
       <!--<p>imagen</p>-->
       <mat-card class="example-card" style="text-align: center;">
         <label for="inputFile">
-          <img id="img-avatar" src="../../assets/avatar.jpg" mat-card-image alt="Student Photo"
+          <!--src="../../assets/avatar.jpg"-->
+          <img id="img-avatar" [src]="urlImage" mat-card-image alt="Student Photo"
                matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
         </label>
-        <input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>
+        <input id="inputFile" (change)="onFileSelectedListener($event)" type="file" hidden>
       </mat-card>
       <br>
       <!--<p>nombre</p>-->

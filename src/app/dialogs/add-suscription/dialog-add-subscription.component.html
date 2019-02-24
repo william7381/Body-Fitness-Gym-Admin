@@ -27,6 +27,8 @@
       <mat-form-field>
         <input [disabled]="!isDateSubscription || isPreview" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" matInput
                placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-datepicker #picker></mat-datepicker>
       <hr>

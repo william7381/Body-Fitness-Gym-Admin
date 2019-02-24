@@ -70,8 +70,9 @@ export class DialogAddStudentComponent implements OnInit {
   }
 
   inFileSelected(event, imageAvatar) {
-    this.selectedImage = '../../assets/' + event.target.files[0].name;
+    this.selectedImage = window.URL.createObjectURL(event.target.files[0]);
     imageAvatar.src = this.selectedImage;
+    // console.log(imageAvatar.src);
   }
 
   getErrorMessage() {

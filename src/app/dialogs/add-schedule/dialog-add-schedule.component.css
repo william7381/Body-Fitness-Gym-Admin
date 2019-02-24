@@ -11,3 +11,7 @@ mat-form-field {
   display: flex;
   margin-left: 3em;
 }
+
+.input-hour {
+  width: 80%;
+}

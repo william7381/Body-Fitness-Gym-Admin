@@ -21,13 +21,13 @@
       <p style="text-align: center">Hora</p>
       <p>Inicio</p>
       <div class="toggle-example">
-        <input [disabled]="isPreview" [(ngModel)]="selectedHourFrom" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerFrom" [format]="24" placeholder="Seleccione una fecha" readonly required>
+        <input class="input-hour" [disabled]="isPreview" [(ngModel)]="selectedHourFrom" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerFrom" [format]="24" placeholder="Seleccione una fecha" readonly required>
         <ngx-material-timepicker-toggle [for]="toggleTimepickerFrom"></ngx-material-timepicker-toggle>
         <ngx-material-timepicker #toggleTimepickerFrom></ngx-material-timepicker>
       </div>
       <p>Fin</p>
       <div class="toggle-example">
-        <input [disabled]="isPreview" [(ngModel)]="selectedHourUntil" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerUntil" [format]="24" placeholder="Seleccione una fecha" readonly required>
+        <input class="input-hour" [disabled]="isPreview" [(ngModel)]="selectedHourUntil" [ngModelOptions]="{standalone: true}" [ngxTimepicker]="toggleTimepickerUntil" [format]="24" placeholder="Seleccione una fecha" readonly required>
         <ngx-material-timepicker-toggle [for]="toggleTimepickerUntil"></ngx-material-timepicker-toggle>
         <ngx-material-timepicker #toggleTimepickerUntil></ngx-material-timepicker>
       </div>

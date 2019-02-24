@@ -41,6 +41,7 @@ import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { DialogAddNewsComponent } from './dialogs/add-news/dialog-add-news.component';
 import {ServiceDataTemp} from './services/temp/service-temp.service';
 import { DialogAddClassComponent } from './dialogs/add-class/dialog-add-class.component';
+import {UploadService} from './services/upload-service/upload.service';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
@@ -121,6 +122,7 @@ const routes: Route[] = [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
     {provide: 'SnotifyToastConfig', useValue: ToastDefaults},
     SnotifyService,
+    UploadService,
   ],
   bootstrap: [AppComponent]
 })

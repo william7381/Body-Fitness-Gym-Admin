@@ -18,7 +18,7 @@
           <img id="img-avatar" src="../../../assets/avatar.jpg" mat-card-image alt="Student Photo"
                matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
         </label>
-        <input id="inputFile" (change)="inFileSelected($event, imageAvatar)" type="file" hidden>
+        <input id="inputFile" [src]="urlImage" (change)="onFileSelectedListener($event)" type="file" hidden>
       </mat-card>
       <br>
       <mat-form-field>
