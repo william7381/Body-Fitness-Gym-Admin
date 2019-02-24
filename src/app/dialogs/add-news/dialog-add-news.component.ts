@@ -1,48 +1,51 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {AdminProgramsComponent} from '../../admin-programs/admin-programs.component';
-import {ServiceQueries} from '../../services/queries/service-queries.service';
-import {PreviewObject} from '../../interfaces';
-import {AppComponent} from '../../app.component';
-import {Messages} from '../../util/Messages';
-import {Confirms} from '../../util/Confirms';
-import {Utilities} from '../../util/Utilities';
-import {FileUpload} from '../../util/upload';
-import {UploadService} from '../../services/upload-service/upload.service';
-import * as firebase from 'firebase';
+import { Component, Inject, OnInit } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { AdminProgramsComponent } from "../../admin-programs/admin-programs.component";
+import { ServiceQueries } from "../../services/queries/service-queries.service";
+import { PreviewObject } from "../../interfaces";
+import { AppComponent } from "../../app.component";
+import { Messages } from "../../util/Messages";
+import { Confirms } from "../../util/Confirms";
+import { Utilities } from "../../util/Utilities";
+import { FileUpload } from "../../util/upload";
+import { UploadService } from "../../services/upload-service/upload.service";
+import * as firebase from "firebase";
 
 @Component({
-  selector: 'app-add-news',
-  templateUrl: './dialog-add-news.component.html',
-  styleUrls: ['./dialog-add-news.component.css']
+  selector: "app-add-news",
+  templateUrl: "./dialog-add-news.component.html",
+  styleUrls: ["./dialog-add-news.component.css"]
 })
 export class DialogAddNewsComponent implements OnInit {
   title = null;
-  urlImage = '../../assets/avatar.jpg';
+  urlImage = "../../../assets/avatar.jpg";
   description = null;
-  titleDialog = 'Agregar Noticia';
-  nameButtonCancel = 'Cancelar';
+  titleDialog = "Agregar Noticia";
+  nameButtonCancel = "Cancelar";
   isPreview = false;
   selectedImage = null;
   progressLoadImage;
 
-  constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject,
-              public uploadService: UploadService) {
+  constructor(
+    public dialogRef: MatDialogRef<AdminProgramsComponent>,
+    private serviceQueries: ServiceQueries,
+    @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject,
+    public uploadService: UploadService
+  ) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.title = object.titular;
       this.urlImage = object.imagenNoticia;
       this.description = object.contenido;
-      this.titleDialog = 'Editar Noticia';
+      this.titleDialog = "Editar Noticia";
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
-        this.nameButtonCancel = 'Cerrar';
+        this.nameButtonCancel = "Cerrar";
       }
     }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   inFileSelected(event, imageAvatar) {
     this.selectedImage = window.URL.createObjectURL(event.target.files[0]);
@@ -64,7 +67,12 @@ export class DialogAddNewsComponent implements OnInit {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       id = this.dataEdit.dataPreview.idNoticia;
     }
-    return {'idNoticia': id, 'titular': this.title, 'imagenNoticia': this.urlImage, 'contenido': this.description};
+    return {
+      idNoticia: id,
+      titular: this.title,
+      imagenNoticia: this.urlImage,
+      contenido: this.description
+    };
   }
 
   private edit() {
@@ -76,14 +84,18 @@ export class DialogAddNewsComponent implements OnInit {
         if (Utilities.serverError(res)) {
           return;
         }
-        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, '');
+        AppComponent.notifies.showSuccess(Messages.titleSuccessEdit, "");
         this.dialogRef.close(news);
       },
       error => {
         console.log(error);
         AppComponent.spinner.hide();
-        Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
-      });
+        Confirms.showErrorType(
+          Messages.titleErrorEdit,
+          Messages.messageErrorInternetConexion
+        );
+      }
+    );
   }
 
   private add() {
@@ -95,14 +107,18 @@ export class DialogAddNewsComponent implements OnInit {
         if (Utilities.serverError(res)) {
           return;
         }
-        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, '');
+        AppComponent.notifies.showSuccess(Messages.titleSuccessAdd, "");
         this.dialogRef.close(news);
       },
       error => {
         console.log(error);
         AppComponent.spinner.hide();
-        Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
-      });
+        Confirms.showErrorType(
+          Messages.titleErrorAdd,
+          Messages.messageErrorInternetConexion
+        );
+      }
+    );
   }
 
   closeDialogAddNews() {
@@ -113,7 +129,7 @@ export class DialogAddNewsComponent implements OnInit {
     // muestra la imagen en el componente img
     const selectedFiles = event.target.files;
     const file = selectedFiles.item(0);
-    const fileExtension = '.' + file.name.split('.').pop();
+    const fileExtension = "." + file.name.split(".").pop();
     const name =
       Math.random()
         .toString(36)
@@ -121,10 +137,8 @@ export class DialogAddNewsComponent implements OnInit {
       new Date().getTime() +
       fileExtension;
 
-    const currentFileUpload = new FileUpload(file, name);
-    const uploadTask = this.uploadService.pushFileToStorage(
-      currentFileUpload
-    );
+    let currentFileUpload = new FileUpload(file, name);
+    const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload);
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       snapshot => {
@@ -140,8 +154,11 @@ export class DialogAddNewsComponent implements OnInit {
       },
       () => {
         // success
-        currentFileUpload.url = uploadTask.snapshot.downloadURL;
-        this.urlImage = currentFileUpload.url;
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          currentFileUpload.url = downloadURL;
+          this.urlImage = currentFileUpload.url;
+          console.log(this.urlImage);
+        });
       }
     );
   }

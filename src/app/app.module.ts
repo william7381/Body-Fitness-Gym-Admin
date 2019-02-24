@@ -8,6 +8,11 @@ import {Route, RouterModule} from '@angular/router';
 import {RoutersApp} from './util/RoutersApp';
 import {ServiceLogin} from './services/login/service-login.service';
 
+//Firebase
+//firebase
+import { AngularFireModule } from "angularfire2";
+import { AngularFireStorageModule } from "angularfire2/storage";
+
 // components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -96,6 +101,13 @@ const routes: Route[] = [
     MaterialModules,
     HttpClientModule,
     RouterModule.forRoot(routes, {useHash: true}),
+    AngularFireModule.initializeApp({
+      apiKey: " AIzaSyA10YWRfQ3iExpaF6cP0PQf7YY9ZHnc7jE ",
+      authDomain: "body-fitnes-gym",
+      storageBucket: "body-fitnes-gym.appspot.com",
+      projectId: "body-fitnes-gym"
+    }),
+    AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
     NgxMaterialTimepickerModule.forRoot(),

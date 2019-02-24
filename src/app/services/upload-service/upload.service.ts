@@ -6,7 +6,7 @@ import * as firebase from 'firebase';
   providedIn: 'root'
 })
 export class UploadService {
-  private basePath = '/uploads';
+  private basePath = '/uploadsNews';
   private basePathProgress = '/progress';
 
   constructor() {}
