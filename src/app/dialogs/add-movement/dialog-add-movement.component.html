@@ -17,6 +17,7 @@
         <!--<input [(ngModel)]="value" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Valor" formControlName="fontSize" min="1" required>-->
 
         <input [(ngModel)]="value" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Valor" min="1" required>
+        <p style="margin-top: 3px; color: blue; font-size: 11px;" *ngIf="value">{{ value | currency }}</p>
         <!--<input matInput type="number" placeholder="Valor" min="1" required>-->
       </mat-form-field>
       <hr>
@@ -31,7 +32,8 @@
       <hr>
       <!--<p>Detalles</p>-->
       <mat-form-field>
-        <textarea [(ngModel)]="details" [ngModelOptions]="{standalone: true}" matInput placeholder="Detalles"></textarea>
+        <textarea style="height: 7em;" [maxLength]="constants.MAXIMUM_LENGTH_DESCRIPTION_FIELD" [(ngModel)]="details" [ngModelOptions]="{standalone: true}" matInput placeholder="Detalles" #textDescription></textarea>
+        <mat-hint align="end">{{textDescription.value.length}} / {{constants.MAXIMUM_LENGTH_DESCRIPTION_FIELD}}</mat-hint>
         <!--<textarea matInput placeholder="Textarea" required></textarea>-->
       </mat-form-field>
       <hr>

@@ -105,6 +105,7 @@ export class AdminAddSubscriptionComponent implements OnInit, AfterViewInit {
       width: '30%',
       height: 'max-content',
       data: dataEdit,
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -120,6 +121,7 @@ export class AdminAddSubscriptionComponent implements OnInit, AfterViewInit {
       width: '30%',
       height: 'max-content',
       data: dataEdit,
+      maxHeight: '90%'
     });
     // dialogRef.afterClosed().subscribe(res => {
     //   if (res) {
@@ -134,7 +136,8 @@ export class AdminAddSubscriptionComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogAddSubscriptionComponent, {
       width: '30%',
       height: 'max-content',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

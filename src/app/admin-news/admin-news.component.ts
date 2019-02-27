@@ -7,6 +7,7 @@ import {PreviewObject} from '../interfaces';
 import {DialogAddProgramComponent} from '../dialogs/add-program/dialog-add-program.component';
 import {Confirms} from '../util/Confirms';
 import {DialogAddNewsComponent} from '../dialogs/add-news/dialog-add-news.component';
+import {Constants} from '../util/Constants';
 
 @Component({
   selector: 'app-admin-news',
@@ -32,9 +33,7 @@ export class AdminNewsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   search(filterValue: string) {
-    if (filterValue) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   updateTable() {
@@ -63,7 +62,7 @@ export class AdminNewsComponent implements OnInit, AfterViewInit, OnDestroy {
     const dataEdit: PreviewObject = {dataPreview: element, isPreview: true};
     const dialogRef = this.dialog.open(DialogAddNewsComponent, {
       width: '30%',
-      height: 'max-content',
+      height: '90%',
       data: dataEdit
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -92,7 +91,7 @@ export class AdminNewsComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogAddNewsComponent, {
       width: '30%',
       height: '90%',
-      data: dataEdit
+      data: dataEdit,
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

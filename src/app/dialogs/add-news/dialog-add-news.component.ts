@@ -10,6 +10,7 @@ import { Utilities } from "../../util/Utilities";
 import { FileUpload } from "../../util/upload";
 import { UploadService } from "../../services/upload-service/upload.service";
 import * as firebase from "firebase";
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: "app-add-news",
@@ -25,6 +26,8 @@ export class DialogAddNewsComponent implements OnInit {
   isPreview = false;
   selectedImage = null;
   progressLoadImage;
+  private fileImageSelected: any;
+  constants = Constants;
 
   constructor(
     public dialogRef: MatDialogRef<AdminProgramsComponent>,
@@ -35,7 +38,8 @@ export class DialogAddNewsComponent implements OnInit {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.title = object.titular;
-      this.urlImage = object.imagenNoticia;
+      this.urlImage = object.urlImagen;
+      console.log(this.urlImage);
       this.description = object.contenido;
       this.titleDialog = "Editar Noticia";
       if (this.dataEdit.isPreview) {
@@ -48,7 +52,8 @@ export class DialogAddNewsComponent implements OnInit {
   ngOnInit() {}
 
   inFileSelected(event, imageAvatar) {
-    this.selectedImage = window.URL.createObjectURL(event.target.files[0]);
+    this.fileImageSelected = event.target.files[0];
+    this.selectedImage = window.URL.createObjectURL(this.fileImageSelected);
     imageAvatar.src = this.selectedImage;
   }
 
@@ -70,7 +75,7 @@ export class DialogAddNewsComponent implements OnInit {
     return {
       idNoticia: id,
       titular: this.title,
-      imagenNoticia: this.urlImage,
+      urlImagen: this.urlImage,
       contenido: this.description
     };
   }
@@ -126,7 +131,6 @@ export class DialogAddNewsComponent implements OnInit {
   }
 
   onFileSelectedListener(event) {
-    // muestra la imagen en el componente img
     const selectedFiles = event.target.files;
     const file = selectedFiles.item(0);
     const fileExtension = "." + file.name.split(".").pop();
@@ -137,7 +141,7 @@ export class DialogAddNewsComponent implements OnInit {
       new Date().getTime() +
       fileExtension;
 
-    let currentFileUpload = new FileUpload(file, name);
+    const currentFileUpload = new FileUpload(file, name);
     const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload);
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,

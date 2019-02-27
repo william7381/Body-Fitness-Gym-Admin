@@ -27,6 +27,8 @@ export class DialogAddProgramComponent implements OnInit {
   title = 'Agregar Programa';
   nameButtonCancel = 'Cancelar';
   isPreview = false;
+  constants = Constants;
+  utilities = Utilities;
 
   constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
@@ -46,11 +48,11 @@ export class DialogAddProgramComponent implements OnInit {
   }
 
   registerProgram(event) {
-    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
-      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
-      return;
-    }
     if (this.name && this.price) {
+      if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+        Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

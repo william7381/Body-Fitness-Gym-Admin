@@ -11,6 +11,7 @@ import {Constants} from '../../util/Constants';
 import { FileUpload } from '../../util/upload';
 import * as firebase from 'firebase';
 import {UploadService} from '../../services/upload-service/upload.service';
+import {Utilities} from '../../util/Utilities';
 
 @Component({
   selector: 'app-dialog-add-trainer',
@@ -43,6 +44,8 @@ export class DialogAddTrainerComponent implements OnInit {
   tempPrograms = [];
   selection = new SelectionModel(true, []);
   progressLoadImage;
+  constants = Constants;
+  utilities = Utilities;
 
   constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject, public uploadService: UploadService) {
     this.updatePrograms();
@@ -107,11 +110,11 @@ export class DialogAddTrainerComponent implements OnInit {
   }
 
   registerTrainer(event: Event) {
-    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
-      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
-      return;
-    }
     if (this.name && this.dni && this.telephone && this.selection.selected.length > 0) {
+      if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+        Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

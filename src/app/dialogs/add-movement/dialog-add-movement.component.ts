@@ -7,6 +7,7 @@ import {AppComponent} from '../../app.component';
 import {Confirms} from '../../util/Confirms';
 import {Utilities} from '../../util/Utilities';
 import {Messages} from '../../util/Messages';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-add-movement',
@@ -25,6 +26,7 @@ export class DialogAddMovementComponent implements OnInit {
   details = null;
   tittle = 'Agregar Movimiento';
   isDateNow = true;
+  constants = Constants;
 
   constructor(public dialogRef: MatDialogRef<AdminAccountingComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
     if (this.dataEdit) {

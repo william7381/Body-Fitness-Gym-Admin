@@ -14,14 +14,18 @@
       <!--<hr>-->
       <!--<p>Valor</p>-->
       <mat-form-field>
-        <input [(ngModel)]="name" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" required>
+        <input [(ngModel)]="name" [maxLength]="constants.MAXIMUM_LENGTH_NAME_FIELD" [readonly]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" #inputTitle required>
+        <mat-hint align="end">{{inputTitle.value.length}} / {{constants.MAXIMUM_LENGTH_NAME_FIELD}}</mat-hint>
       </mat-form-field>
       <mat-form-field>
-        <input [(ngModel)]="price" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Precio" min="1" required>
+        <input [(ngModel)]="price" [max]="utilities.generateMaxNumber(constants.MAXIMUM_LENGTH_PRICE)" (keypress)="utilities.avoidMaxText($event, inputPrice, constants.MAXIMUM_LENGTH_PRICE)" [readonly]="isPreview" [ngModelOptions]="{standalone: true}" type="number" matInput placeholder="Precio" min="1" #inputPrice required>
+        <p style="margin-top: 3px; color: blue; font-size: 11px;" *ngIf="price">{{ price | currency }}</p>
+        <mat-hint align="end">{{inputPrice.value.length}} / {{constants.MAXIMUM_LENGTH_PRICE}}</mat-hint>
       </mat-form-field>
       <hr>
       <mat-form-field>
-        <textarea [(ngModel)]="description" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción"></textarea>
+        <textarea style="height: 7em;" [(ngModel)]="description" [maxLength]="constants.MAXIMUM_LENGTH_DESCRIPTION_FIELD" [readonly]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción" #textDescription></textarea>
+        <mat-hint align="end">{{textDescription.value.length}} / {{constants.MAXIMUM_LENGTH_DESCRIPTION_FIELD}}</mat-hint>
       </mat-form-field>
       <hr>
       <div style="text-align: center">

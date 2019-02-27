@@ -9,6 +9,7 @@ import {ServiceQueries} from '../services/queries/service-queries.service';
 import {Confirms} from '../util/Confirms';
 import {PreviewObject} from '../interfaces';
 import {DialogAddProgramComponent} from '../dialogs/add-program/dialog-add-program.component';
+import {Constants} from '../util/Constants';
 
 @Component({
   selector: 'app-admin-trainers',
@@ -49,9 +50,7 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
   }
 
   search(filterValue: string) {
-    if (filterValue) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   preview(element) {
@@ -59,7 +58,8 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogAddTrainerComponent, {
       width: '30%',
       height: '90%',
-      data: dataEdit
+      data: dataEdit,
+      autoFocus: false
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -74,7 +74,8 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogAddTrainerComponent, {
       width: '30%',
       height: '90%',
-      data: dataEdit
+      data: dataEdit,
+      autoFocus: false
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -108,6 +109,7 @@ export class AdminTrainersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogAddTrainerComponent, {
       width: '30%',
       height: '90%',
+      autoFocus: false
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

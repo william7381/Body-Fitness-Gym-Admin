@@ -14,11 +14,13 @@
       <!--<hr>-->
       <!--<p>Valor</p>-->
       <mat-form-field>
-        <input [(ngModel)]="name" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" required>
+        <input [(ngModel)]="name" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" #inputTitle required>
+        <mat-hint align="end">{{inputTitle.value.length}} / {{constants.MAXIMUM_LENGTH_NAME_FIELD}}</mat-hint>
       </mat-form-field>
       <hr>
       <mat-form-field>
-        <textarea [(ngModel)]="description" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción"></textarea>
+        <textarea style="height: 7em;" [(ngModel)]="description" [disabled]="isPreview" [ngModelOptions]="{standalone: true}" matInput placeholder="Descripción" #textDescription></textarea>
+        <mat-hint align="end">{{textDescription.value.length}} / {{constants.MAXIMUM_LENGTH_DESCRIPTION_FIELD}}</mat-hint>
       </mat-form-field>
       <hr>
       <div style="text-align: center">

@@ -93,4 +93,26 @@ export class Utilities {
     }
     return phrase.match(Constants.regexOnlyLetterAndSpace);
   }
+
+  static avoidMaxText(event, inputTelephone: HTMLInputElement, MAXIMUM_TELEPHONE: number) {
+    if (inputTelephone.value.length + 1 > MAXIMUM_TELEPHONE) {
+      event.preventDefault();
+    }
+  }
+
+  static pasteEvent(event, inputTelephone: HTMLInputElement, MAXIMUM_TELEPHONE: number) {
+    const clipboardData = event.clipboardData.getData('text');
+    if (clipboardData.length > MAXIMUM_TELEPHONE) {
+      event.preventDefault();
+      inputTelephone.value = clipboardData.substring(0, MAXIMUM_TELEPHONE);
+    }
+  }
+
+  static generateMaxNumber(maxNumber) {
+    let result = '1';
+    for (let i = 0; i < maxNumber; i++) {
+      result += '0';
+    }
+    return (+result) - 1;
+  }
 }

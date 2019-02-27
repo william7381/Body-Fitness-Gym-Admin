@@ -32,9 +32,7 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   search(filterValue: string) {
-    if (filterValue) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   updateTable() {
@@ -64,7 +62,8 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit, OnDestroy 
     const dialogRef = this.dialog.open(DialogAddProgramComponent, {
       width: '30%',
       height: 'max-content',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -77,7 +76,8 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit, OnDestroy 
   addProgram() {
     const dialogRef = this.dialog.open(DialogAddProgramComponent, {
       width: '30%',
-      height: 'max-content'
+      height: 'max-content',
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -92,7 +92,8 @@ export class AdminProgramsComponent implements OnInit, AfterViewInit, OnDestroy 
     const dialogRef = this.dialog.open(DialogAddProgramComponent, {
       width: '30%',
       height: 'max-content',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

@@ -67,7 +67,8 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   openDialogAddSchedule() {
     const dialogRef = this.dialog.open(DialogAddScheduleComponent, {
       width: '25%',
-      height: 'max-content'
+      height: 'max-content',
+      maxHeight: '90%'
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -124,6 +125,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogAddScheduleComponent, {
       width: '25%',
       height: 'max-content',
+      maxHeight: '90%',
       data: dataEdit
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -180,7 +182,8 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
     // dialogRef.afterClosed().subscribe(res => {
     //   if (res) {
@@ -196,7 +199,8 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
     // dialogRef.afterClosed().subscribe(res => {
     //   if (res) {

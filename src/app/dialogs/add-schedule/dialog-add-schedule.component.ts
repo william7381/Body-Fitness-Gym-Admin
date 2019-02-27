@@ -76,7 +76,8 @@ export class DialogAddScheduleComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogSearchStudentComponent, {
       width: '70%',
       height: 'max-content',
-      data: this.students.data
+      data: this.students.data,
+      maxHeight: '90%'
     });
     // dialogRef.afterClosed().subscribe(res => {
     //   if (res) {

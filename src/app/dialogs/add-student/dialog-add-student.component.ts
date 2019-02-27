@@ -35,6 +35,8 @@ export class DialogAddStudentComponent implements OnInit {
   title = 'Agregar Alumno';
   nameButtonCancel = 'Cancelar';
   hide = true;
+  constants = Constants;
+  utilities = Utilities;
 
   constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
@@ -86,11 +88,11 @@ export class DialogAddStudentComponent implements OnInit {
   }
 
   registerStudent(event: Event) {
-    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
-      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
-      return;
-    }
     if (this.name && this.dni && this.telephone && this.nameUser && this.password && this.date) {
+      if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+        Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+        return;
+      }
       const yearsOfDifference = Utilities.getYearsOfDifference(new Date(), this.date);
       if (yearsOfDifference < Constants.MINIMUM_YEARS_OF_STUDENT
       || yearsOfDifference > Constants.MAXIMUM_YEARS_OF_STUDENT) {

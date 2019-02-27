@@ -6,6 +6,7 @@ import {AppComponent} from '../../app.component';
 import {ServiceQueries} from '../../services/queries/service-queries.service';
 import {Confirms} from '../../util/Confirms';
 import {Utilities} from '../../util/Utilities';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-dialog-add-suscription',
@@ -25,6 +26,8 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
   buttonCancelName = 'Cancelar';
   private auxChangeTrainer = true;
   private student = null;
+  constants = Constants;
+  utilities = Utilities;
 
   constructor(public dialogRef: MatDialogRef<AdminAddSubscriptionComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit) {
     this.student = this.dataEdit.student;

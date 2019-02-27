@@ -8,6 +8,7 @@ import {AppComponent} from '../../app.component';
 import {Confirms} from '../../util/Confirms';
 import {RoutersApp} from '../../util/RoutersApp';
 import {Router} from '@angular/router';
+import {Constants} from '../../util/Constants';
 
 @Component({
   selector: 'app-add-class',
@@ -29,6 +30,7 @@ export class DialogAddClassComponent implements OnInit, AfterViewInit {
   private auxChangeTrainer = true;
   private auxChangeProgram = true;
   private selectedClass = null;
+  constants = Constants;
 
   constructor(private router: Router, public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
     if (this.dataEdit && this.dataEdit.dataPreview) {

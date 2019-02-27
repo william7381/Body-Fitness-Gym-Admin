@@ -78,9 +78,7 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
   }
 
   search(filterValue: string) {
-    if (filterValue) {
-      this.students.filter = filterValue.trim().toLowerCase();
-    }
+    this.students.filter = filterValue.trim().toLowerCase();
   }
 
   preview(student) {
@@ -88,7 +86,8 @@ export class DialogSearchStudentComponent implements OnInit, AfterViewInit {
     this.dialog.open(DialogAddStudentComponent, {
       width: '30%',
       height: '90%',
-      data: dataEdit
+      data: dataEdit,
+      maxHeight: '90%'
     });
   }
 

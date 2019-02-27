@@ -19,6 +19,7 @@ export class DialogAddQuestionComponent implements OnInit {
   title = 'Agregar Pregunta';
   nameButtonCancel = 'Cancelar';
   isPreview = false;
+  constants = Constants;
 
   constructor(public dialogRef: MatDialogRef<AdminProgramsComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
@@ -37,11 +38,11 @@ export class DialogAddQuestionComponent implements OnInit {
   }
 
   registerQuestion(event) {
-    if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
-      Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
-      return;
-    }
     if (this.name) {
+      if (this.name.match(Constants.regexOnlyLetterAndSpace) === null) {
+        Confirms.showErrorType(Messages.titleErrorPatternOnlyLettersAndSpace, Messages.messageErrorPatternOnlyLettersAndSpace);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

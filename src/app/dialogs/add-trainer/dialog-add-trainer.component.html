@@ -6,29 +6,34 @@
       <mat-card class="example-card" style="text-align: center;">
         <label for="inputFile">
           <!--src="../../assets/avatar.jpg"-->
-          <img id="img-avatar" [src]="urlImage" mat-card-image alt="Student Photo"
+          <img id="img-avatar" [src]="urlImage" mat-card-image alt="Student Photo" [matTooltipDisabled]="isPreview"
                matTooltip="Oprima para seleccionar una Imagen" width="200vh" height="250vh" #imageAvatar>
         </label>
-        <input id="inputFile" (change)="onFileSelectedListener($event)" type="file" hidden>
+        <input [disabled]="isPreview" id="inputFile" (change)="onFileSelectedListener($event)" type="file" hidden>
       </mat-card>
       <br>
       <!--<p>nombre</p>-->
       <mat-form-field>
-        <input [disabled]="isPreview" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" required>
+        <input [readonly]="isPreview" [maxLength]="constants.MAXIMUM_LENGTH_NAME_FIELD" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" matInput type="text" placeholder="Nombre" min="1" #inputName required>
+        <mat-hint align="end">{{inputName.value.length}} / {{constants.MAXIMUM_LENGTH_NAME_FIELD}}</mat-hint>
       </mat-form-field>
      
       <!--<p>documento</p>-->
       <mat-form-field>
-        <input [disabled]="isPreview" [(ngModel)]="dni" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Número de Documento" required>
+        <input [readonly]="isPreview" (paste)="utilities.pasteEvent($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [max]="utilities.generateMaxNumber(constants.MAXIMUM_LENGTH_DNI)" (keypress)="utilities.avoidMaxText($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [(ngModel)]="dni" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Número de Documento" #inputDni required>
+        <mat-hint align="end">{{inputDni.value.length}} / {{constants.MAXIMUM_LENGTH_DNI}}</mat-hint>
       </mat-form-field>
      
       <!--<p>telefono</p>-->
       <mat-form-field>
-        <input [disabled]="isPreview" [(ngModel)]="telephone" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Telefono" required>
+        <input [readonly]="isPreview" (paste)="utilities.pasteEvent($event, inputTelephone, constants.MAXIMUM_TELEPHONE)" [max]="utilities.generateMaxNumber(constants.MAXIMUM_TELEPHONE)" (keypress)="utilities.avoidMaxText($event, inputTelephone, constants.MAXIMUM_TELEPHONE)" [(ngModel)]="telephone" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Telefono" #inputTelephone required>
+        <mat-hint align="end">{{inputTelephone.value.length}} / {{constants.MAXIMUM_TELEPHONE}}</mat-hint>
       </mat-form-field>
       <!--<p>email</p>-->
+      <!--(paste)="utilities.pasteEvent($event, inputEmail, constants.MAXIMUM_LENGTH_EMAIL)" [max]="utilities.generateMaxNumber(constants.MAXIMUM_LENGTH_EMAIL)" (keypress)="utilities.avoidMaxText($event, inputEmail, constants.MAXIMUM_LENGTH_EMAIL)"-->
       <mat-form-field>
-          <input [disabled]="isPreview" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" placeholder="Email">
+        <input [readonly]="isPreview" [maxLength]="constants.MAXIMUM_LENGTH_EMAIL" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" placeholder="Email" #inputEmail>
+        <mat-hint align="end">{{inputEmail.value.length}} / {{constants.MAXIMUM_LENGTH_EMAIL}}</mat-hint>
       </mat-form-field>
 
       <!--<p>programas</p>-->

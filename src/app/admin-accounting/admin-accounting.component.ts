@@ -69,7 +69,7 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestro
   addMovement() {
     const dialogRef = this.dialog.open(DialogAddMovementComponent, {
       width: '30%',
-      height: 'max-content'
+      height: '90%',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -84,7 +84,7 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestro
   editMovement(element) {
     const dialogRef = this.dialog.open(DialogAddMovementComponent, {
       width: '30%',
-      height: 'max-content',
+      height: '90%',
       data: element
     });
     dialogRef.afterClosed().subscribe(res => {
