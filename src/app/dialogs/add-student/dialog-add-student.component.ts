@@ -50,7 +50,7 @@ export class DialogAddStudentComponent implements OnInit {
       this.password = object.contrasenia;
       this.date = Utilities.getDateFromFormatString(object.fechaNacimiento);
       this.selectedGender = object.genero;
-      this.title = 'Editar Programa';
+      this.title = 'Alumno';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';

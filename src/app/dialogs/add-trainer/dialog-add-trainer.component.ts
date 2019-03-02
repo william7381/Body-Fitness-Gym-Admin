@@ -57,7 +57,7 @@ export class DialogAddTrainerComponent implements OnInit {
       this.telephone = object.telefonoEntrenador;
       this.email = object.emailEntrenador;
       this.tempPrograms = object.entrenadorServicio;
-      this.title = 'Editar Programa';
+      this.title = 'Entrenador';
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';
