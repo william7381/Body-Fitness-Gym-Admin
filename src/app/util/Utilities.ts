@@ -49,10 +49,10 @@ export class Utilities {
   }
 
   static compareDateMajor(date: Date, date1: Date) {
-    const year = date.getMonth() + 1;
-    const year1 = date1.getMonth() + 1;
-    const month = date.getMonth() + 1;
-    const month1 = date1.getMonth() + 1;
+    const year = date.getFullYear();
+    const year1 = date1.getFullYear();
+    const month = date.getMonth();
+    const month1 = date1.getMonth();
     const day = date.getDate();
     const day1 = date1.getDate();
     return day > day1 && month >= month1 && year >= year1;
@@ -68,7 +68,13 @@ export class Utilities {
   }
 
   static getDateWithOutHourFromFormatDate(dateWithHour: string) {
+    if (!dateWithHour) {
+      return '';
+    }
     const dateAndTime: string[] = dateWithHour.split('-');
+    if (dateAndTime.length < 3) {
+      return '';
+    }
     return dateAndTime[0] + '/' + dateAndTime[1] + '/' + dateAndTime[2];
   }
 

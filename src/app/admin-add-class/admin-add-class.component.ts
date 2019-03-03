@@ -30,6 +30,7 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   messageSchedule = null;
   isLoadingTable = false;
   private numberQuotas = 0;
+  utilities = Utilities;
 
   constructor(private router: Router, public dialog: MatDialog, private serviceQueries: ServiceQueries, private serviceDataTemp: ServiceDataTemp) {
     if (this.serviceDataTemp.selectedClass) {
@@ -213,13 +214,5 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
 
   closeAddClass() {
     this.router.navigateByUrl(RoutersApp.completeClasses);
-  }
-
-  getHourDisplayFromDate(dateHour: string) {
-    return Utilities.getHourDisplayFromDate(dateHour);
-  }
-
-  getDateWithOutHourFromFormatDate(dateWithHour: string) {
-    return Utilities.getDateWithOutHourFromFormatDate(dateWithHour);
   }
 }

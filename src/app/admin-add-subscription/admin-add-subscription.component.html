@@ -125,7 +125,7 @@
 
               <ng-container matColumnDef="date">
                 <th id="th-description" mat-header-cell *matHeaderCellDef> Fecha de vencimiento</th>
-                <td mat-cell *matCellDef="let element"> {{element.fechaFin}}</td>
+                <td mat-cell *matCellDef="let element"> {{utilities.getDateWithOutHourFromFormatDate(element.fechaFin)}}</td>
               </ng-container>
 
               <ng-container matColumnDef="sessions">
@@ -167,7 +167,7 @@
               <mat-spinner style="margin: auto auto;"></mat-spinner>
             </div>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="20" showFirstLastButtons></mat-paginator>
           </div>
           <!--<mat-action-row>-->
             <!--<button mat-button color="warn" (click)="prevStep()">Previous</button>-->
@@ -176,7 +176,7 @@
         <!--</mat-expansion-panel>-->
       <!--</mat-accordion>-->
 
-      <div id="buttons-accept-cancel" style="text-align: center; margin-top: 3em;">
+      <div id="buttons-accept-cancel" style="text-align: center; margin-top: 3em; margin-bottom: 2em;">
         <!--<button style="margin-right: 3em; background-color: #58B957; color: white;" class="button-green" mat-raised-button (click)="registerSubscription($event)">Guardar</button>-->
         <button mat-raised-button color="warn" (click)="closeAddSubscription()">Regresar</button>
       </div>

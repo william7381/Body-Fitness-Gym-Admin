@@ -132,7 +132,7 @@ export class DialogAddClassComponent implements OnInit, AfterViewInit {
     let id = -1;
     if (this.selectedClass) {
       id = this.selectedClass.idClase;
-      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'entrendor': this.selectedTrainer, 'servicio': this.selectedProgram};
+      return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas, 'entrendor': this.selectedTrainer, 'servicio': this.selectedProgram, 'horarioClase': this.selectedClass.horarioClase};
     } else {
       return {'idClase': id, 'descripcion': this.description, 'numeroCupos': this.numberQuotas/*, 'entrendor': this.selectedTrainer, 'servicio': this.selectedProgramName, 'asistencia': this.students.data,*/};
     }

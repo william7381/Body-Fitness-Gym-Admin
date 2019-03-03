@@ -33,6 +33,7 @@ export class AdminAddSubscriptionComponent implements OnInit, AfterViewInit {
   isLoadingTable = false;
   messageStudent = null;
   private selectedStudent = null;
+  utilities = Utilities;
   // nameUser = null;
   // password = null;
   // name = null;

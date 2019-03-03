@@ -21,7 +21,7 @@ import {DialogAddClassComponent} from '../dialogs/add-class/dialog-add-class.com
 export class AdminClassesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['position', /*'tipo',*/ 'entrenador', 'numeroCupos', 'dia', 'horaInicio', 'horaFin', 'descripcion', 'options'];
+  displayedColumns: string[] = ['position', /*'tipo',*/ 'entrenador', 'numeroCupos', /*'dia', 'horaInicio', 'horaFin',*/ 'descripcion', 'options'];
   dataSource = new MatTableDataSource();
   isLoadingTable = true;
 
