@@ -131,6 +131,7 @@ export class DialogAddNewsComponent implements OnInit {
   }
 
   onFileSelectedListener(event) {
+    AppComponent.spinner.show();
     const selectedFiles = event.target.files;
     const file = selectedFiles.item(0);
     const fileExtension = "." + file.name.split(".").pop();
@@ -142,7 +143,7 @@ export class DialogAddNewsComponent implements OnInit {
       fileExtension;
 
     const currentFileUpload = new FileUpload(file, name);
-    const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload);
+    const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload, UploadService.basePathNews);
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       snapshot => {
@@ -155,6 +156,8 @@ export class DialogAddNewsComponent implements OnInit {
       error => {
         // fail
         console.log(error);
+        Confirms.showErrorType(Messages.titleErrorLoadImage, Messages.messageErrorLoadImage);
+        AppComponent.spinner.hide();
       },
       () => {
         // success
@@ -162,6 +165,7 @@ export class DialogAddNewsComponent implements OnInit {
           currentFileUpload.url = downloadURL;
           this.urlImage = currentFileUpload.url;
           console.log(this.urlImage);
+          AppComponent.spinner.hide();
         });
       }
     );

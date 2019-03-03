@@ -69,4 +69,6 @@ export class Messages {
   static readonly messageErrorPatternOnlyLettersAndSpace = 'El campo nombre solo puede contener letras, y espacios';
   static readonly titleErrorQuotasSchedule = 'No puede seleccionar más alumnos.';
   static readonly messageErrorQuotasSchedule = 'excede la cantidad maxima de cupos de la clase que es: ';
+  static readonly titleErrorLoadImage = 'Error cargando la imagen';
+  static readonly messageErrorLoadImage = 'Por favor intente cargar la imagen de nuevo';
 }

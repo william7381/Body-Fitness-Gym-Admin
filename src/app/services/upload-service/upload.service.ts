@@ -6,19 +6,19 @@ import * as firebase from 'firebase';
   providedIn: 'root'
 })
 export class UploadService {
-  private basePath = '/uploadsNews';
+  public static readonly basePathNews = '/uploadsNews';
+  public static readonly basePathStudent = '/uploadsStudents';
+  public static readonly basePathTrainer = '/uploadsTrainers';
   private basePathProgress = '/progress';
 
   constructor() {}
 
-  pushFileToStorage(fileUpload: FileUpload) {
+  pushFileToStorage(fileUpload: FileUpload, basePath: string) {
     const storageRef = firebase.storage().ref();
     console.log(storageRef);
     return storageRef
-      .child(`${this.basePath}/${fileUpload.name}`)
+      .child(`${basePath}/${fileUpload.name}`)
       .put(fileUpload.file);
-
-
   }
 
   pushFileToStorageProgress(fileUpload: FileUpload) {
@@ -29,12 +29,12 @@ export class UploadService {
       .put(fileUpload.file);
   }
 
-  deleteFileUpload(name: string) {
-    this.deleteFileStorage(name);
+  deleteFileUpload(name: string, basePath: string) {
+    this.deleteFileStorage(name, basePath);
   }
 
-  private deleteFileStorage(name: string) {
+  private deleteFileStorage(name: string, basePath: string) {
     const storageRef = firebase.storage().ref();
-    storageRef.child(`${this.basePath}/${name}`).delete();
+    storageRef.child(`${basePath}/${name}`).delete();
   }
 }

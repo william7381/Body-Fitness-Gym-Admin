@@ -9,6 +9,9 @@ import {Messages} from '../../util/Messages';
 import {AppComponent} from '../../app.component';
 import {Utilities} from '../../util/Utilities';
 import {Constants} from '../../util/Constants';
+import {FileUpload} from '../../util/upload';
+import * as firebase from "firebase";
+import {UploadService} from '../../services/upload-service/upload.service';
 
 @Component({
   selector: 'app-dialogs',
@@ -26,7 +29,7 @@ export class DialogAddStudentComponent implements OnInit {
   nameUser = null;
   password = null;
   name = null;
-  urlImage: string = null;
+  urlImage = "../../../assets/avatar.jpg";
   dni = null;
   telephone = null;
   date;
@@ -37,8 +40,9 @@ export class DialogAddStudentComponent implements OnInit {
   hide = true;
   constants = Constants;
   utilities = Utilities;
+  progressLoadImage;
 
-  constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject) {
+  constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject, public uploadService: UploadService) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.urlImage = object.urlImagenUsuario;
@@ -145,5 +149,46 @@ export class DialogAddStudentComponent implements OnInit {
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorAdd, Messages.messageErrorInternetConexion);
       });
+  }
+
+  onFileSelectedListener(event) {
+    AppComponent.spinner.show();
+    const selectedFiles = event.target.files;
+    const file = selectedFiles.item(0);
+    const fileExtension = "." + file.name.split(".").pop();
+    const name =
+      Math.random()
+        .toString(36)
+        .substring(7) +
+      new Date().getTime() +
+      fileExtension;
+
+    const currentFileUpload = new FileUpload(file, name);
+    const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload, UploadService.basePathStudent);
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      snapshot => {
+        // in progress
+        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+        this.progressLoadImage = Math.round(
+          (snap.bytesTransferred / snap.totalBytes) * 100
+        );
+      },
+      error => {
+        // fail
+        console.log(error);
+        Confirms.showErrorType(Messages.titleErrorLoadImage, Messages.messageErrorLoadImage);
+        AppComponent.spinner.hide();
+      },
+      () => {
+        // success
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          currentFileUpload.url = downloadURL;
+          this.urlImage = currentFileUpload.url;
+          console.log(this.urlImage);
+          AppComponent.spinner.hide();
+        });
+      }
+    );
   }
 }

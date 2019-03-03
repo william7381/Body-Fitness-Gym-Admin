@@ -27,7 +27,7 @@ export class DialogAddTrainerComponent implements OnInit {
   ];
   selectedType = this.typesContributions[0].value;
   value = null;
-  urlImage = '../../assets/avatar.jpg';
+  urlImage = "../../../assets/avatar.jpg";
   name = null;
   dni = null;
   telephone = null;
@@ -169,10 +169,10 @@ export class DialogAddTrainerComponent implements OnInit {
   }
 
   onFileSelectedListener(event) {
-    // muestra la imagen en el componente img
+    AppComponent.spinner.show();
     const selectedFiles = event.target.files;
     const file = selectedFiles.item(0);
-    const fileExtension = '.' + file.name.split('.').pop();
+    const fileExtension = "." + file.name.split(".").pop();
     const name =
       Math.random()
         .toString(36)
@@ -181,9 +181,7 @@ export class DialogAddTrainerComponent implements OnInit {
       fileExtension;
 
     const currentFileUpload = new FileUpload(file, name);
-    const uploadTask = this.uploadService.pushFileToStorage(
-      currentFileUpload
-    );
+    const uploadTask = this.uploadService.pushFileToStorage(currentFileUpload, UploadService.basePathTrainer);
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       snapshot => {
@@ -196,11 +194,17 @@ export class DialogAddTrainerComponent implements OnInit {
       error => {
         // fail
         console.log(error);
+        Confirms.showErrorType(Messages.titleErrorLoadImage, Messages.messageErrorLoadImage);
+        AppComponent.spinner.hide();
       },
       () => {
         // success
-        currentFileUpload.url = uploadTask.snapshot.downloadURL;
-        this.urlImage = currentFileUpload.url;
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          currentFileUpload.url = downloadURL;
+          this.urlImage = currentFileUpload.url;
+          console.log(this.urlImage);
+          AppComponent.spinner.hide();
+        });
       }
     );
   }
