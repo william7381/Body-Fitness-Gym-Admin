@@ -105,7 +105,7 @@ export class DialogAddSubscriptionComponent implements OnInit, AfterViewInit {
         Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateNeed);
         return;
       }
-      if (this.date && !Utilities.compareDateMajor(this.date, new Date())) {
+      if (this.date && !Utilities.compareDate(this.date, new Date(), true)) {
         Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateMinor);
         return;
       }

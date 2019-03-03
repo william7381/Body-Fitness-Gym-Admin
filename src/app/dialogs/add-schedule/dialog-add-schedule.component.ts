@@ -61,6 +61,10 @@ export class DialogAddScheduleComponent implements OnInit {
     const hourUntil = toggleTimepickerUntil.selectedHour.time;
     const minuteUntil = toggleTimepickerUntil.selectedMinute.time;
     if (hourUntil > hourFrom || (hourUntil === hourFrom && minuteUntil > minuteFrom)) {
+      if (this.date && !Utilities.compareDate(this.date, new Date(), false)) {
+        Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateMinorOrEquals);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

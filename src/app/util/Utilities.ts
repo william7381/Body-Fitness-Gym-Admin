@@ -48,14 +48,18 @@ export class Utilities {
     return date.getFullYear() + '-' + fullMonth + '-' + fullDay + '-' + fullHour + ':' + fullMinute + ':' + fullSecond;
   }
 
-  static compareDateMajor(date: Date, date1: Date) {
+  static compareDate(date: Date, date1: Date, higher) {
     const year = date.getFullYear();
     const year1 = date1.getFullYear();
     const month = date.getMonth();
     const month1 = date1.getMonth();
     const day = date.getDate();
     const day1 = date1.getDate();
-    return day > day1 && month >= month1 && year >= year1;
+    if (higher) {
+      return day > day1 && month >= month1 && year >= year1;
+    } else {
+      return day >= day1 && month >= month1 && year >= year1;
+    }
   }
 
   static getHourDisplayFromDate(dateHour: string) {

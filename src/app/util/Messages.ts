@@ -59,7 +59,8 @@ export class Messages {
   static readonly titleErrorDate = 'Error de fecha';
   static readonly titleErrorDateFilter = 'Error con las fechas seleccionadas.';
   static readonly messageErrorDateFilter = 'La Fecha Hasta debe ser mayor o igual a la Fecha Desde.';
-  static readonly messageErrorDateMinor = 'La fecha debe ser mayor a hoy.';
+  static readonly messageErrorDateMinor = 'La fecha debe ser mayor a: hoy.';
+  static readonly messageErrorDateMinorOrEquals = 'La fecha debe ser mayor o igual a: hoy.';
   static readonly titleErrorData = 'Fallo al comprobar los Datos.';
   static readonly messageErrorLogin = 'Usuario o Contraseña incorrectos.';
   static readonly titleErrorMinimumYearsStudent = 'Edad no valida.';
