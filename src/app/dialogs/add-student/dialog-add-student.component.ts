@@ -41,6 +41,7 @@ export class DialogAddStudentComponent implements OnInit {
   constants = Constants;
   utilities = Utilities;
   progressLoadImage;
+  studentEdit = null;
 
   constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject, public uploadService: UploadService) {
     if (this.dataEdit && this.dataEdit.dataPreview) {
@@ -55,6 +56,7 @@ export class DialogAddStudentComponent implements OnInit {
       this.date = Utilities.getDateFromFormatString(object.fechaNacimiento);
       this.selectedGender = object.genero;
       this.title = 'Alumno';
+      this.studentEdit = object;
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';
@@ -69,9 +71,10 @@ export class DialogAddStudentComponent implements OnInit {
 
   private getStudent() {
     // let id = -1;
-    // if (this.dataEdit && this.dataEdit.dataPreview) {
-    //   id = this.dataEdit.dataPreview.idAlumno;
-    // }
+    if (this.studentEdit) {
+      // id = this.dataEdit.dataPreview.idAlumno;
+      return {'dniAlumno': this.dni, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender, 'historialSuscripcion': this.studentEdit.historialSuscripcion};
+    }
     return {'dniAlumno': this.dni, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
   }
 
