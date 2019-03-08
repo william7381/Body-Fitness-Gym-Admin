@@ -31,9 +31,11 @@ export class Messages {
   static readonly urlAllSubscriptions = '/suscripciones';
   static readonly urlMovement = '/movimiento';
   static readonly urlAllMovements = '/movimientos';
+  static readonly urlAllMovementsPDF = 'movimientos';
   static readonly urlService = '/servicio';
   static readonly urlAllServices = '/servicios';
   static readonly urlClass = '/clase';
+  static readonly urlGenerateReport = 'generarReporte';
   static readonly urlAllClasses = '/clases';
   static readonly urlSchedule = '/horario';
   static readonly urlGetSchedule = '/getHorarios';

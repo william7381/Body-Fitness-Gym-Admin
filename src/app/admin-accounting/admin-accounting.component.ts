@@ -132,7 +132,8 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   printReport() {
-
+  const URL_PDF:string =  Messages.urlAllMovementsPDF + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateFrom) + '/' + Utilities.getFormatDate(this.selectedDateUntil)+"/"+Messages.urlGenerateReport;
+  window.open(URL_PDF,'_self');
   }
 
   filter(event) {
