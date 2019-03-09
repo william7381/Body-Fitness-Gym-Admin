@@ -8,6 +8,7 @@ import {Message} from '@angular/compiler/src/i18n/i18n_ast';
 import {Messages} from '../util/Messages';
 import {AppComponent} from '../app.component';
 import {Confirms} from '../util/Confirms';
+import {Constants} from '../util/Constants';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,10 @@ import {Confirms} from '../util/Confirms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userName = 'admin';
-  password = '1234';
+  userName = '';
+  password = '';
   hide = true;
+  constants = Constants;
 
   constructor(private router: Router, private serviceLogin: ServiceLogin) { }
 

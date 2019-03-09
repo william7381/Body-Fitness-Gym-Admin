@@ -48,7 +48,7 @@
 
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef> Fecha</th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaMovimiento}}</td>
+          <td mat-cell *matCellDef="let element"> {{utilities.getFormatDateToShow(utilities.getDateFromFormatString(element.fechaMovimiento))}}</td>
         </ng-container>
 
         <ng-container matColumnDef="valor">

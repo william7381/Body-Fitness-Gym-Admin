@@ -31,7 +31,7 @@ export class Utilities {
     }
     // const date: string[] = dateAndTime[0].split('-');
     const time: string[] = dateAndTime[3].split(':');
-    return new Date(+dateAndTime[0], (+dateAndTime[1]) - 1, +dateAndTime[2], +time[0], +time[0], +time[0]);
+    return new Date(+dateAndTime[0], (+dateAndTime[1]) - 1, +dateAndTime[2], +time[0], +time[1], +time[2]);
   }
 
   static getFormatDate(date: Date) {
@@ -46,6 +46,20 @@ export class Utilities {
     const second = date.getSeconds();
     const fullSecond = second < 10 ? '0' + second : second;
     return date.getFullYear() + '-' + fullMonth + '-' + fullDay + '-' + fullHour + ':' + fullMinute + ':' + fullSecond;
+  }
+
+  static getFormatDateToShow(date: Date) {
+    const month = date.getMonth() + 1;
+    const fullMonth = month < 10 ? '0' + month : month;
+    const day = date.getDate();
+    const fullDay = day < 10 ? '0' + day : day;
+    const hour = date.getHours();
+    const fullHour = hour < 10 ? '0' + hour : hour;
+    const minute = date.getMinutes();
+    const fullMinute = minute < 10 ? '0' + minute : minute;
+    const second = date.getSeconds();
+    const fullSecond = second < 10 ? '0' + second : second;
+    return date.getFullYear() + '/' + fullMonth + '/' + fullDay + ' ' + fullHour + ':' + fullMinute + ':' + fullSecond;
   }
 
   static compareDate(date: Date, date1: Date, higher) {

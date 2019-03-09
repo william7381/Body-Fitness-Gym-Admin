@@ -8,7 +8,7 @@
   <div class="mat-elevation-z3 div-container-tables">
     <div id="buttons-schedule" class="search-bar-and-buttons">
       <button id="button-add-move" mat-raised-button color="primary" (click)="openDialogAddSchedule()">Agregar</button>
-      <button id="button-see-schedule" mat-raised-button color="primary" (click)="openDialogSeeSchedule()">Ver</button>
+      <!--<button id="button-see-schedule" mat-raised-button color="primary" (click)="openDialogSeeSchedule()">Ver</button>-->
     </div>
 
     <div class="mat-elevation-z24 div-table">
@@ -50,6 +50,11 @@
             <mat-icon matTooltip="Ver Alumnos" class="icon-options">
               <a (click)="openDialogSeeStudents(element)">
                 group
+              </a>
+            </mat-icon>
+            <mat-icon matTooltip="Descargar PDF Alumnos" class="icon-options">
+              <a (click)="openDialogDownloadSchedule(element)">
+                arrow_downward
               </a>
             </mat-icon>
           </td>

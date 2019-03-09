@@ -215,4 +215,9 @@ export class AdminAddClassComponent implements OnInit, AfterViewInit {
   closeAddClass() {
     this.router.navigateByUrl(RoutersApp.completeClasses);
   }
+
+  openDialogDownloadSchedule(schedule) {
+    const URL_PDF:string =  Messages.urlAllSchedules + '/' + schedule.idHorario + Messages.report_PDF_Schedule;
+    window.open(URL_PDF,'_self');
+  }
 }

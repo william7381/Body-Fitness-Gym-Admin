@@ -3,12 +3,14 @@
     <mat-label id="label-login">Iniciar Sesión</mat-label>
     <br>
     <mat-form-field id="mat-form-name-user">
-      <input [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" matInput placeholder="Nombre de Usuario" id="userName" required #inputNameUser>
+      <input [(ngModel)]="userName" [maxLength]="constants.MAXIMUM_LENGTH_USER_NAME" [ngModelOptions]="{standalone: true}" matInput placeholder="Nombre de Usuario" id="userName" required #inputNameUser>
+      <mat-hint align="end">{{inputNameUser.value.length}} / {{constants.MAXIMUM_LENGTH_USER_NAME}}</mat-hint>
     </mat-form-field>
     <br>
     <mat-form-field>
-      <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'" required #inputPassword>
+      <input [(ngModel)]="password" [maxLength]="constants.MAXIMUM_LENGTH_PASSWORD" [ngModelOptions]="{standalone: true}" matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'" required #inputPassword>
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-hint align="end">{{inputPassword.value.length}} / {{constants.MAXIMUM_LENGTH_PASSWORD}}</mat-hint>
     </mat-form-field>
     <!--<mat-form-field id="mat-form-password">-->
       <!--<input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" matInput placeholder="Constraseña" id="password" required #inputPassword>-->

@@ -34,6 +34,7 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestro
   selectedDateUntil = null;
   selectedImage = null;
   isLoadingTable = true;
+  utilities = Utilities;
   // date = new FormControl(new Date().setTime(1547614800000));
 
   constructor(public dialog: MatDialog, private serviceQueries: ServiceQueries) {
@@ -132,8 +133,8 @@ export class AdminAccountingComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   printReport() {
-  const URL_PDF:string =  Messages.urlAllMovementsPDF + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateFrom) + '/' + Utilities.getFormatDate(this.selectedDateUntil)+"/"+Messages.urlGenerateReport;
-  window.open(URL_PDF,'_self');
+    const URL_PDF:string =  Messages.urlAllMovementsPDF + '/' + this.selectedContribution.toLowerCase() + '/' + Utilities.getFormatDate(this.selectedDateFrom) + '/' + Utilities.getFormatDate(this.selectedDateUntil)+"/"+Messages.urlGenerateReport;
+    window.open(URL_PDF,'_self');
   }
 
   filter(event) {

@@ -46,18 +46,21 @@ export class DialogAddTrainerComponent implements OnInit {
   progressLoadImage;
   constants = Constants;
   utilities = Utilities;
+  trainerEdit = null;
 
   constructor(public dialogRef: MatDialogRef<AdminTrainersComponent>, private serviceQueries: ServiceQueries, @Inject(MAT_DIALOG_DATA) private dataEdit: PreviewObject, public uploadService: UploadService) {
     this.updatePrograms();
     if (this.dataEdit && this.dataEdit.dataPreview) {
       const object = this.dataEdit.dataPreview;
       this.urlImage = object.urlImagenEntrenador;
+      console.log(this.urlImage);
       this.name = object.nombreEntrenador;
       this.dni = object.dniEntrenador;
       this.telephone = object.telefonoEntrenador;
       this.email = object.emailEntrenador;
       this.tempPrograms = object.entrenadorServicio;
       this.title = 'Entrenador';
+      this.trainerEdit = object;
       if (this.dataEdit.isPreview) {
         this.isPreview = true;
         this.nameButtonCancel = 'Cerrar';

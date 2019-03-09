@@ -73,6 +73,7 @@ export class DialogAddStudentComponent implements OnInit {
     // let id = -1;
     if (this.studentEdit) {
       // id = this.dataEdit.dataPreview.idAlumno;
+      console.log(this.studentEdit.historialSuscripcion);
       return {'dniAlumno': this.dni, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender, 'historialSuscripcion': this.studentEdit.historialSuscripcion};
     }
     return {'dniAlumno': this.dni, 'urlImagenUsuario': this.urlImage, 'nombreAlumno': this.name, 'usuarioAlumno': this.nameUser, 'contrasenia': this.password, 'telefonoAlumno': this.telephone, 'emailAlumno': this.emailSelected, 'fechaNacimiento': Utilities.getFormatDate(this.date), 'genero': this.selectedGender};
@@ -129,6 +130,7 @@ export class DialogAddStudentComponent implements OnInit {
         this.dialogRef.close(student);
       },
       error => {
+        console.log(error);
         AppComponent.spinner.hide();
         Confirms.showErrorType(Messages.titleErrorEdit, Messages.messageErrorInternetConexion);
       });

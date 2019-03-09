@@ -48,6 +48,10 @@ export class DialogAddMovementComponent implements OnInit {
 
   registerMovement(event: Event) {
     if (this.value && (this.date || this.isDateNow)) {
+      if (!this.isDateNow && Utilities.compareDate(this.date, new Date(), true)) {
+        Confirms.showErrorType(Messages.titleErrorDate, Messages.messageErrorDateMajor);
+        return;
+      }
       if (this.dataEdit) {
         this.edit();
       } else {

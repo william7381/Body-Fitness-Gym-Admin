@@ -20,7 +20,7 @@
      
       <!--<p>documento</p>-->
       <mat-form-field>
-        <input [readonly]="isPreview" (paste)="utilities.pasteEvent($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [max]="utilities.generateMaxNumber(constants.MAXIMUM_LENGTH_DNI)" (keypress)="utilities.avoidMaxText($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [(ngModel)]="dni" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Número de Documento" #inputDni required>
+        <input [disabled]="trainerEdit" (paste)="utilities.pasteEvent($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [max]="utilities.generateMaxNumber(constants.MAXIMUM_LENGTH_DNI)" (keypress)="utilities.avoidMaxText($event, inputDni, constants.MAXIMUM_LENGTH_DNI)" [(ngModel)]="dni" [ngModelOptions]="{standalone: true}" matInput type="number" placeholder="Número de Documento" #inputDni required>
         <mat-hint align="end">{{inputDni.value.length}} / {{constants.MAXIMUM_LENGTH_DNI}}</mat-hint>
       </mat-form-field>
      
