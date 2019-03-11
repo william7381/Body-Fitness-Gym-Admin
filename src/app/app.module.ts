@@ -50,7 +50,7 @@ import {UploadService} from './services/upload-service/upload.service';
 
 const routes: Route[] = [
   {path: RoutersApp.login, component: LoginComponent},
-  {path: RoutersApp.admin, component: AdminRootComponent, // canActivate: [CanActiveVerifyLoginGuard],
+  {path: RoutersApp.admin, component: AdminRootComponent, canActivate: [CanActiveVerifyLoginGuard],
     children: [
         {path: RoutersApp.accounting, component: AdminAccountingComponent},
         {path: RoutersApp.programs, component: AdminProgramsComponent},
