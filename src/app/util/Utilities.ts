@@ -70,9 +70,9 @@ export class Utilities {
     const day = date.getDate();
     const day1 = date1.getDate();
     if (higher) {
-      return day > day1 && month >= month1 && year >= year1;
+      return day > day1 && month >= month1 && year >= year1 || month > month1 && year >= year1 || year > year1;
     } else {
-      return day >= day1 && month >= month1 && year >= year1;
+      return day >= day1 && month >= month1 && year >= year1 || month > month1 && year >= year1 || year > year1;
     }
   }
 
